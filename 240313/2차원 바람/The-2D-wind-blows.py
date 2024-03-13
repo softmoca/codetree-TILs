@@ -3,13 +3,16 @@ n,m,q=map(int,input().split())
 arr=[list(map(int,input().split())) for _ in range(n)]
 board=[[0]*m for _ in range(n)]
 
-r1,c1,r2,c2=map(int,input().split())
-r1=r1-1
-c1=c1-1
-r2=r2-1
-c2=c2-1
+
 
 for _ in range(q):
+    r1,c1,r2,c2=map(int,input().split())
+    r1=r1-1
+    c1=c1-1
+    r2=r2-1
+    c2=c2-1
+
+
     tmp_up=arr[r1][c2]
     tmp_down=arr[r2][c1]
     #1 오른쪽 위 오른쪾으로 이동 
@@ -58,10 +61,10 @@ for _ in range(q):
             arr[i][j]=board[i][j]
 
 
-    for i in range(n):
-        for j in range(m):
-            print(arr[i][j],end=' ')
-        print()
+for i in range(n):
+    for j in range(m):
+        print(arr[i][j],end=' ')
+    print()
 
 
 
