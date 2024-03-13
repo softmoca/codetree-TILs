@@ -24,8 +24,10 @@ for _ in range(q):
     tmp_d=d
     tmp_u=d
     for row in range(r,0,-1):
+        flag=0
         for j in range(m):
             if arr[row][j]==arr[row-1][j]:
+                flag=1
                 if tmp_d=='L':
                     R_slide(row-1)
                     tmp_d='R'
@@ -33,10 +35,16 @@ for _ in range(q):
                     L_slide(row-1)
                     tmp_L='L'
                 break
+        if flag==0:
+            break
+        
+
     
     for row in range(r,n-1):
+        flag=0
         for j in range(m):
             if arr[row][j]==arr[row+1][j]:
+                flag=1
                 if tmp_u=='L':
                     R_slide(row+1)
                     tmp_u='R'
@@ -44,9 +52,9 @@ for _ in range(q):
                     L_slide(row+1)
                     tmp_u='L'
                 break
+        if flag==0:
+            break
                 
-
-    
 for i in range(n):
     for j in range(m):
         print(arr[i][j],end=' ')
