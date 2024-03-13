@@ -33,7 +33,7 @@ for _ in range(q):
                     tmp_d='R'
                 elif tmp_d=='R':
                     L_slide(row-1)
-                    tmp_L='L'
+                    tmp_d='L'
                 break
         if flag==0:
             break
@@ -54,11 +54,13 @@ for _ in range(q):
                 break
         if flag==0:
             break
-                
+
 for i in range(n):
     for j in range(m):
         print(arr[i][j],end=' ')
     print()
+                    
+
     
     
 
