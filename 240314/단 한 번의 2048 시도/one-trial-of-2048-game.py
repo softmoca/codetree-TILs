@@ -42,7 +42,7 @@ if dir=='U':
                 arr[row][col]=2*arr[row][col]
                 for i in range(row+1,4):
                     if i==3:
-                        arr[i+1][col]=0
+                        arr[i][col]=0
                     else:
                         arr[i][col]=arr[i+1][col]
                         arr[i+1][col]=0
