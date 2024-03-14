@@ -89,14 +89,6 @@ if dir=='D':
                     arr[i-1][col]=0
 
 
-
-
-
-
-
-
-
-
 for i in range(4):
     for j in range(4):
         print(arr[i][j],end=' ')
