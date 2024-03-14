@@ -28,29 +28,7 @@ if dir=='L':
                         arr[row][i+1]=0
                 break
 
-if dir=='U':
-    for col in range(4):
-        temp=[0]*4
-        start_point_row=0
-        for row in range(4):
-            if arr[row][col]!=0:
-                temp[start_point_row]=arr[row][col]
-                start_point_row+=1
-        for i in range(4):
-            arr[i][col]=temp[i]
 
-    for col in range(4):
-        for row in range(3):
-            if arr[row][col]==arr[row+1][col]:
-                arr[row][col]=2*arr[row][col]
-                for i in range(row+1,4):
-                    if i==3:
-                        arr[i][col]=0
-                    else:
-                        arr[i][col]=arr[i+1][col]
-                        arr[i+1][col]=0
-                
-                break
 
 
 
@@ -80,11 +58,36 @@ if dir=='R':
                         arr[row][i-1]=0
                 break
 
+
+if dir=='U':
+    for col in range(4):
+        temp=[0]*4
+        start_point_row=0
+        for row in range(4):
+            if arr[row][col]!=0:
+                temp[start_point_row]=arr[row][col]
+                start_point_row+=1
+        for i in range(4):
+            arr[i][col]=temp[i]
+
+    for col in range(4):
+        for row in range(3):
+            if arr[row][col]==arr[row+1][col]:
+                arr[row][col]=2*arr[row][col]
+                for i in range(row+1,4):
+                    if i==3:
+                        arr[i][col]=0
+                    else:
+                        arr[i][col]=arr[i+1][col]
+                        arr[i+1][col]=0
+                
+                break
+
 if dir=='D':
     for col in range(4):
         temp=[0]*4
         start_point_row=3
-        for row in range(4):
+        for row in range(3,-1,-1):
             if arr[row][col]!=0:
                 temp[start_point_row]=arr[row][col]
                 start_point_row-=1
@@ -95,6 +98,8 @@ if dir=='D':
         for row in range(3,-1,-1):
             if arr[row][col]==arr[row-1][col]:
                 arr[row][col]=2*arr[row][col]
+  
+                
                 for i in range(row-1,-1,-1):
                     if i==0:
                         arr[i][col]=0
