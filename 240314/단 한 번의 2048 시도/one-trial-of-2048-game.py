@@ -73,7 +73,7 @@ if dir=='R':
                 arr[row][col]=2*arr[row][col]
                 
                 for i in range(col-1,-1,-1):
-                    if i=0:
+                    if i==0:
                         arr[row][i]=0
                     else:
                         arr[row][i]=arr[row][i-1]
