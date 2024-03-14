@@ -43,6 +43,7 @@ if dir=='U':
                 for i in range(row+1,4):
                     arr[i][col]=arr[i+1][col]
                     arr[i+1][col]=0
+                    break
                 break
 
 
