@@ -40,7 +40,7 @@ if dir=='U':
         for row in range(3):
             if arr[row][col]==arr[row+1][col]:
                 arr[row][col]=2*arr[row][col]
-                for i in range(row+1,3):
+                for i in range(row+1,4):
                     arr[i][col]=arr[i+1][col]
                     arr[i+1][col]=0
                 break
