@@ -20,9 +20,12 @@ if dir=='L':
         for col in range(3):
             if arr[row][col]==arr[row][col+1]:
                 arr[row][col]=2*arr[row][col]
-                for i in range(col+1,3):
-                    arr[row][i]=arr[row][i+1]
-                    arr[row][i+1]=0
+                for i in range(col+1,4):
+                    if i==3:
+                        arr[row][i]=0
+                    else:
+                        arr[row][i]=arr[row][i+1]
+                        arr[row][i+1]=0
                 break
 
 if dir=='U':
@@ -69,9 +72,12 @@ if dir=='R':
         
                 arr[row][col]=2*arr[row][col]
                 
-                for i in range(col-1,0,-1):
-                    arr[row][i]=arr[row][i-1]
-                    arr[row][i-1]=0
+                for i in range(col-1,-1,-1):
+                    if i=0:
+                        arr[row][i]=0
+                    else:
+                        arr[row][i]=arr[row][i-1]
+                        arr[row][i-1]=0
                 break
 
 if dir=='D':
@@ -89,9 +95,12 @@ if dir=='D':
         for row in range(3,-1,-1):
             if arr[row][col]==arr[row-1][col]:
                 arr[row][col]=2*arr[row][col]
-                for i in range(row-1,0,-1):
-                    arr[i][col]=arr[i-1][col]
-                    arr[i-1][col]=0
+                for i in range(row-1,-1,-1):
+                    if i==0:
+                        arr[i][col]=0
+                    else:
+                        arr[i][col]=arr[i-1][col]
+                        arr[i-1][col]=0
                 break
 
 
