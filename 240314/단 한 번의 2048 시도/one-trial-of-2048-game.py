@@ -38,7 +38,7 @@ if dir=='U':
 
     for col in range(4):
         for row in range(3):
-            if arr[row][col]==arr[row+i][col]:
+            if arr[row][col]==arr[row+1][col]:
                 arr[row][col]=2*arr[row][col]
                 for i in range(row+1,3):
                     arr[i][col]=arr[i+1][col]
@@ -82,7 +82,7 @@ if dir=='D':
 
     for col in range(4):
         for row in range(3,-1,-1):
-            if arr[row][col]==arr[row-i][col]:
+            if arr[row][col]==arr[row-1][col]:
                 arr[row][col]=2*arr[row][col]
                 for i in range(row-1,0,-1):
                     arr[i][col]=arr[i-1][col]
