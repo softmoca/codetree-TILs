@@ -43,6 +43,7 @@ if dir=='U':
                 for i in range(row+1,3):
                     arr[i][col]=arr[i+1][col]
                     arr[i+1][col]=0
+                break
 
 
 
@@ -87,6 +88,7 @@ if dir=='D':
                 for i in range(row-1,0,-1):
                     arr[i][col]=arr[i-1][col]
                     arr[i-1][col]=0
+                break
 
 
 for i in range(4):
