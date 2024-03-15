@@ -24,9 +24,9 @@ for row in range(n):
                 print()
     if row ==n-1:
 
-        for _ in range(abs(n-k)):
-            temp.insert(0,0)
-
+        # for _ in range(abs(n-k)):
+        #     temp.insert(0,0)
+        # print(temp)
         
 
         for i in range(k-1,m):
