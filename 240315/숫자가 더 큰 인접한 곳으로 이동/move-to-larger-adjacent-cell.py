@@ -21,6 +21,7 @@ while True:
             row=nx
             col=ny
             answer.append(arr[row][col])
+            break
 
 
     if flag==0:
