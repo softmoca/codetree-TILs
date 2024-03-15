@@ -25,7 +25,7 @@ for row in range(n):
     if row ==n-1:
 
         for _ in range(abs(n-k)):
-            tmep.insert(0,0)
+            temp.insert(0,0)
 
         
 
