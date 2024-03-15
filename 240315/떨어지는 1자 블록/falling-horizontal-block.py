@@ -22,5 +22,18 @@ for row in range(n):
                 for j in range(n):
                     print(arr[i][j],end=' ')
                 print()
+    if row ==n-1:
+
+        for _ in range(abs(n-k)):
+            tmep.insert(0,0)
+
         
-            sys.exit()
+
+        for i in range(k-1,m):
+            arr[row][i]=temp[i]
+        for i in range(n):
+            for j in range(n):
+                print(arr[i][j],end=' ')
+            print()
+        
+        sys.exit()
