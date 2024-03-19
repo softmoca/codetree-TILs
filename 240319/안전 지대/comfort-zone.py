@@ -15,7 +15,7 @@ tmp=[[0]*m for _ in range(n)]
 dx=[-1,0,1,0]
 dy=[0,1,0,-1]
 
-max_k=0
+max_k=1
 max_cnt=0
 
 for h in range(1,101):
