@@ -1,3 +1,8 @@
+import sys
+sys.setrecursionlimit(1000)
+
+
+
 def dfs(row,col):
     for k in range(4):
         nx=row+dx[k]
