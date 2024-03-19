@@ -63,6 +63,7 @@ start_row-=1
 
 
 for _ in range(k):
+    
     for  row in range(n):
         for col in range(n):
             temp[row][col]=0
@@ -77,4 +78,5 @@ for _ in range(k):
         break
         
     start_row,start_col=find_next_post()
-print(start_row+1,start_col+1)
+else:
+    print(start_row+1,start_col+1)
