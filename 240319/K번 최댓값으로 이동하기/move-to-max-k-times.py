@@ -69,7 +69,8 @@ for w in range(k):
             temp[row][col]=0
 
     if check_bfs(start_row,start_col)==False:
-        print('break1', start_row+1,start_col+1)
+        print(start_row+1,start_col+1)
+        #print('break1', start_row+1,start_col+1)
         break
     temp[start_row][start_col]=0
     # for x in temp:
@@ -77,7 +78,8 @@ for w in range(k):
     
     
     if find_next_post()==False:
-        print('break2', start_row+1,start_col+1)
+        print( start_row+1,start_col+1)
+        # print('break2', start_row+1,start_col+1)
         break
    
 
