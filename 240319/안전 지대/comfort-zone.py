@@ -1,5 +1,5 @@
 import sys
-sys.setrecursionlimit(1000)
+sys.setrecursionlimit(50)
 
 
 
