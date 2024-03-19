@@ -13,13 +13,14 @@ def find_next_post():
         for col in range(n):
             if temp[row][col]==1:
                 maxx=max(maxx,arr[row][col])
-            
+
+    #print(maxx)        
     if maxx==0:
         return False
     
     for row in range(n):
         for col in range(n):
-            if arr[row][col]==maxx:
+            if temp[row][col]==1 and arr[row][col]==maxx:
                 return [row,col]
 
 
@@ -60,23 +61,28 @@ start_row,start_col=map(int,input().split())
 q.append([start_row-1,start_col-1])
 start_col-=1
 start_row-=1
-
-
-for _ in range(k):
+#print(start_row,start_col)
+for w in range(k):
     
     for  row in range(n):
         for col in range(n):
             temp[row][col]=0
 
     if check_bfs(start_row,start_col)==False:
-        print(start_row+1,start_col+1)
+        print('break1', start_row+1,start_col+1)
         break
     temp[start_row][start_col]=0
-
+    # for x in temp:
+    #     print(x)
+    
+    
     if find_next_post()==False:
-        print(start_row+1,start_col+1)
+        print('break2', start_row+1,start_col+1)
         break
-        
+   
+
     start_row,start_col=find_next_post()
+    # print('e',w,start_row,start_col)
+    # print()
 else:
     print(start_row+1,start_col+1)
