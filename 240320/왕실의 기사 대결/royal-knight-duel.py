@@ -2,8 +2,7 @@ from collections import deque
 # 움직임을 시도해봅니다.
 def try_movement(idx, dir):
     q = deque()
-    is_pos = True
-
+ 
     # 초기화 작업입니다.
     for i in range(1, n + 1):
         dmg[i] = 0
@@ -50,7 +49,7 @@ def try_movement(idx, dir):
 
 # 특정 조각을 지정된 방향으로 이동시키는 함수입니다.
 def move_piece(idx, move_dir):
-    if k[idx] <= 0:
+    if k[idx] <= 0: # 체력이 다 떨어진 기사는 무시 
         return
 
     # 이동이 가능한 경우, 실제 위치와 체력을 업데이트합니다.
@@ -59,14 +58,15 @@ def move_piece(idx, move_dir):
             r[i] = nr[i]
             c[i] = nc[i]
             k[i] -= dmg[i]
+
 # 전역 변수들을 정의합니다.
-MAX_N = 31
-MAX_L = 41
+MAX_N = 7
+MAX_L = 7
 dx = [-1, 0, 1, 0]
 dy = [0, 1, 0, -1]
 
 info = [[0 for _ in range(MAX_L)] for _ in range(MAX_L)]
-bef_k = [0 for _ in range(MAX_N)]
+bef_k = [0 for _ in range(MAX_N)] # 초기 체력
 r = [0 for _ in range(MAX_N)]
 c = [0 for _ in range(MAX_N)]
 h = [0 for _ in range(MAX_N)]
@@ -87,10 +87,16 @@ for i in range(1, n + 1):
     r[i], c[i], h[i], w[i], k[i] = map(int, input().split())
     bef_k[i] = k[i]
 
+
+
 for _ in range(q):
     idx, d = map(int, input().split())
     move_piece(idx, d)
 
+
 # 결과를 계산하고 출력합니다.
+
+
+
 ans = sum([bef_k[i] - k[i] for i in range(1, n + 1) if k[i] > 0])
 print(ans)
