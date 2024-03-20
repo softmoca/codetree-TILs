@@ -9,8 +9,10 @@ def bfs():
 
     while q:
         x,y=q.popleft()
-        if x==n-1 and y==n-1:
+        if x==end_row and y==end_col:
             flag=1
+ 
+            return
 
         for k in range(4):
             nx=x+dx[k]
@@ -63,6 +65,10 @@ for delete_list  in All_delete_list:
         temp[x][y]=0
     
     bfs()
+
+    # for x in dis:
+    #     print(x)
+    # print(flag)
 
     if flag==1:
         All_FLAG=1
