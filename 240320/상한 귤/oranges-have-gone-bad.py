@@ -26,10 +26,13 @@ while q:
 
 for row in range(n):
     for col in range(n):
-        if dis[row][col]>=0:
+        if dis[row][col]>0:
             dis[row][col]-=1
         elif dis[row][col]==0:
-            dis[row][col]=-1
+            if arr[row][col]==1:
+                dis[row][col]=-2
+            else:
+                dis[row][col]=-1
         
 for row in range(n):
     for col in range(n):
