@@ -1,43 +1,4 @@
 from collections import deque
-
-# 전역 변수들을 정의합니다.
-MAX_N = 31
-MAX_L = 41
-dx = [-1, 0, 1, 0]
-dy = [0, 1, 0, -1]
-
-info = [[0 for _ in range(MAX_L)] for _ in range(MAX_L)]
-bef_k = [0 for _ in range(MAX_N)]
-r = [0 for _ in range(MAX_N)]
-c = [0 for _ in range(MAX_N)]
-h = [0 for _ in range(MAX_N)]
-w = [0 for _ in range(MAX_N)]
-k = [0 for _ in range(MAX_N)]
-nr = [0 for _ in range(MAX_N)]
-nc = [0 for _ in range(MAX_N)]
-dmg = [0 for _ in range(MAX_N)]
-is_moved = [False for _ in range(MAX_N)]
-
-
-
-# 입력값을 받습니다.
-l, n, q = map(int, input().split())
-for i in range(1, l + 1):
-    info[i][1:] = map(int, input().split())
-for i in range(1, n + 1):
-    r[i], c[i], h[i], w[i], k[i] = map(int, input().split())
-    bef_k[i] = k[i]
-
-for _ in range(q):
-    idx, d = map(int, input().split())
-    move_piece(idx, d)
-
-# 결과를 계산하고 출력합니다.
-ans = sum([bef_k[i] - k[i] for i in range(1, n + 1) if k[i] > 0])
-print(ans)
-
-
-
 # 움직임을 시도해봅니다.
 def try_movement(idx, dir):
     q = deque()
@@ -98,3 +59,38 @@ def move_piece(idx, move_dir):
             r[i] = nr[i]
             c[i] = nc[i]
             k[i] -= dmg[i]
+# 전역 변수들을 정의합니다.
+MAX_N = 31
+MAX_L = 41
+dx = [-1, 0, 1, 0]
+dy = [0, 1, 0, -1]
+
+info = [[0 for _ in range(MAX_L)] for _ in range(MAX_L)]
+bef_k = [0 for _ in range(MAX_N)]
+r = [0 for _ in range(MAX_N)]
+c = [0 for _ in range(MAX_N)]
+h = [0 for _ in range(MAX_N)]
+w = [0 for _ in range(MAX_N)]
+k = [0 for _ in range(MAX_N)]
+nr = [0 for _ in range(MAX_N)]
+nc = [0 for _ in range(MAX_N)]
+dmg = [0 for _ in range(MAX_N)]
+is_moved = [False for _ in range(MAX_N)]
+
+
+
+# 입력값을 받습니다.
+l, n, q = map(int, input().split())
+for i in range(1, l + 1):
+    info[i][1:] = map(int, input().split())
+for i in range(1, n + 1):
+    r[i], c[i], h[i], w[i], k[i] = map(int, input().split())
+    bef_k[i] = k[i]
+
+for _ in range(q):
+    idx, d = map(int, input().split())
+    move_piece(idx, d)
+
+# 결과를 계산하고 출력합니다.
+ans = sum([bef_k[i] - k[i] for i in range(1, n + 1) if k[i] > 0])
+print(ans)
