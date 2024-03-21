@@ -5,7 +5,7 @@ board = [list(map(int, input().split())) for _ in range(n) ]
 rec = [ [0] * m for _ in range(n)] # 최근 턴에 대한 정보 저장
 
 dxs, dys = [0, 1, 0, -1], [1, 0, -1, 0] # 레이저 이동 경로
-dxs2, dys2 = [ 0, 0, -1, -1, -1, 1, 1, 1], [ -1, 1, 0, -1, 1, 0, -1, 1] # 포탑의 경로
+dxs2, dys2 = [0, 0, 0, -1, -1, -1, 1, 1, 1], [0, -1, 1, 0, -1, 1, 0, -1, 1] # 포탑의 경로
  
 turn = 0
 
@@ -73,10 +73,10 @@ def laser_attack():
             ny=(y+dys[k] +m)%m
 
 
-
+            # 이미 방문 했다면 패쓰
             if vis[nx][ny]: 
                 continue
-
+            # 벽이라면 패쓰
             if board[nx][ny] == 0: 
                 continue
 
@@ -100,11 +100,10 @@ def laser_attack():
                 board[cx][cy] = 0
             is_active[cx][cy] = True
 
-            next_cx = back_x[cx][cy]
-            next_cy = back_y[cx][cy]
+            cx = back_x[cx][cy]
+            cy = back_y[cx][cy]
 
-            cx = next_cx
-            cy = next_cy
+
     return can_attack
 
 
@@ -118,7 +117,8 @@ def bomb_attack():
     for dx2, dy2 in zip(dxs2, dys2):
         nx = (ex + dx2 + n) % n
         ny = (ey + dy2 + m) % m
-
+        if nx == sx and ny == sy: 
+            continue
 
         if nx == ex and ny == ey:
             board[nx][ny] -= power
