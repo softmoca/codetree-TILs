@@ -2,20 +2,25 @@ from collections import deque
 
 n, m, k = tuple(map(int, input().split()))
 board = [list(map(int, input().split())) for _ in range(n) ]
-rec = [ [0] * m for _ in range(n)]
+rec = [ [0] * m for _ in range(n)] # 최근 턴에 대한 정보 저장
 
-dxs, dys = [0, 1, 0, -1], [1, 0, -1, 0]
-dxs2, dys2 = [0, 0, 0, -1, -1, -1, 1, 1, 1], [0, -1, 1, 0, -1, 1, 0, -1, 1]
-
+dxs, dys = [0, 1, 0, -1], [1, 0, -1, 0] # 레이저 이동 경로
+dxs2, dys2 = [ 0, 0, -1, -1, -1, 1, 1, 1], [ -1, 1, 0, -1, 1, 0, -1, 1] # 포탑의 경로
+ 
 turn = 0
 
+# 빛의 공격을 할 때 방문 여부와 경로 방향을 기록해줍니다.
 vis = [[0] * m for _ in range(n)]
 back_x = [[0] * m for _ in range(n)]
 back_y = [ [0] * m for _ in range(n)]
 
+
+#공격과 무관했는지 여부를 저장하니다.
 is_active = [[False] * m for _ in range(n)]
 
+# 살아있는 포탑을 관리
 live_turret = []
+
 
 def init():
     global turn
@@ -26,8 +31,9 @@ def init():
             vis[i][j] = False
             is_active[i][j] = False
 
-
+# 가장 약한 포탑이 n+m만큼 강해지는 각성
 def awake():
+    # 우선순위대로 정렬해서 찾기
     live_turret.sort(key=lambda x : (x[3], -x[2], -(x[0] + x[1]), -x[1]))
 
     weak_turret = live_turret[0]
@@ -41,13 +47,14 @@ def awake():
 
     live_turret[0] = (x, y, r, p)
 
-
+# 레이저 공격 진행
 def laser_attack():
     weak_turret = live_turret[0]
     sx, sy, _, power = weak_turret
     strong_turret = live_turret[-1]
     ex, ey, _, _ = strong_turret
 
+    # bfs를 사용해 최단 경로 관리
     q = deque()
     vis[sx][sy] = True
     q.append((sx, sy))
@@ -57,13 +64,15 @@ def laser_attack():
     while q:
         x, y = q.popleft()
 
-        if x == ex and y == ey:
+        if x == ex and y == ey: # 가장 강한 포탑에 도달할 수 있으면 멈춘다.
             can_attack = True
             break
 
-        for dx, dy in zip(dxs, dys):
-            nx = (x + dx + n) % n
-            ny = (y + dy + m) % m
+        for k in range(4):
+            nx=(x+dxs[k] +n)%n
+            ny=(y+dys[k] +m)%m
+
+
 
             if vis[nx][ny]: 
                 continue
@@ -109,8 +118,7 @@ def bomb_attack():
     for dx2, dy2 in zip(dxs2, dys2):
         nx = (ex + dx2 + n) % n
         ny = (ey + dy2 + m) % m
-        if nx == sx and ny == sy: 
-            continue
+
 
         if nx == ex and ny == ey:
             board[nx][ny] -= power
