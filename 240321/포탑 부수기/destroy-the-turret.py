@@ -100,10 +100,11 @@ def laser_attack():
                 board[cx][cy] = 0
             is_active[cx][cy] = True
 
-            cx = back_x[cx][cy]
-            cy = back_y[cx][cy]
+            next_cx = back_x[cx][cy]
+            next_cy = back_y[cx][cy]
 
-
+            cx = next_cx
+            cy = next_cy
     return can_attack
 
 
