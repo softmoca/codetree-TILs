@@ -46,7 +46,7 @@ def dfs(x, y, idx):
             continue
 
         # 가장 처음 탐색할 때 2가 있는 방향으로 dfs를 진행합니다.
-        if board[nx][ny] != 2: 
+        if len(v[idx]) == 1 and board[nx][ny] != 2: 
             continue
 
         v[idx].append((nx, ny))
