@@ -128,7 +128,7 @@ def posion():
                     break
                 else:
                     arr[nx][ny]=-2
-                    posion_ch[nx][ny]=c
+                    posion_ch[nx][ny]=c-1
 
 
             else:
