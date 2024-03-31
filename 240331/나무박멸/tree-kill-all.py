@@ -43,6 +43,11 @@ def count_zero(row,col):
 def grow():
     for row in range(n):
         for col in range(n):
+            grow_temp[row][col]=0
+
+
+    for row in range(n):
+        for col in range(n):
             
             if arr[row][col]>0:
                 count=count_tree(row,col)
@@ -108,6 +113,7 @@ def find_max_posion():
 
 def posion():
     row, col=find_max_posion()
+
     arr[row][col]=-2
     for w in range(4):
         nx =row
@@ -115,9 +121,16 @@ def posion():
         for _ in range(k):
             nx=nx+dxx[w]
             ny=ny+dyy[w]
-            if 0<=nx<n and 0<=ny<n and arr[nx][ny]>=0:
-                arr[nx][ny]=-2
-                posion_ch[nx][ny]=c
+            if 0<=nx<n and 0<=ny<n :
+                if arr[nx][ny]<0:
+                    arr[nx][ny]=-2
+                    posion_ch[nx][ny]=c                    
+                    break
+                else:
+                    arr[nx][ny]=-2
+                    posion_ch[nx][ny]=c
+
+
             else:
                 break
 
@@ -134,7 +147,20 @@ def down_posion():
 for _ in range(m):
     down_posion()
     grow()
-    bunsic()
-    posion()
+    # for x in arr:
+    #     print(x)
+    # print()
 
+
+    bunsic()
+    # for x in arr:
+    #     print(x)
+    # print()
+
+
+    posion()
+    # for x in arr:
+    #     print(x)
+    # print(anwer)
+    # print()
 print(anwer)
