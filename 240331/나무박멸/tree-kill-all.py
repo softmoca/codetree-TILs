@@ -27,7 +27,7 @@ def count_tree(row,col):
     for w in range(4):
         nx=row+dx[w]
         ny=col+dy[w]
-        if 0<=nx<n and 0<=ny<n and arr[nx][ny]>0:
+        if 0<=nx<n and 0<=ny<n and arr[nx][ny]>0 and posion_ch[nx][ny]==0:
             count+=1
     return count
 
@@ -113,7 +113,7 @@ def find_max_posion():
 
 def posion():
     row, col=find_max_posion()
-
+    # print(row,col)
     arr[row][col]=-2
     for w in range(4):
         nx =row
@@ -145,7 +145,7 @@ def down_posion():
 
 
 for _ in range(m):
-    down_posion()
+    
     grow()
     # for x in arr:
     #     print(x)
@@ -157,10 +157,11 @@ for _ in range(m):
     #     print(x)
     # print()
 
-
+    down_posion()
     posion()
     # for x in arr:
     #     print(x)
     # print(anwer)
     # print()
+
 print(anwer)
