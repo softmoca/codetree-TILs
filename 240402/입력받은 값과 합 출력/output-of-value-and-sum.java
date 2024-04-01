@@ -12,6 +12,6 @@ public class Main {
         b = sc.nextInt();
 
         // 출력
-        System.out.println(a,b,a+b);
+        System.out.println(a +" " +b+" " + (a+b));
     }
 }
