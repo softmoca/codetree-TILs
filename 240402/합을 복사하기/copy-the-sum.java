@@ -13,8 +13,7 @@ public class Main {
         c = sum;
 
         // 각 변수의 값을 출력합니다.
-        System.out.println(a);
-        System.out.println(b);
-        System.out.println(c);
+        System.out.printf("%d %d %d",a,b,c);
+
     }
 }
