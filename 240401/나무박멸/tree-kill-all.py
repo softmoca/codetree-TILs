@@ -126,16 +126,14 @@ def posion():
                 if arr[nx][ny]<0:
                     if arr[nx][ny]==-1:
                         arr[nx][ny]=-1
-                        posion_ch[nx][ny]=c  
-                    else:
+                        posion_ch[nx][ny]=c
+                        break  
+                    if arr[nx][ny]==-2:
                         arr[nx][ny]=-2
-                        posion_ch[nx][ny]=c                    
-                    break
+                        posion_ch[nx][ny]=c  
                 else:
                     arr[nx][ny]=-2
                     posion_ch[nx][ny]=c
-
-
             else:
                 break
 
@@ -152,21 +150,14 @@ def down_posion():
 for _ in range(m):
     
     grow()
-    # for x in posion_ch:
-    #     print(x)
-    # print()
+
 
 
     bunsic()
-    # for x in posion_ch:
-    #     print(x)
-    # print()
+
 
     down_posion()
     posion()
-    # for x in posion_ch:
-    #     print(x)
-    # print(anwer)
-    # print()
+
 
 print(anwer)
