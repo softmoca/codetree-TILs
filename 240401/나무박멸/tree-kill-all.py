@@ -1,169 +1,172 @@
-# 변수 선언 및 입력:
-n, m, k, c = tuple(map(int, input().split()))
-tree = []
-for _ in range(n):
-    tree.append( list(map(int, input().split())))
+# 격자의 크기 n, 박멸이 진행되는 년 수 m, 제초제의 확산 범위 k, 제초제가 남아있는 년 수 c
 
-add_tree = [
-    [0] * (n)
-    for _ in range(n)
-]
-herb = [
-    [0] * (n )
-    for _ in range(n)
-]
+# 1. 인접한 네칸 중 나무가 있는 칸수 만큼 나무가 성장 -> 동시에 성장 temp 배열 생성
+# 2. 벽, 다른 나무, 제초제 없는 칸에 번식 진행 (각 칸의 나무 그루 수 //번식이 가능한 칸수 ) 동시에 tmep 배열 생성 +
+# 3. 자신 포함 4개의 대각선으로 제초제 살포시 가장 많이 박멸하는 칸 선택
+# 4. 한번 뿌리면 c년 ㅁ나큼 있다가 c+1년째 사라진다.
 
-ans = 0
+# 1. 성장
+# 2. 제초제 확인 후 번식
+# 3. 제초제 뿌릴 위치 선정
+# 4. 제초제 뿌리기
+
+n,m,k,c=map(int,input().split())
+arr=[list(map(int,input().split())) for _ in range(n)]
+grow_temp=[[0]*n for _ in range(n)]
+bunsic_temp=[[0]*n for _ in range(n)]
+posion_ch=[[0]*n for _ in range(n)]
+anwer=0
+dx=[-1,0,1,0]
+dy=[0,1,0,-1]
+
+dxx=[-1,1,1,-1]
+dyy=[1,1,-1,-1]
+
+def count_tree(row,col):
+    count=0
+    for w in range(4):
+        nx=row+dx[w]
+        ny=col+dy[w]
+        if 0<=nx<n and 0<=ny<n and arr[nx][ny]>0 and posion_ch[nx][ny]==0:
+            count+=1
+    return count
+
+def count_zero(row,col):
+    count =0
+    for w in range(4):
+        nx=row+dx[w]
+        ny=col+dy[w]
+        if 0<=nx<n and 0<=ny<n and arr[nx][ny]==0 and posion_ch[nx][ny]==0:
+            count+=1
+    return count
+
+def grow():
+    for row in range(n):
+        for col in range(n):
+            grow_temp[row][col]=0
 
 
-def is_out_range(x, y):
-    return not (0 <= x and x <= n-1 and 0 <= y and y <= n-1)
+    for row in range(n):
+        for col in range(n):
+            
+            if arr[row][col]>0:
+                count=count_tree(row,col)
+                grow_temp[row][col]=arr[row][col]+count
+    for row in range(n):
+        for col in range(n):
+            if grow_temp[row][col]:
+                arr[row][col]=grow_temp[row][col]
 
 
-# 1단계 : 인접한 네 개의 칸 중 나무가 있는 칸의 수만큼 나무가 성장합니다.
-def step_one():
-    dxs, dys = [-1, 0, 1, 0], [0, -1, 0, 1]
 
-    for i in range(0, n ):
-        for j in range(0, n ):
-            if tree[i][j] <= 0: 
-                continue
-
-            # 나무가 있는 칸의 수(cnt)만큼 나무가 성장합니다.
-            cnt = 0
-            for dx, dy in zip(dxs, dys):
-                nx, ny = i + dx, j + dy
-                if is_out_range(nx, ny): 
-                    continue
-                if tree[nx][ny] > 0: 
-                    cnt += 1
-
-            tree[i][j] += cnt
-
-
-# 2단계 : 기존에 있었던 나무들은 아무것도 없는 칸에 번식을 진행합니다.
-def step_two():
-    dxs, dys = [-1, 0, 1, 0], [0, -1, 0, 1]
-
-    # 모든 나무에서 동시에 일어나는 것을 구현하기 위해 하나의 배열을 더 이용합니다.
-    # add_tree를 초기화해줍니다.
-    for i in range(n ):
-        for j in range(n ): 
-            add_tree[i][j] = 0
-
-    for i in range( n ):
-        for j in range(n ):
-            if tree[i][j] <= 0: 
-                continue
-
-            # 해당 나무와 인접한 나무 중 아무도 없는 칸의 개수를 찾습니다.
-            cnt = 0
-            for dx, dy in zip(dxs, dys):
-                nx, ny = i + dx, j + dy
-                if is_out_range(nx, ny): 
-                    continue
-                if herb[nx][ny]: 
-                    continue
-                if tree[nx][ny] == 0: 
-                    cnt += 1
-
-            # 인접한 나무 중 아무도 없는 칸은 cnt로 나눠준 만큼 번식합니다.
-            for dx, dy in zip(dxs, dys):
-                nx, ny = i + dx, j + dy
-                if is_out_range(nx, ny): 
-                    continue
-                if herb[nx][ny]: 
-                    continue
-                if tree[nx][ny] == 0: 
-                    add_tree[nx][ny] += tree[i][j] // cnt
+def bunsic():
+    for row in range(n):
+        for col in range(n):
+            bunsic_temp[row][col]=0
     
-    # add_tree를 더해 번식을 동시에 진행시킵니다.
-    for i in range(n ):
-        for j in range (n):
-            tree[i][j] += add_tree[i][j]
+
+    for row in range(n):
+        for col in range(n):
+            if arr[row][col]>0:
+                count=count_zero(row,col)
+                for w in range(4):
+                    nx=row+dx[w]
+                    ny=col+dy[w]
+                    if 0<=nx<n and 0<=ny<n and arr[nx][ny]==0 and posion_ch[nx][ny]==0:
+                        bunsic_temp[nx][ny]+=arr[row][col]//count
+    for row in range(n):
+        for col in range(n):
+            if bunsic_temp[row][col]:
+                arr[row][col]=bunsic_temp[row][col]
 
 
-# 3단계 : 가장 많이 박멸되는 칸에 제초제를 뿌립니다.
-def step_three():
-    global ans
+def count_posion(row,col):
+    count=0
+    for w in range(4):
+        nx=row
+        ny=col
+        for _ in range(k):
+            nx=nx+dxx[w]
+            ny=ny+dyy[w]
+            if 0<=nx<n and 0<=ny<n and arr[nx][ny]>0:
+                count=count+arr[nx][ny]
+            else:
+                break
+    return count
 
-    dxs, dys = [-1, 1, 1, -1], [-1, -1, 1, 1]
+def find_max_posion():
+    global anwer
+    max_row,max_col,Maxx_count=0,0,0
+    for row in range(n):
+        for col in range(n):
+            if arr[row][col]>0:
+                count=count_posion(row,col)+arr[row][col]
+                if Maxx_count<count:
+                    max_row=row
+                    max_col=col
+                    Maxx_count=count
 
-    max_del, max_x, max_y = 0, 0,0
-    for i in range(n ):
-        for j in range( n):
-            # 모든 칸에 대해 제초제를 뿌려봅니다. 각 칸에서 제초제를 뿌릴 시 박멸되는 나무의 그루 수를 계산하고,
-            # 이 값이 최대가 되는 지점을 찾아줍니다.
-            if tree[i][j] <= 0: 
-                continue
+    anwer=anwer+Maxx_count
+    return max_row,max_col
 
-            cnt = tree[i][j]
-            for dx, dy in zip(dxs, dys):
-                nx, ny = i, j
-                for _ in range(k):
-                    nx, ny = nx + dx, ny + dy
-                    if is_out_range(nx, ny): 
-                        break
-                    if tree[nx][ny] <= 0: 
-                        break
-                    cnt += tree[nx][ny]
 
-            if max_del < cnt:
-                max_del = cnt
-                max_x = i
-                max_y = j
 
-    ans += max_del
-
-    # 찾은 칸에 제초제를 뿌립니다.
-    if tree[max_x][max_y] > 0:
-        tree[max_x][max_y] = 0
-        herb[max_x][max_y] = c
-
-        for dx, dy in zip(dxs, dys):
-            nx, ny = max_x, max_y
-            for _ in range(k):
-                nx, ny = nx + dx, ny + dy
-                if is_out_range(nx, ny): 
+def posion():
+    row, col=find_max_posion()
+    # print(row,col)
+    arr[row][col]=-2
+    posion_ch[row][col]=c
+    for w in range(4):
+        nx =row
+        ny=col
+        for _ in range(k):
+            nx=nx+dxx[w]
+            ny=ny+dyy[w]
+            if 0<=nx<n and 0<=ny<n :
+                if arr[nx][ny]<0:
+                    if arr[nx][ny]==-1:
+                        arr[nx][ny]=-1
+                        posion_ch[nx][ny]=c  
+                    else:
+                        arr[nx][ny]=-2
+                        posion_ch[nx][ny]=c                    
                     break
-                if tree[nx][ny] < 0: 
-                    break
-                if tree[nx][ny] == 0:
-                    herb[nx][ny] = c
-                    break
-
-                tree[nx][ny] = 0
-                herb[nx][ny] = c
+                else:
+                    arr[nx][ny]=-2
+                    posion_ch[nx][ny]=c
 
 
-# 제초제의 기간을 1년 감소시킵니다.
-def delete_herb():
-    for i in range( n ):
-        for j in range(n): 
-            if herb[i][j] > 0: 
-                herb[i][j] -= 1
+            else:
+                break
+
+def down_posion():
+    for row in range(n):
+        for col in range(n):
+            if posion_ch[row][col]>0:
+                posion_ch[row][col]-=1
+                if posion_ch[row][col]==0:
+                    arr[row][col]=0
+
 
 
 for _ in range(m):
-    # 1단계 : 인접한 네 개의 칸 중 나무가 있는 칸의 수만큼 나무가 성장합니다.
-    step_one()
+    
+    grow()
+    # for x in posion_ch:
+    #     print(x)
+    # print()
 
 
-    # 2단계 : 기존에 있었던 나무들은 아무것도 없는 칸에 번식을 진행합니다.
-    step_two()
+    bunsic()
+    # for x in posion_ch:
+    #     print(x)
+    # print()
 
+    down_posion()
+    posion()
+    # for x in posion_ch:
+    #     print(x)
+    # print(anwer)
+    # print()
 
-    # 제초제의 기간을 1년 감소시킵니다.
-    delete_herb()
-
-    # 3단계 : 가장 많이 박멸되는 칸에 제초제를 뿌립니다.
-    step_three()
-
-
-
-
-
-
-
-
-print(ans)
+print(anwer)
