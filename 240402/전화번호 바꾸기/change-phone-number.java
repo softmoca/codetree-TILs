@@ -1,19 +1,15 @@
 import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) {
-        // Scanner 객체 생성
+    public static void main (String args[]) {
+        // 변수 선언 및 입력
         Scanner sc = new Scanner(System.in);
+        sc.useDelimiter("-"); // . 기준으로 잘라서 입력 받겠다는 뜻
+        int y = sc.nextInt(); // . 기호가 나오기 전까지 입력 진행
+        int m = sc.nextInt(); // . 기호가 나오기 전까지 입력 진행
+        int d = sc.nextInt(); // . 기호가 나오기 전 or 입력의 마지막 부분까지 진행
 
-        // 전화번호 입력 받기
-
-        String phoneNumber = sc.nextLine();
-
-        // 앞 4자리와 뒤 4자리 추출
-        String front = phoneNumber.substring(4, 8);
-        String back = phoneNumber.substring(8);
-
-        // 바뀐 전화번호 출력
-        System.out.println("010" + back + "-" + front);
+        // 출력
+        System.out.println("010" + "-" + d + "-" + m);
     }
 }
