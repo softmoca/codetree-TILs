@@ -8,10 +8,10 @@ public class Main {
         int n;
         while(true) {
             n=sc.nextInt();
-            if (n>25){
+            if (n<25){
                 System.out.println("Higher");
             }
-            else if (n<25){
+            else if (n>25){
                  System.out.println("Lower");
             }
             else {
