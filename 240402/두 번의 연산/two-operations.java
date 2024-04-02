@@ -10,10 +10,10 @@ public class Main {
             a+=3;
         }
         if (a%3==0){
-             System.out.println(a/3);
+             a/=3;
         }
 
-
+System.out.println(a);
 
     }
 }
