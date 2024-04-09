@@ -74,8 +74,6 @@ for t in range(1, m + 1):
             beforeX = lastX - moveX
             beforeY = lastY - moveY
 
-\
-
             idx = board[beforeX][beforeY]
 
             if not is_inrange(lastX, lastY):
@@ -88,18 +86,12 @@ for t in range(1, m + 1):
 
         points[closestIdx] += c
         pos[closestIdx] = (firstX, firstY)
-
         if is_inrange(firstX, firstY):
             board[firstX][firstY] = closestIdx
         else:
             is_live[closestIdx] = False
 
     board[rudolf[0]][rudolf[1]] = -1;
-
-
-
-
-
 
     # 각 산타들은 루돌프와 가장 가까운 방향으로 한칸 이동합니다.
     for i in range(1, p+1):
