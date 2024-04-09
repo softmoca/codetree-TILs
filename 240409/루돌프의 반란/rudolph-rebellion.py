@@ -1,232 +1,111 @@
-import sys 
-import heapq
-# sys.stdin=open('input.txt','r')
-input=sys.stdin.readline
+N, M, P, C, D = map(int, input().split())
+v = [[0]*N for _ in range(N)]
 
+ri, rj = map(lambda x:int(x)-1, input().split())
+v[ri][rj]=-1                                # 루돌프표시(-1)
 
-# 상우하좌 
-pdxs=[-1, 0, 1,  0]
-pdys=[0,  1, 0, -1]
+score = [0]*(P+1)
+alive = [1]*(P+1)
+alive[0] = 0                                # 첫 번째는 없는 산타
+wakeup_turn = [1]*(P+1)
 
-def in_range(nx,ny):
-    return 0<nx<N+1 and 0<ny<N+1
+santa = [[N]*2 for _ in range(P+1)]         # 빈 자리, 번호 맞추기
+for _ in range(1, P + 1):
+    n,i,j = map(int, input().split())
+    santa[n]=[i-1,j-1]                      # i, j
+    v[i-1][j-1] = n
 
-def Distance(r1,c1, r2,c2):
-    return (r1-r2)**2 + (c1-c2)**2
+def move_santa(cur,si,sj,di,dj,mul):
+    q = [(cur,si,sj,mul)]           # cur번 산타를 si,sj에서 di,dj방향으로 mul칸 이동
 
-# 상호작용
-def Interaction(nx,ny,dx,dy):
-    global all_in_board
-    origin_player_id=board[nx][ny]
-    origin_player_loc=playerIdToIndx[origin_player_id]
-    opx,opy=origin_player_loc
-    nx=opx+dx
-    ny=opy+dy
-    if not in_range(nx,ny):
-        del playerIdToIndx[origin_player_id] # 삭제 
-        all_in_board-=1
-        is_in_board[origin_player_id]=False
-        return
-    
-    if board[nx][ny]>0: # 튕겨져나간 새 위치에 또 참가자가 있으면 
-        Interaction(nx,ny,dx,dy)
-    
-    board[nx][ny]=origin_player_id
-    playerIdToIndx[origin_player_id]=[nx,ny]
-    
-     
-
-# 충돌 2. 참가자가 소를 박음 
-def crush_player_to_cow(t,pid,dir):
-    global board, cow_loc, players_score, all_in_board
-    px,py=playerIdToIndx[pid]
-    nx,ny=cow_loc
-    players_score[pid]+=D       # D만큼 점수를 얻음 
-    panic_time[pid]=t+1
-    dx=-pdxs[dir]               # 반대방향 
-    dy=-pdys[dir]
-    
-    nx=nx+dx*D
-    ny=ny+dy*D
-    if not in_range(nx,ny):     # 튕겨져 나간곳이 격자 밖이면 
-        board[px][py]=0
-        del playerIdToIndx[pid] # 삭제 
-        all_in_board-=1
-        is_in_board[pid]=False
-        return 
-            
-    
-    if board[nx][ny]>0: # 튕겨져 나간 곳에 사람이 있으면 
-        Interaction(nx,ny,dx,dy)
-    
-    # 아니면 튕겨져나간곳이 새로운 그사람 위치 
-    playerIdToIndx[pid]=[nx,ny]
-    board[px][py]=0
-    board[nx][ny]=pid
-
-    
-    
-# 참가자 움직임 
-def player_move(t,pid):
-    global board, cow_loc
-
-    cx,cy=cow_loc
-    px,py=playerIdToIndx[pid]
-    possible_loc=[]
-    cur_dis=Distance(px,py, cx,cy)
-    for dir in range(4):
-        nx=px+pdxs[dir]
-        ny=py+pdys[dir]
-        if in_range(nx,ny) and board[nx][ny]<=0: 
-            dis=Distance(nx,ny, cx,cy)
-            if dis<cur_dis:
-                priority=[dis,dir,nx,ny]
-                heapq.heappush(possible_loc,priority)
-            
-    if len(possible_loc)==0:             # 4가지 경우 중 모두 없는 경우 끝냄 
-        return
-
-    dis,dir,nx,ny=heapq.heappop(possible_loc)
-    board[px][py]=0
-    if (nx,ny)==(cx,cy):    # 참가자가 소를 박음 
-        crush_player_to_cow(t,pid,dir)
-    else:
-        # 참가자가 소를 박은게 아니라면 
-        # 참가자 이동 
-        board[nx][ny]=pid
-        playerIdToIndx[pid]=[nx,ny]
-
-
-# 충돌 1. 소가 참가자를 박음  dir=[dirX,dirY]
-def crush_cow_to_player(t,cx,cy,dir):
-    global board, cow_loc, players_score, all_in_board
-    pid=board[cx][cy]
-    px,py=playerIdToIndx[pid]
-    if playerIdToIndx[pid]!=[cx,cy]:
-        raise Exception('Error')
-    players_score[pid]+=C           # C만큼 점수를 얻음 
-    panic_time[pid]=t+1
-    px,py=playerIdToIndx[pid]
-    nx,ny=px,py
-    dx=dir[0]               # 반대방향 
-    dy=dir[1]
-
-    nx=nx+dx*C
-    ny=ny+dy*C
-    if not in_range(nx,ny):     # 격자를 벗어남
-        board[px][py]=0         # 그 위치에 있던 사람은 없어지고 
-        del playerIdToIndx[pid] # 삭제 
-        all_in_board-=1
-        is_in_board[pid]=False
-        return
-    
-    if board[nx][ny]>0: # 튕겨져 나간 곳에 사람이 있으면 
-        Interaction(nx,ny,dx,dy)
-    
-    # 기존사람이 있든 없든 튕겨진 사람은 새로운 위치로  
-    playerIdToIndx[pid]=[nx,ny]
-    board[px][py]=0         # 기존 위치는 비우고 
-    board[nx][ny]=pid   
-
-# 소 움직임 
-def cow_move(t):
-    global board, cow_loc
-    cx,cy=cow_loc
-
-    # 가장 가까운 참가자부터 찾는다. 
-    Finalx, Finaly, FinalId = 10000, 10000, 0
-    for pid in range(1, P + 1):
-        if not is_in_board[pid]:
-            continue
-        
-        if playerIdToIndx[pid]==None:   # PID 참가자가 없으면 다음 참가자 
-            continue
-        px,py=playerIdToIndx[pid]
-        # 거리, 행, 열 순으로 우선순위
-        farest_dis = [Distance(cx,cy,Finalx,Finaly), [-Finalx, -Finaly]]  
-        PID_dis = [Distance(cx,cy,px,py), [-px, -py]] 
-
-        if PID_dis < farest_dis:
-            Finalx, Finaly = playerIdToIndx[pid]
-            FinalId = pid
-
-    # 가장 가까운 산타의 방향으로 루돌프가 이동합니다.
-    if FinalId:      # 위 for문에서 조건을 만족 안해서 FinalId가 0을 유지했다면 이 조건문 안들어감 
-        
-        dirX = 0
-        if Finalx > cx:   # 현재 소위치보다 가장 가까운 참가자의 위치의 행이 더 크면 
-            dirX = 1               # 소 행으로 1만큼 이동 
-        elif Finalx < cx: # 현재 소 위치보다 더 위에 있으면 
-            dirX = -1              # 소 위로 이동 
-
-        dirY = 0
-        if Finaly > cy:   # 소보다 오른쪽에 있으면 오른쪽으로 이동 
-            dirY = 1
-        elif Finaly < cy: # 소보다 왼쪽에 있으면 왼쪽으로 이동 
-            dirY = -1
-
-        cow_loc = [cx + dirX, cy + dirY]  # 소 위치 새 위치로 업데이트 
-        board[cx][cy] = 0                   # 기존 소 위치 비워 두기 
-        
-        dir=[dirX,dirY]                   # 방향 
-        
-        nx,ny=cow_loc
-        px,py=playerIdToIndx[FinalId]
-        if (px,py)==(nx,ny) or board[nx][ny]!=0:                # 소의 새 위치에 사람이 있으면 
-            crush_cow_to_player(t,nx,ny,dir)
-
-        
-        # 참가자랑 박치기를 하든 안하든 소가 이동만 한다 
-        board[nx][ny]=-1
-        cow_loc=[nx,ny]
-            
-    # 가장 가까운 참가자가 없거나 이동할 필요가 없으면 이동 안함             
-        
-
-def simulation(t):
-    cow_move(t)
-
-    # 만약 P 명의 산타가 모두 게임에서 탈락하게 된다면 그 즉시 게임이 종료됩니다.
-    if all_in_board==0:
-        return 
-    
-    for pid in range(1,P+1):  
-        if not is_in_board[pid]:    # pid가 격자위에 없으면 다음 참가자 확인하기 
-            continue
-        if panic_time[pid]<t:
-            player_move(t, pid)
-
-        # 만약 P 명의 산타가 모두 게임에서 탈락하게 된다면 그 즉시 게임이 종료됩니다.
-        if all_in_board==0:
+    while q:
+        cur,ci,cj,mul=q.pop(0)
+        # 진행방향 mul칸만큼 이동시켜서 범위내이고 산타있으면 q삽입/범위밖 처리
+        ni,nj=ci+di*mul, cj+dj*mul
+        if 0<=ni<N and 0<=nj<N:     # 범위내 => 산타 O, X
+            if v[ni][nj]==0:        # 빈 칸 => 이동처리
+                v[ni][nj]=cur
+                santa[cur]=[ni,nj]
+                return
+            else:                   # 산타 O => 연쇄이동
+                q.append((v[ni][nj],ni,nj,1))   # 한칸 이동, v[ni][nj]: 다음 산타번호
+                v[ni][nj]=cur
+                santa[cur]=[ni,nj]
+        else:                       # 범위밖 => 탈락 => 끝
+            alive[cur]=0
             return
-    # 매 턴 이후 아직 탈락하지 않은 산타들에게는 1점씩을 추가로 부여합니다.
-    for pid in playerIdToIndx:
-        players_score[pid]+=1
 
-if __name__=="__main__":
-    # N:게임격자, M: 게임턴수, P:산타개수, C:루돌프 힘, D: 산타의 힘 
-    N, M, P, C, D = map(int, input().split())
-    cow_loc=list(map(int, input().split()))
-    
-    board=[[0]*(N+1) for _ in range(N+1)]
-    board[cow_loc[0]][cow_loc[1]]=-1
-    
-    playerIdToIndx={}                           # 참가자수 다 확인하며 점수를 부여하지 않기 위해 
-    
-    players_score=[0]*(P+1)                     # 참가자 점수 
-    all_in_board=P                              # 격자위 참가자 수 
-    panic_time=[0]*(P+1)                        # 참가자당 기절 시간
-    is_in_board=[False]*(P+1)                   # 참가자당 격자위에 있는지 유무
-    
-    for _ in range(1,P+1):
-        pid,x,y,=map(int, input().split())
-        board[x][y]=pid
-        playerIdToIndx[pid]=[x,y]
-        is_in_board[pid]=True
-    
-    for t in range(1,M+1):
-        simulation(t)
-        if all_in_board==0:
-            break
+for turn in range(1, M+1):
+    # [0] 모두 탈락 시(alive 모두 0) => break
+    if alive.count(1)==0:
+        break
 
-    print(*players_score[1:])
+    # [1-1] 루돌프 이동: 가장 가까운 산타찾기
+    mn = 2*N**2
+    for idx in range(1, P+1):
+        if alive[idx]==0:   continue    # 타락한 산타 => skip..
+
+        si,sj=santa[idx]
+        dist=(ri-si)**2+(rj-sj)**2      # 현재거리
+        if mn>dist:
+            mn=dist
+            mlst=[(si,sj,idx)]          # 최소거리=>새리스트
+        elif mn==dist:                  # 같은최소=>추가
+            mlst.append((si,sj,idx))
+    mlst.sort(reverse=True)             # 행 큰>열 큰
+    si,sj,mn_idx = mlst[0]              # 돌격 목표산타!
+
+    # [1-2] 대상 산타 방향으로 루돌프 이동
+    rdi = rdj = 0
+    if ri>si:   rdi=-1  # 산타가 좌표 작은값 => -1방향 이동
+    elif ri<si: rdi=1
+
+    if rj>sj:   rdj=-1
+    elif rj<sj: rdj=1
+
+    v[ri][rj]=0             # 루돌프 현재자리 지우기
+    ri,rj = ri+rdi, rj+rdj  # 루돌프 이동
+    v[ri][rj]=-1            # 이동한 자리에 표시
+
+    # [1-3] 루돌프와 산타가 충돌한 경우 산타 밀리는 처리
+    if (ri,rj)==(si,sj):            # 충돌!
+        score[mn_idx]+=C            # 산타는 C점 획득
+        wakeup_turn[mn_idx]=turn+2  # 깨어날 턴 번호를 저장
+        move_santa(mn_idx,si,sj,rdi,rdj,C)  # 산타 C칸이동
+
+    # [2-1] 순서대로 산타이동: 기절하지 않은 경우(산타의 턴 <= turn)
+    for idx in range(1, P+1):
+        if alive[idx]==0:           continue    # 탈락한 경우 skip
+        if wakeup_turn[idx]>turn:   continue    # 깨어날 턴이 아직 안된경우
+
+        si,sj = santa[idx]
+        mn_dist = (ri-si)**2 + (rj-sj)**2
+        tlst = []
+        # 상우하좌 순으로 최소거리 찾기
+        for di,dj in ((-1,0),(0,1),(1,0),(0,-1)):
+            ni,nj=si+di,sj+dj
+            dist = (ri-ni)**2 + (rj-nj)**2
+            # 범위내, 산타 없고(<=0),더 짧은 거리인 경우
+            if 0<=ni<N and 0<=nj<N and v[ni][nj]<=0 and mn_dist>dist:
+                mn_dist = dist
+                tlst.append((ni,nj,di,dj))
+        if len(tlst)==0:    continue    # 이동할 위치 없음
+        ni,nj,di,dj = tlst[-1]          # 마지막에 추가된(더 짧은 거리)
+
+        # [2-2] 루돌프와 충돌시 처리
+        if (ri,rj)==(ni,nj):            # 루돌프와 충돌: 반대로 튕겨나감!
+            score[idx]+=D
+            wakeup_turn[idx]=turn+2
+            v[si][sj]=0
+            move_santa(idx,ni,nj,-di,-dj,D)
+        else:                           # 빈 칸: 좌표갱신, 이동처리
+            v[si][sj]=0
+            v[ni][nj]=idx
+            santa[idx]=[ni,nj]
+
+    # [3] 점수획득: alive 산타는 +1점
+    for i in range(1,P+1):
+        if alive[i]==1:
+            score[i]+=1
+
+print(*score[1:])
