@@ -3,7 +3,7 @@ arr = [list(map(int, input().split())) for _ in range(N)]
 
 # [0] 상어 정보 저장 + 초기 냄새 남김
 shk = [[0]*4 for _ in range(M)]
-v = [[[-1]*2 for _ in range(N)] for _ in range(N)]
+v = [[[0]*2 for _ in range(N)] for _ in range(N)]
 for i in range(N):
     for j in range(N):
         if arr[i][j]>0:
@@ -31,7 +31,7 @@ for ans in range(1, 1001):  # 1초~1000초
         for dr in dtbl[sn][sd]:
             ni,nj=si+di[dr],sj+dj[dr]
             # 범위내 냄새가 없는 경우(빈칸 ==-1)
-            if 0<=ni<N and 0<=nj<N and v[ni][nj][0]==-1:
+            if 0<=ni<N and 0<=nj<N and v[ni][nj][0]==0:
                 shk[i]=[sn,ni,nj,dr]
                 break
         else:               # 빈칸이 없는 경우=>내냄새
@@ -44,17 +44,17 @@ for ans in range(1, 1001):  # 1초~1000초
     # [2-1] 각 칸 냄새 -1
     for i in range(N):
         for j in range(N):
-            if v[i][j][0]!=-1:      # 빈칸이 아닌경우(냄새있음)
+            if v[i][j][0]!=0:      # 빈칸이 아닌경우(냄새있음)
                 v[i][j][1]-=1       # 0되면 빈칸으로 처리
                 if v[i][j][1]==0:
-                    v[i][j][0]=-1
+                    v[i][j][0]=0
 
     # [2-2] 낮은번호상어처리(냄새있고, 내냄새 아니면 => 삭제)
     i=0
     while i<len(shk):
         sn,si,sj,sd=shk[i]
         # 냄새있고(==빈칸이 아니고), 내냄새 아니면 !=sn
-        if v[si][sj][0]!=-1 and v[si][sj][0]!=sn:
+        if v[si][sj][0]!=0 and v[si][sj][0]!=sn:
             shk.pop(i)
         else:                       # 빈칸에 내가 처음 또는 내냄새 => 새냄새 뿌림
             v[si][sj]=[sn,K]
