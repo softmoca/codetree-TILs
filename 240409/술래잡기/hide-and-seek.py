@@ -6,10 +6,10 @@ for _ in range(MM):
     arr.append(list(map(int, input().split())))
 
 # 나무좌표 입력
-tree = set()
+tree = []  # set을 list로 변경
 for _ in range(H):
     i,j=map(int, input().split())
-    tree.add((i,j))
+    tree.append((i,j))  # list에 추가
 
 # 0(좌) 1(우) 2(하) 3(상)
 di = [ 0, 0, 1,-1]
@@ -59,9 +59,9 @@ for k in range(1,K+1):      # K턴만큼 게임 진행
                 mx_cnt+=val
 
     # [3] 도망자 잡기(술래자리 포함 3칸: 나무가없는 도망자면 잡힘!)
-    tset = set(((ti,tj),(ti+tdi[td],tj+tdj[td]),(ti+tdi[td]*2,tj+tdj[td]*2)))
+    tset = [(ti,tj),(ti+tdi[td],tj+tdj[td]),(ti+tdi[td]*2,tj+tdj[td]*2)]
     for i in range(len(arr)-1,-1,-1):
-        if (arr[i][0],arr[i][1]) in tset and (arr[i][0],arr[i][1]) not in tree:
+        if (arr[i][0],arr[i][1]) in tset and (arr[i][0],arr[i][1]) not in tree:  # list에서 원소 확인
             arr.pop(i)
             ans+=k
 
