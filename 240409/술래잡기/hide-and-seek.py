@@ -6,10 +6,10 @@ for _ in range(MM):
     arr.append(list(map(int, input().split())))
 
 # 나무좌표 입력
-tree = []
+tree = set()
 for _ in range(H):
     i,j=map(int, input().split())
-    tree.append([i,j])
+    tree.add((i,j))
 
 # 0(좌) 1(우) 2(하) 3(상)
 di = [ 0, 0, 1,-1]
