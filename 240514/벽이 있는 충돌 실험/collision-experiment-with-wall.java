@@ -18,15 +18,13 @@ public class Main {
     // 전역 변수 선언:
     public static int t, n, m;
     
-    public static int[][] marbleCnt = new int[MAX_N + 1][MAX_N + 1];
-    
     public static int[] mapper = new int[ASCII_NUM];
     
     // 후에 구슬이 벽에 부딪혔을 때의 처리를 간단히 하기 위해
     // dir 기준 0, 3이 대칭 1, 2가 대칭이 되도록 설정합니다.
     public static int[] dx = new int[]{-1, 0, 0, 1};
     public static int[] dy = new int[]{0, 1, -1, 0};
-    
+
     public static ArrayList<Marble> marbles = new ArrayList<>();
     
     // 해당 위치가 격자 안에 들어와 있는지 확인합니다.
@@ -64,39 +62,33 @@ public class Main {
     }
     
     // 해당 구슬과 충돌이 일어나는 구슬이 있는지 확인합니다.
-    // 이를 위해 자신의 현재 위치에 놓인 구슬의 개수가 
-    // 자신을 포함하여 2개 이상인지 확인합니다.
+    // 자신을 제외한 구슬 중에 위치가 동일한 구슬이 있는지 확인하면 됩니다.
     public static boolean duplicateMarbleExist(int targetIdx) {
         int targetX = marbles.get(targetIdx).x;
         int targetY = marbles.get(targetIdx).y;
     
-        return marbleCnt[targetX][targetY] >= 2;
+        for(int i = 0; i < (int) marbles.size(); i++) {
+            if(i == targetIdx)
+                continue;
+            
+            int mx = marbles.get(i).x;
+            int my = marbles.get(i).y;
+    
+            if(targetX == mx && targetY == my)
+                return true;
+        }
+    
+        return false;
     }
     
     // 충돌이 일어나는 구슬은 전부 지워줍니다.
     public static void removeDuplicateMarbles() {
         ArrayList<Marble> tempVector = new ArrayList<>();
-        
-        // Step2-1 : 각 구슬의 위치에 count를 증가시킵니다.
-        for(int i = 0; i < (int) marbles.size(); i++) {
-            int x = marbles.get(i).x;
-            int y = marbles.get(i).y;
-            marbleCnt[x][y]++;
-        }
     
-        // Step2-2 : 충돌이 일어나지 않는 구슬만 전부 기록합니다.
         for(int i = 0; i < (int) marbles.size(); i++)
             if(!duplicateMarbleExist(i))
                 tempVector.add(marbles.get(i));
-    
-        // Step2-3 : 나중을 위해 각 구슬의 위치에 적어놓은 count 수를 다시 초기화합니다.
-        for(int i = 0; i < (int) marbles.size(); i++) {
-            int x = marbles.get(i).x;
-            int y = marbles.get(i).y;
-            marbleCnt[x][y]--;
-        }
-    
-        // step2-4 : 충돌이 일어나지 않은 구슬들로 다시 채워줍니다.
+        
         marbles = tempVector;
     }
     
