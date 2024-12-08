@@ -21,7 +21,7 @@ public class Main {
         }
 
         // 문자열의 개수를 출력합니다.
-        System.out.println(str);
+        System.out.println(cnt);
         
         // 홀수 번째 문자열을 출력합니다.
         for(int i = 0; i < cnt; i += 2)
