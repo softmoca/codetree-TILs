@@ -104,24 +104,24 @@ public class Main {
             startx=startx+1;
             starty=starty+1;
             arr[startx][starty]=ad.removeFirst();
-            for(int i=0; i<dirArr[3];i++){
-                startx=startx-1;
-                starty=starty-1;
-                arr[startx][starty]=ad.removeFirst();
-            }
-            for(int i=0; i<dirArr[2];i++){
+            for(int i=0; i<dirArr[0];i++){
                 startx=startx-1;
                 starty=starty+1;
                 arr[startx][starty]=ad.removeFirst();
             }
             for(int i=0; i<dirArr[1];i++){
-                startx=startx+1;
-                starty=starty+1;
+                startx=startx-1;
+                starty=starty-1;
                 arr[startx][starty]=ad.removeFirst();
             }
-            for(int i=0; i<dirArr[0]-1;i++){
+            for(int i=0; i<dirArr[2];i++){
                 startx=startx+1;
                 starty=starty-1;
+                arr[startx][starty]=ad.removeFirst();
+            }
+            for(int i=0; i<dirArr[3]-1;i++){
+                startx=startx+1;
+                starty=starty+1;
                 arr[startx][starty]=ad.removeFirst();
             }
 
