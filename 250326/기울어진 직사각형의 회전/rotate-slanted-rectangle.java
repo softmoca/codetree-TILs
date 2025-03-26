@@ -75,31 +75,34 @@ public class Main {
 
 
         }else{ //시계
+
+
             ad.addLast(arr[startx][starty]);
-            for(int i=0; i<dirArr[3];i++){
-                startx=startx-1;
-                starty=starty-1;
-                ad.addLast(arr[startx][starty]);
-            }
-            for(int i=0; i<dirArr[2];i++){
+            for(int i=0; i<dirArr[0];i++){
                 startx=startx-1;
                 starty=starty+1;
                 ad.addLast(arr[startx][starty]);
             }
             for(int i=0; i<dirArr[1];i++){
-                startx=startx+1;
-                starty=starty+1;
+                startx=startx-1;
+                starty=starty-1;
                 ad.addLast(arr[startx][starty]);
             }
-            for(int i=0; i<dirArr[0]-1;i++){
+            for(int i=0; i<dirArr[2];i++){
                 startx=startx+1;
                 starty=starty-1;
                 ad.addLast(arr[startx][starty]);
             }
+            for(int i=0; i<dirArr[3]-1;i++){
+                startx=startx+1;
+                starty=starty+1;
+                ad.addLast(arr[startx][starty]);
+            }
+
             ad.addLast(ad.removeFirst());
             ///
             startx=startx+1;
-            starty=starty-1;
+            starty=starty+1;
             arr[startx][starty]=ad.removeFirst();
             for(int i=0; i<dirArr[3];i++){
                 startx=startx-1;
