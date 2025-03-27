@@ -12,7 +12,7 @@ public class Main {
         n = sc.nextInt();
         m = sc.nextInt();
         if(m==1){
-            System.out.println(1);
+            System.out.println(0);
             System.exit(0);
         }
         
