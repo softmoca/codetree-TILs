@@ -26,6 +26,7 @@ public class Main {
         String str = sc.next();
 
         int len = str.length();
+        int lenn = len;
         int res = 10000;
         char[] chars = str.toCharArray();
 
@@ -34,12 +35,12 @@ public class Main {
             // 쉬프트
 
             ArrayDeque<Character> ad = new ArrayDeque<>();
-            for (int i = 1; i < len; i++) {
+            for (int i = 1; i < lenn; i++) {
                 ad.addLast(chars[i]);
             }
             ad.addLast(chars[0]);
 
-            for (int i = 0; i < len; i++) {
+            for (int i = 0; i < lenn; i++) {
                 chars[i] = ad.removeFirst();
             }
 
