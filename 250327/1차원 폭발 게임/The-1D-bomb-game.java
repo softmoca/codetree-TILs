@@ -10,7 +10,7 @@ public class Main {
     static void gravity() {
         int[] temp = new int[checkIdx];
         int idx = 0;
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < checkIdx; i++) {
             if (arr[i] != 0) {
                 temp[idx++] = arr[i];
             }
@@ -21,8 +21,6 @@ public class Main {
     }
 
     static boolean boom() {
-        int len = arr.length;
-
         int cnt = 1;
         boolean flag = false;
         for (int i = 0; i < checkIdx - 1; i++) {
@@ -45,6 +43,7 @@ public class Main {
         if (cnt >= m) {
             flag = true;
             for (int j = 0; j < cnt; j++) {
+
                 arr[checkIdx - 1 - j] = 0;
             }
 
@@ -66,12 +65,11 @@ public class Main {
 
         while (boom()) {
             gravity();
+            if (checkIdx <= 0) {
+                break;
+            }
+
         }
-        if(m==1){
-            System.out.println(0);
-            System.exit(0);
-        }
-        
 
         System.out.println(checkIdx);
 
