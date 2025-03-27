@@ -36,7 +36,7 @@ public class Main {
             }
 
             if (startRow == -1) {
-                break;
+                continue;
             }
             int boomSize = arr[startRow][startCol] - 1;
             // 폭탄 범위 0으로 만들기
