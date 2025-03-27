@@ -67,9 +67,13 @@ public class Main {
         while (boom()) {
             gravity();
         }
+        if(m==1){
+            System.out.println(0);
+            System.exit(0);
+        }
+        
 
         System.out.println(checkIdx);
-
 
         for (int i = 0; i < checkIdx; i++) {
             System.out.println(arr[i]);
