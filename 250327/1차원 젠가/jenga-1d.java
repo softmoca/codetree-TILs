@@ -6,21 +6,23 @@ public class Main {
 
     static int[] go(int startIdx, int endIdx, int[] arr) {
         int[] temp = new int[arr.length];
-        ArrayDeque<Integer> ad = new ArrayDeque<>();
-        for (int i = 0; i < arr.length; i++) {
-            if (i >= startIdx && i <= endIdx || arr[i] == 0) {
-                continue;
+        for(int i=startIdx; i<=endIdx;i++){
+            arr[i]=0;
+        }
+        
+        int idx=0;
+        for(int i=0; i<arr.length;i++){
+            if(arr[i]!=0){
+                temp[idx++]=arr[i];
             }
-
-            ad.addLast(arr[i]);
-
         }
-        int size = ad.size();
-        for (int i = 0; i < size; i++) {
-            temp[i] = ad.removeFirst();
-        }
+            
+        
+        
+        
+        
 
-        res = size;
+//        res = size;
 
         return temp;
     }
@@ -41,6 +43,14 @@ public class Main {
             arr = go(startIdx, endIdx, arr);
 
 
+        }
+        
+        for(int i=0; i<arr.length;i++){
+            if(arr[i]==0){
+                res=i;
+                break;
+            }
+            
         }
 
         System.out.println(res);
