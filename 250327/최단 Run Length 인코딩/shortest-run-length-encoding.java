@@ -29,7 +29,7 @@ public class Main {
         int res = 10000;
         char[] chars = str.toCharArray();
 
-        while (len-- > 0) {
+        while (len-- >= 0) {
 
             // 쉬프트
 
