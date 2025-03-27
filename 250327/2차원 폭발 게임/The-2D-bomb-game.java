@@ -11,6 +11,11 @@ public class Main {
 
         n = sc.nextInt();
         m = sc.nextInt();
+        if(m==1){
+            System.out.println(1);
+            System.exit(0);
+        }
+        
         int k = sc.nextInt();
         arr = new int[n][n];
         nextArr = new int[n][n];
@@ -204,9 +209,9 @@ public class Main {
                     res++;
                 }
 
-           //     System.out.print(arr[i][j] + " ");
+                //     System.out.print(arr[i][j] + " ");
             }
-         //   System.out.println();
+            //   System.out.println();
         }
         System.out.println(res);
 
