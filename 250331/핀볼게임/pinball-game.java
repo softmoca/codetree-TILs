@@ -70,9 +70,10 @@ public class Main {
         dir = 1; //북
         for (int col = 0; col < n; col++) {
             if (arr[n - 1][col] == 1) {
-                dir = (dir + 1) % 4;
-            } else if (arr[n - 1][col] == 2) {
                 dir = (dir - 1 + 4) % 4;
+
+            } else if (arr[n - 1][col] == 2) {
+                dir = (dir + 1) % 4;
             }
             go(n - 1, col, dir);
         }
@@ -90,9 +91,10 @@ public class Main {
         dir = 3; //남
         for (int col = 0; col < n; col++) {
             if (arr[0][col] == 1) {
-                dir = (dir + 1) % 4;
-            } else if (arr[0][col] == 2) {
                 dir = (dir - 1 + 4) % 4;
+
+            } else if (arr[0][col] == 2) {
+                dir = (dir + 1) % 4;
             }
             go(0, col, dir);
         }
