@@ -24,7 +24,7 @@ public class Main {
             currX = nx;
             currY = ny;
 
-            if (arr[currX][currY] == 1) { 
+            if (arr[currX][currY] == 1) {
                 if (dir % 2 == 0) {//
                     dir = (dir + 1) % 4;
                 } else {
@@ -56,9 +56,9 @@ public class Main {
 
             }
         }
-
         int dir = 0; //동
         for (int row = 0; row < n; row++) {
+         dir = 0;
             if (arr[row][0] == 1) {
                 dir = (dir + 1) % 4;
             } else if (arr[row][0] == 2) {
@@ -69,6 +69,7 @@ public class Main {
 
         dir = 1; //북
         for (int col = 0; col < n; col++) {
+            dir = 1;
             if (arr[n - 1][col] == 1) {
                 dir = (dir - 1 + 4) % 4;
 
@@ -80,6 +81,7 @@ public class Main {
 
         dir = 2; //서
         for (int row = 0; row < n; row++) {
+            dir = 2;
             if (arr[row][n - 1] == 1) {
                 dir = (dir + 1) % 4;
             } else if (arr[row][n - 1] == 2) {
@@ -90,6 +92,7 @@ public class Main {
 
         dir = 3; //남
         for (int col = 0; col < n; col++) {
+            dir = 3;
             if (arr[0][col] == 1) {
                 dir = (dir - 1 + 4) % 4;
 
