@@ -18,7 +18,7 @@ public class Main {
         for (int k = 0; k < 4; k++) {
             int nx = row + dx[k];
             int ny = col + dy[k];
-            if (0 <= nx && nx < n && 0 <= ny && ny < n && arr[nx][ny] > maxValue) {
+            if (0 <= nx && nx < n && 0 <= ny && ny < n && arr[nx][ny] >= maxValue) {
                 maxK = k;
                 maxValue = arr[nx][ny];
             }
