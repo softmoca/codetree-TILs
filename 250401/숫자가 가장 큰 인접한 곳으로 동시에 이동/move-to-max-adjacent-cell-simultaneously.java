@@ -12,12 +12,7 @@ public class Main {
     static int[] dy = {0, 0, -1, 1};
 
     static void checkNext(int row, int col) {
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                nextCount[i][j] = 0;
-
-            }
-        }
+    
 
         int maxValue = -1;
         int maxK = -1;
@@ -43,6 +38,12 @@ public class Main {
         // 구슬 체크
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
+                nextCount[i][j] = 0;
+            }
+        }
+        
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
                 if (count[i][j] == 1) {
                     checkNext(i, j);
                 }
@@ -50,6 +51,12 @@ public class Main {
         }
 
         // 디버깅
+//        for (int i = 0; i < n; i++) {
+//            for (int j = 0; j < n; j++) {
+//                System.out.print(count[i][j] + " ");
+//            }
+//            System.out.println();
+//        }
 //
 //        for (int i = 0; i < n; i++) {
 //            for (int j = 0; j < n; j++) {
@@ -99,7 +106,7 @@ public class Main {
         }
 
         while (t-- > 0) {
-          //  System.out.println("Ddd");
+           // System.out.println("Ddd");
             simulate();
         }
 
