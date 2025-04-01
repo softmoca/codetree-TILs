@@ -8,7 +8,7 @@ public class Main {
     static int arr[][];
     static int count[][];
     static int nextCount[][];
-    static int[] dx = {1, -1, 0, 0};//상하좌우
+    static int[] dx = {-1, 1, 0, 0};//상하좌우
     static int[] dy = {0, 0, -1, 1};
 
     static void checkNext(int row, int col) {
@@ -50,21 +50,22 @@ public class Main {
             }
         }
 
-        // 디버깅
+//        // 디버깅
 //        for (int i = 0; i < n; i++) {
 //            for (int j = 0; j < n; j++) {
 //                System.out.print(count[i][j] + " ");
 //            }
 //            System.out.println();
 //        }
-//
+//        System.out.println();
 //        for (int i = 0; i < n; i++) {
 //            for (int j = 0; j < n; j++) {
 //                System.out.print(nextCount[i][j] + " ");
 //            }
 //            System.out.println();
 //        }
-
+//        System.out.println();
+//        System.out.println();
         // 중복된 구슬 삭제
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
