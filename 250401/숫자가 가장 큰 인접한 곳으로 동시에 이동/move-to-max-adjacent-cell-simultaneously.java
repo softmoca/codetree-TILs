@@ -13,12 +13,12 @@ public class Main {
 
     static void checkNext(int row, int col) {
 
-        int maxValue = -1;
+        int maxValue = Integer.MIN_VALUE;
         int maxK = -1;
         for (int k = 0; k < 4; k++) {
             int nx = row + dx[k];
             int ny = col + dy[k];
-            if (0 <= nx && nx < n && 0 <= ny && ny < n && arr[nx][ny] >= maxValue) {
+            if (0 <= nx && nx < n && 0 <= ny && ny < n && arr[nx][ny] > maxValue) {
                 maxK = k;
                 maxValue = arr[nx][ny];
             }
