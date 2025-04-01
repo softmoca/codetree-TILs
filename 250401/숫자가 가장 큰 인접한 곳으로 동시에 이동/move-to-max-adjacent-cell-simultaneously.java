@@ -34,13 +34,12 @@ public class Main {
 
     static void simulate() {
 
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                nextCount[i][j] = 0;
+            }
+        }
         // 구슬 체크
-//        for (int i = 0; i < n; i++) {
-//            for (int j = 0; j < n; j++) {
-//                nextCount[i][j] = 0;
-//            }
-//        }
-
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 if (count[i][j] == 1) {
