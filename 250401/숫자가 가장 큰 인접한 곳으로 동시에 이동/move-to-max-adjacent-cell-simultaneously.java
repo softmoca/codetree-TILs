@@ -25,9 +25,11 @@ public class Main {
 
         }
 
-        int nx = row + dx[maxK];
-        int ny = col + dy[maxK];
-        nextCount[nx][ny]++;
+        if (maxK != -1) {
+            int nx = row + dx[maxK];
+            int ny = col + dy[maxK];
+            nextCount[nx][ny]++;
+        }
 
 
     }
