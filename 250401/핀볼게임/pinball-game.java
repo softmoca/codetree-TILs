@@ -11,6 +11,22 @@ public class Main {
 
     static void go(int currX, int currY, int dir) {
         int cnt = 1;
+if (arr[currX][currY] == 1) {
+                if (dir % 2 == 0) {//
+                    dir = (dir + 1) % 4;
+                } else {
+                    dir = (dir - 1 + 4) % 4;
+                }
+
+            } else if (arr[currX][currY] == 2) {
+                if (dir % 2 == 0) {//
+                    dir = (dir - 1 + 4) % 4;
+                } else {
+                    dir = (dir + 1) % 4;
+                }
+
+            }
+
         while (true) {
 
             int nx = currX + dx[dir];
