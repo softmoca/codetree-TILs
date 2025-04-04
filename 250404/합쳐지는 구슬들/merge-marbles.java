@@ -1,6 +1,4 @@
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 
 class Pair {
@@ -48,80 +46,86 @@ public class Main {
     }
 
     static void boom() {
-        // Step 1: countArr 초기화
-        for (Pair p : pairs) {
-            countArr[p.row][p.col]++;
+        for (int i = 0; i < pairs.size(); i++) {
+            countArr[pairs.get(i).row][pairs.get(i).col]++;
         }
 
-        // Step 2: 충돌이 일어난 위치 별로 최종 Pair 저장
-        Map<String, Pair> mergedMarbles = new HashMap<>();
+        /////
 
-        for (Pair p : pairs) {
-            int x = p.row;
-            int y = p.col;
-
-            if (countArr[x][y] >= 2) { // 충돌하는 경우
-                String key = x + "," + y;
-
-                if (!mergedMarbles.containsKey(key)) {
-                    mergedMarbles.put(key, new Pair(p.idx, x, y, p.weight, p.dir));
-                } else {
-                    Pair existing = mergedMarbles.get(key);
-                    int newWeight = existing.weight + p.weight;
-
-                    // 번호가 더 크면 dir, idx 업데이트
-                    if (existing.idx < p.idx) {
-                        mergedMarbles.put(key, new Pair(p.idx, x, y, newWeight, p.dir));
-                    } else {
-                        mergedMarbles.put(key, new Pair(existing.idx, x, y, newWeight, existing.dir));
-                    }
-                }
-            }
-        }
-
-        // Step 3: 충돌 없는 구슬 + 충돌 후 살아남은 구슬로 리스트 갱신
         ArrayList<Pair> temp = new ArrayList<>();
 
-        for (Pair p : pairs) {
-            int x = p.row;
-            int y = p.col;
-            String key = x + "," + y;
+        for (int i = 0; i < pairs.size(); i++) {
+            boolean[] tempC = new boolean[pairs.size()];
 
-            if (countArr[x][y] >= 2) {
-                if (mergedMarbles.containsKey(key)) {
-                    temp.add(mergedMarbles.get(key));
-                    mergedMarbles.remove(key); // 이미 추가된 위치는 다시 추가하지 않음
+            if (countArr[pairs.get(i).row][pairs.get(i).col] >= 2 && !countArrC[pairs.get(i).row][pairs.get(i).col]) {
+                tempC[i] = true;
+                int sumWeight = pairs.get(i).weight;
+                int tempIdx = pairs.get(i).idx;
+                int currX = pairs.get(i).row;
+                int currY = pairs.get(i).col;
+                int currD = pairs.get(i).dir;
+
+                for (int j = 0; j < pairs.size(); j++) {
+
+                    if (i == j || !tempC[j]) {
+                        continue;
+                    }
+
+                    if (currX == pairs.get(j).row && currY == pairs.get(j).col) {
+                        tempC[j] = true;
+                        sumWeight = sumWeight + pairs.get(j).weight;
+                        if (tempIdx < pairs.get(j).idx) {
+                            tempIdx = pairs.get(j).idx;
+                            currD = pairs.get(j).dir;
+                        }
+                    }
+
+
                 }
+                if (countArrC[pairs.get(i).row][pairs.get(i).col]) {
+                    temp.add(new Pair(tempIdx, currX, currY, sumWeight, currD));
+                }
+
             } else {
-                temp.add(p);
+                temp.add(pairs.get(i));
+            }
+
+
+        }
+
+        ///
+
+        for (int i = 0; i < pairs.size(); i++) {
+            if (countArr[pairs.get(i).row][pairs.get(i).col] >= 2) {
+                countArr[pairs.get(i).row][pairs.get(i).col]--;
+                countArrC[pairs.get(i).row][pairs.get(i).col] = true;
+
             }
         }
 
-        // Step 4: countArr 초기화
-        for (Pair p : pairs) {
-            countArr[p.row][p.col] = 0;
-        }
-
+        //
         pairs = temp;
+
+
     }
 
     static void simulate() {
 
         moveAll();
         // 디버깅
-//        for (int i = 0; i < n; i++) {
-//            for (int j = 0; j < n; j++) {
-//                System.out.print(countArr[i][j] + " ");
-//            }
-//            System.out.println();
-//        }
-//
-//        for (int o = 0; o < pairs.size(); o++) {
-//            Pair curr = pairs.get(o);
-//            System.out.println(curr.idx + " " + curr.row + " " + curr.col
-//                    + " " + curr.weight + " " + curr.dir);
-//        }
-//        System.out.println();
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < n; j++) {
+                System.out.print(countArr[i][j] + " ");
+            }
+            System.out.println();
+        }
+
+        for (int o = 0; o < pairs.size(); o++) {
+            Pair curr = pairs.get(o);
+            System.out.println(curr.idx + " " + curr.row + " " + curr.col
+                    + " " + curr.weight + " " + curr.dir);
+        }
+        System.out.println();
 
         boom();
 
@@ -160,13 +164,13 @@ public class Main {
             simulate();
         }
 
-        System.out.print(pairs.size()+" ");
+        System.out.println(pairs.size());
         int res = 0;
         for (int i = 0; i < pairs.size(); i++) {
             res = Math.max(res, pairs.get(i).weight);
 
         }
-        System.out.print(res);
+        System.out.println(res);
 
 
     }
