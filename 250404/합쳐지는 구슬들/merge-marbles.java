@@ -160,13 +160,13 @@ public class Main {
             simulate();
         }
 
-        System.out.println(pairs.size());
+        System.out.print(pairs.size()+" ");
         int res = 0;
         for (int i = 0; i < pairs.size(); i++) {
             res = Math.max(res, pairs.get(i).weight);
 
         }
-        System.out.println(res);
+        System.out.print(res);
 
 
     }
