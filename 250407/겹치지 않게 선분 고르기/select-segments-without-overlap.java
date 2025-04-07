@@ -56,9 +56,9 @@ public class Main {
 
             if (check()) {
 
-                System.out.println(cnt);
-                System.exit(0);
-                //res = Math.max(res, cnt);
+//                System.out.println(cnt);
+//                System.exit(0);
+                res = Math.max(res, cnt);
 
             }
             init();
@@ -68,10 +68,9 @@ public class Main {
 
         for (int i = s; i < n; i++) {
             anwer.add(i);
-            c(currIdx + 1, cnt, i+1);
+            c(currIdx + 1, cnt, i + 1);
             anwer.remove(anwer.size() - 1);
         }
-
 
     }
 
@@ -88,9 +87,8 @@ public class Main {
 
         for (int cnt = n; cnt > 0; cnt--) {
             c(1, cnt, 0);
-
         }
-
+        System.out.println(res);
 
     }
 }
