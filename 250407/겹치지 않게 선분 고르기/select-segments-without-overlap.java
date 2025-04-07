@@ -68,7 +68,7 @@ public class Main {
 
         for (int i = s; i < n; i++) {
             anwer.add(i);
-            c(currIdx + 1, cnt, i);
+            c(currIdx + 1, cnt, i+1);
             anwer.remove(anwer.size() - 1);
         }
 
