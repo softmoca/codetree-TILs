@@ -55,9 +55,9 @@ public class Main {
         if (currIdx == cnt + 1) {
 
             if (check()) {
-                res = n - cnt;
-                System.out.println(res);
-                System.exit(1);
+                res = Math.max(res, cnt);
+
+
             }
             init();
 
@@ -84,12 +84,12 @@ public class Main {
             lines[i] = new Line(a, b);
         }
 
-        for (int cnt = 1; cnt < n; cnt++) {
+        for (int cnt = 1; cnt <= n; cnt++) {
             c(1, cnt);
-            //  System.out.println();
-        }
-        System.out.println(1);
 
+        }
+
+        System.out.println(res);
 
     }
 }
