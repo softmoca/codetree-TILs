@@ -51,7 +51,7 @@ public class Main {
         return true;
     }
 
-    static void c(int currIdx, int cnt) {
+    static void c(int currIdx, int cnt, int s) {
         if (currIdx == cnt + 1) {
 
             if (check()) {
@@ -66,9 +66,9 @@ public class Main {
             return;
         }
 
-        for (int i = 0; i < n; i++) {
+        for (int i = s; i < n; i++) {
             anwer.add(i);
-            c(currIdx + 1, cnt);
+            c(currIdx + 1, cnt, i);
             anwer.remove(anwer.size() - 1);
         }
 
@@ -87,7 +87,7 @@ public class Main {
         }
 
         for (int cnt = n; cnt > 0; cnt--) {
-            c(1, cnt);
+            c(1, cnt, 0);
 
         }
 
