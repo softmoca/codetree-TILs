@@ -88,6 +88,7 @@ public class Main {
             c(1, cnt);
             //  System.out.println();
         }
+        System.out.println(1);
 
 
     }
