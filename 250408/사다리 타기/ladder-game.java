@@ -16,6 +16,7 @@ public class Main {
     }
 
     static int n;
+    static int maxM;
     static int m;
     static Pair[] pairs;
     static int[][] arrTemp;
@@ -26,7 +27,7 @@ public class Main {
 
     static void init() {
 
-        for (int i = 0; i < m + 2; i++) {
+        for (int i = 0; i < maxM + 2; i++) {
             for (int j = 0; j < n * 2; j++) {
                 arrTemp[i][j] = 0;
             }
@@ -57,7 +58,7 @@ public class Main {
     static void makeAnsTemp() {
         for (int col = 1; col < 2 * n; col += 2) {
             int tempCol = col;
-            for (int row = 0; row < m; row++) {
+            for (int row = 0; row < maxM; row++) {
                 if (tempCol - 1 != 0 && arrTemp[row + 1][tempCol - 1] == -1) {
                     tempCol -= 2;
                 } else if (tempCol + 1 != 2 * n && arrTemp[row + 1][tempCol + 1] == -1) {
@@ -108,19 +109,28 @@ public class Main {
         n = sc.nextInt();
         m = sc.nextInt();
 
-        int[][] arr = new int[m + 2][n * 2];
-        arrTemp = new int[m + 2][n * 2];
-        for (int i = 1; i < 2 * n; i += 2) {
-            arr[0][i] = i;
-        }
         pairs = new Pair[m];
+        maxM = m;
 
         for (int i = 0; i < m; i++) {
             int col = sc.nextInt();
             int row = sc.nextInt();
+            maxM = Math.max(maxM, row);
+
             pairs[i] = new Pair(col, row);
             col = col * 2 - 1;
-            arr[row][col + 1] = -1;
+            //   arr[row][col + 1] = -1;
+        }
+
+        int[][] arr = new int[maxM + 2][n * 2];
+        arrTemp = new int[maxM + 2][n * 2];
+
+        for (int i = 1; i < 2 * n; i += 2) {
+            arr[0][i] = i;
+        }
+
+        for (int i = 0; i < m; i++) {
+            arr[pairs[i].row][pairs[i].col * 2] = -1;
         }
 
 //        for (int i = 0; i < 2 * n; i++) {
@@ -135,7 +145,7 @@ public class Main {
 
         for (int col = 1; col < 2 * n; col += 2) {
             int tempCol = col;
-            for (int row = 0; row < m; row++) {
+            for (int row = 0; row < maxM; row++) {
                 if (tempCol - 1 != 0 && arr[row + 1][tempCol - 1] == -1) {
                     tempCol -= 2;
                 } else if (tempCol + 1 != 2 * n && arr[row + 1][tempCol + 1] == -1) {
