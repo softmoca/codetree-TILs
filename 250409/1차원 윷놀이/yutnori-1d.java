@@ -22,10 +22,10 @@ public class Main {
     public static void findMax(int cnt) {
         // 말을 직접 n번 움직이지 않아도
         // 최대가 될 수 있으므로 항상 답을 갱신합니다.
-        ans = Math.max(ans, calc());
+    
 
         // 더 이상 움직일 수 없으면 종료합니다.
-        if (cnt == n){
+        if (cnt == n) {
             ans = Math.max(ans, calc());
             return;
         }
