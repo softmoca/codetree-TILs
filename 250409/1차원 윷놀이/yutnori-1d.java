@@ -49,7 +49,7 @@ public class Main {
             nums[i] = sc.nextInt();
 
         for (int i = 0; i < k; i++)
-            pieces[i] = 1;
+            pieces[i] = 0;
 
         findMax(0);
 
