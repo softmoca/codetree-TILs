@@ -1,71 +1,68 @@
-import java.io.*;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Scanner;
 
+class Pair implements Comparable<Pair> {
+    int x, y;
 
+    public Pair(int x, int y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    @Override
+    public int compareTo(Pair b) {
+        if (x != b.x) {
+            return x - b.x;
+        }
+        return y - b.y;
+    }
+}
 
 public class Main {
-    static class Pair {
-        int col, row;
+    public static final int INT_MAX = Integer.MAX_VALUE;
+    public static final int MAX_N = 11;
 
-        Pair(int col, int row) {
-            this.col = col;
-            this.row = row;
+    public static int n, m;
+    static int[] targetMapping = new int[MAX_N]; // num1 대체
+
+    public static void setupTargetMapping() {
+        for (int i = 0; i < n; i++) {
+            targetMapping[i] = i;
         }
 
-    }
-
-    static int n;
-    static int maxM;
-    static int m;
-    static Pair[] pairs;
-    static int[][] arrTemp;
-    static int[] ansTemp;
-    static List<Pair> answer = new ArrayList<>();
-    static int res = Integer.MAX_VALUE;
-    static int[] ans;
-
-    static void init() {
-        for (int i = 0; i < maxM + 2; i++) {
-            for (int j = 0; j < n * 2; j++) {
-                arrTemp[i][j] = 0;
-            }
-        }
-
-        for (int i = 1; i < 2 * n; i += 2) {
-            arrTemp[0][i] = i;
-        }
-
-        for (int i = 0; i < 2 * n; i++) {
-            ansTemp[i] = 0;
+        for (Pair line : lines) {
+            int idx = line.y;
+            int tmp = targetMapping[idx];
+            targetMapping[idx] = targetMapping[idx + 1];
+            targetMapping[idx + 1] = tmp;
         }
     }
 
-    static void draw() {
-        for (int i = 0; i < answer.size(); i++) {
-            int col = answer.get(i).col;
-            int row = answer.get(i).row;
-            col = col * 2 - 1;
-            arrTemp[row][col + 1] = -1;
-        }
-    }
-    static void makeAnsTemp() {
-        for (int col = 1; col < 2 * n; col += 2) {
-            int tempCol = col;
-            for (int row = 0; row < maxM; row++) {
-                if (tempCol - 1 != 0 && arrTemp[row + 1][tempCol - 1] == -1) {
-                    tempCol -= 2;
-                } else if (tempCol + 1 != 2 * n && arrTemp[row + 1][tempCol + 1] == -1) {
-                    tempCol += 2;
-                }
-            }
-            ansTemp[tempCol] = col;
+    public static ArrayList<Pair> lines = new ArrayList<>();
+    public static ArrayList<Pair> selectedLines = new ArrayList<>();
+
+    public static int ans = INT_MAX;
+
+    // 처음 상황과, 선택한 가로줄만 사용했을 때의
+    // 상황을 시뮬레이션하여
+    // 둘의 결과가 같은지 확인합니다.
+    public static boolean possible() {
+        int[] currentMapping = new int[MAX_N];
+
+        for (int i = 0; i < n; i++) {
+            currentMapping[i] = i;
         }
 
-    }
+        for (Pair line : selectedLines) {
+            int idx = line.y;
+            int tmp = currentMapping[idx];
+            currentMapping[idx] = currentMapping[idx + 1];
+            currentMapping[idx + 1] = tmp;
+        }
 
-    static boolean ok() {
-        for (int i = 0; i < 2 * n; i++) {
-            if (ans[i] != ansTemp[i]) {
+        for (int i = 0; i < n; i++) {
+            if (targetMapping[i] != currentMapping[i]) {
                 return false;
             }
         }
@@ -73,69 +70,36 @@ public class Main {
         return true;
     }
 
-
-    static void choose(int currIdx) {
-        if (currIdx == m) {
-
-            init();
-            draw();
-            makeAnsTemp();
-            if (ok())  res = Math.min(res, answer.size());
+    public static void findMinLines(int cnt) {
+        if (cnt == m) {
+            if (possible()) {
+                ans = Math.min(ans, (int) selectedLines.size());
+            }
             return;
         }
 
-        answer.add(pairs[currIdx]);
-        choose(currIdx + 1);
-        answer.remove(answer.size() - 1);
-        choose(currIdx + 1);
+        selectedLines.add(lines.get(cnt));
+        findMinLines(cnt + 1);
+        selectedLines.remove(selectedLines.size() - 1);
+
+        findMinLines(cnt + 1);
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         n = sc.nextInt();
         m = sc.nextInt();
 
-        pairs = new Pair[m];
-        maxM = m;
-
         for (int i = 0; i < m; i++) {
-            int col = sc.nextInt();
-            int row = sc.nextInt();
-            maxM = Math.max(maxM, row);
-
-            pairs[i] = new Pair(col, row);
+            int a = sc.nextInt();
+            int b = sc.nextInt();
+            lines.add(new Pair(b, a - 1));
         }
 
-        int[][] arr = new int[maxM + 2][n * 2];
-        arrTemp = new int[maxM + 2][n * 2];
+        Collections.sort(lines);
+        setupTargetMapping();
+        findMinLines(0);
 
-        for (int i = 1; i < 2 * n; i += 2) {
-            arr[0][i] = i;
-        }
-
-        for (int i = 0; i < m; i++) {
-            arr[pairs[i].row][pairs[i].col * 2] = -1;
-        }
-
-        ans = new int[2 * n];
-        ansTemp = new int[2 * n];
-
-        for (int col = 1; col < 2 * n; col += 2) {
-            int tempCol = col;
-            for (int row = 0; row < maxM; row++) {
-                if (tempCol - 1 != 0 && arr[row + 1][tempCol - 1] == -1) {
-                    tempCol -= 2;
-                } else if (tempCol + 1 != 2 * n && arr[row + 1][tempCol + 1] == -1) {
-                    tempCol += 2;
-                }
-            }
-            ans[tempCol] = col;
-        }
-
-        // 조합 시작
-
-        choose(0);
-        System.out.println(res);
-
+        System.out.print(ans);
     }
 }
