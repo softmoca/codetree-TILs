@@ -1,68 +1,60 @@
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Scanner;
 
 public class Main {
-    static int n;
-    static int m;
-    static int k;
-    static int[] points;
-    static int[] scores;
-    static List<Integer> answer = new ArrayList<>();
-    static int res = 0;
+    public static final int MAX_K = 4;
+    public static final int MAX_N = 12;
 
-    static void choose(int currIdx) {
-        if (currIdx == n) {
+    public static int n, m, k;
+    public static int[] nums = new int[MAX_N];
+    public static int[] pieces = new int[MAX_K];
 
+    public static int ans;
 
-            for (int i = 0; i < scores.length; i++) {
-                scores[i] = 0;
-            }
+    // 점수를 계산합니다.
+    public static int calc() {
+        int score = 0;
+        for (int i = 0; i < k; i++)
+            score += (pieces[i] >= m ? 1 : 0);
 
-            for (int i = 0; i < answer.size(); i++) {
-                scores[answer.get(i) - 1] += points[i];
-            }
-//            for (int x : scores) {
-//                System.out.print(x + " ");
-//            }
-//            System.out.println();
+        return score;
+    }
 
-            int sum = 0;
+    public static void findMax(int cnt) {
+        // 말을 직접 n번 움직이지 않아도
+        // 최대가 될 수 있으므로 항상 답을 갱신합니다.
+        ans = Math.max(ans, calc());
 
-            for (int i = 0; i < scores.length; i++) {
-                if (scores[i] >= m - 1) sum++;
-            }
-
-            res = Math.max(res, sum);
-
+        // 더 이상 움직일 수 없으면 종료합니다.
+        if (cnt == n){
+            ans = Math.max(ans, calc());
             return;
         }
 
-        for (int i = 1; i <= k; i++) {
-            answer.add(i);
-            choose(currIdx + 1);
-            answer.remove(answer.size() - 1);
+        for (int i = 0; i < k; i++) {
+            // 움직여서 더 이득이 되지 않는
+            // 말은 더 이상 움직이지 않습니다.
+            if (pieces[i] >= m)
+                continue;
 
+            pieces[i] += nums[cnt];
+            findMax(cnt + 1);
+            pieces[i] -= nums[cnt];
         }
-
     }
 
-
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-
         n = sc.nextInt();
         m = sc.nextInt();
         k = sc.nextInt();
-        points = new int[n];
-        scores = new int[k];
-        for (int i = 0; i < n; i++) {
-            points[i] = sc.nextInt();
-        }
+        for (int i = 0; i < n; i++)
+            nums[i] = sc.nextInt();
 
-        choose(0);
-        System.out.println(res);
+        for (int i = 0; i < k; i++)
+            pieces[i] = 1;
 
+        findMax(0);
+
+        System.out.print(ans);
     }
 }
