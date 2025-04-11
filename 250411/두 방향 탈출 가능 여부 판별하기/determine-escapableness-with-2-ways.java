@@ -8,7 +8,7 @@ public class Main {
     static int[] dx = {0, 1};
     static int[] dy = {1, 0};
     static boolean flag = false;
-    static boolean[][ ] visited;
+    static boolean[][] visited;
 
     static void dfs(int x, int y) {
 
@@ -22,14 +22,14 @@ public class Main {
             int ny = y + dy[k];
 
             if (nx < n && ny < m && board[nx][ny] == 1 && !visited[nx][ny]) {
-                visited[nx][ny]=true;
+                visited[nx][ny] = true;
                 dfs(nx, ny);
+                visited[nx][ny] = false;
             }
 
 
         }
-        System.out.println(0);
-        System.exit(0);
+        
 
     }
 
@@ -38,14 +38,14 @@ public class Main {
         n = sc.nextInt();
         m = sc.nextInt();
         board = new int[n][m];
-        visited=new boolean[n][m];
+        visited = new boolean[n][m];
 
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < m; j++) {
                 board[i][j] = sc.nextInt();
             }
         }
-        visited[0][0]=true;
+        visited[0][0] = true;
         dfs(0, 0);
         System.out.println(0);
 
