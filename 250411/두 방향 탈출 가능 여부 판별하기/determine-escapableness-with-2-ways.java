@@ -20,14 +20,13 @@ public class Main {
             int nx = x + dx[k];
             int ny = y + dy[k];
 
-            if (nx >= 0 && ny >= 0 && nx < n && ny < m && board[nx][ny] == 1) {
+            if (nx < n && ny < m && board[nx][ny] == 1) {
                 dfs(nx, ny);
             }
 
 
         }
-        System.out.println(0);
-        System.exit(0);
+      
 
     }
 
