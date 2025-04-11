@@ -2,22 +2,22 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
+
     static int n;
     static int m;
-    static List<ArrayList<Integer>> graph;
-    static boolean visited[];
+
+    static int[][] graph;
+    static boolean[] visited;
 
     static void dfs(int x) {
 
-        for (int w : graph.get(x)) {
-            if (visited[w]) continue;
-
-            visited[w] = true;
-            dfs(w);
-
+        for (int i = 1; i < n + 1; i++) {
+            if (graph[x][i] == 1 && !visited[i]) {
+                visited[i] = true;
+                dfs(i);
+            }
 
         }
-
 
     }
 
@@ -25,27 +25,21 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         n = sc.nextInt();
         m = sc.nextInt();
-        graph = new ArrayList<>();
-        for (int i = 0; i <= n; i++) {
-            graph.add(new ArrayList<>());
-        }
+        graph = new int[n + 1][n + 1];
         visited = new boolean[n + 1];
-
-        for (int i = 0; i < m; i++) {
+        while (m-- > 0) {
             int a = sc.nextInt();
             int b = sc.nextInt();
-            graph.get(a).add(b);
-            graph.get(b).add(a);
+            graph[a][b] = 1;
+            graph[b][a] = 1;
         }
-
+        visited[1] = true;
         dfs(1);
-        for (int i = 0; i <= n; i++) {
-          // System.out.println(visited[i]);
-        }
         int cnt = 0;
-        for (int i = 2; i < n + 1; i++) {
-            if (visited[i]) cnt++;
+        for (int i = 2; i <= n; i++) {
+            if (visited[i] == true) cnt++;
         }
         System.out.println(cnt);
+
     }
 }
