@@ -10,9 +10,14 @@ public class Main {
     static int res = Integer.MAX_VALUE;
 
     static void cal() {
+        if(arr[0][answer.get(0)]==0 || arr[answer.get(answer.size()-1)][0]==0) return;
+        
         int sum = arr[0][answer.get(0)] + arr[answer.get(answer.size() - 1)][0];
         for (int i = 0; i < answer.size() - 1; i++) {
+            
+            if(arr[answer.get(i)][answer.get(i+1)]==0) return;
             sum += arr[answer.get(i)][answer.get(i + 1)];
+            
         }
         res = Math.min(res, sum);
 
