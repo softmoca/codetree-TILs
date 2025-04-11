@@ -48,7 +48,7 @@ public class Main {
             }
         }
 
-        for (int k = 1; k < 10; k++) {
+        for (int k = 1; k <= 100; k++) {
             int cnt = 0;
             initVisited();
             for (int i = 0; i < n; i++) {
