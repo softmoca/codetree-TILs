@@ -9,9 +9,12 @@ public class Main {
     static int[] dy = {1, 0};
     static boolean flag = false;
 
-    static boolean dfs(int x, int y) {
+    static void dfs(int x, int y) {
 
-        if (x == n - 1 && y == m - 1) flag = true;
+        if (x == n - 1 && y == m - 1) {
+            System.out.println(1);
+            System.exit(0);
+        }
 
         for (int k = 0; k < 2; k++) {
             int nx = x + dx[k];
@@ -23,8 +26,8 @@ public class Main {
 
 
         }
-        return false;
-
+        System.out.println(0);
+        System.exit(0);
 
     }
 
@@ -41,11 +44,8 @@ public class Main {
         }
 
         dfs(0, 0);
+        System.out.println(0);
 
-        if (flag) {
-            System.out.println(1);
-        } else
-            System.out.println(0);
 
     }
 }
