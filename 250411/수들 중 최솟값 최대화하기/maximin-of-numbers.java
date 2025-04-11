@@ -8,15 +8,18 @@ public class Main {
     static boolean[] visited;
     static int[][] arr;
     static int res = Integer.MIN_VALUE;
-    
+
     static void cal() {
-        int minn=Integer.MAX_VALUE;
+        int minn = Integer.MAX_VALUE;
 
         for (int i = 0; i < answer.size(); i++) {
-            minn=Math.min(minn,answer.get(i));
+            minn = Math.min(minn,
+                    arr[i][answer.get(i)]
+
+            );
         }
-        
-    res=Math.max(res,minn);
+
+        res = Math.max(res, minn);
     }
 
     static void choose(int currIdx) {
