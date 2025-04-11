@@ -21,10 +21,10 @@ public class Main {
             int nx = x + dx[k];
             int ny = y + dy[k];
 
-            if (nx < n && ny < m && board[nx][ny] == 1 && !visited[nx][ny]) {
-                visited[nx][ny] = true;
+            if (nx < n && ny < m && board[nx][ny] == 1) {
+        
                 dfs(nx, ny);
-                visited[nx][ny] = false;
+             
             }
 
 
