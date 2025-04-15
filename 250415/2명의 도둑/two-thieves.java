@@ -1,6 +1,6 @@
 import java.util.*;
 
-public class Mains {
+public class Main {
     static int n, m, c;
     static int[][] board;
     static int maxTotal = 0;
