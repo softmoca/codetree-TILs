@@ -7,7 +7,7 @@ public class Main {
     static List<Integer> answer = new ArrayList<>();
     static List<Integer> listAlp = new ArrayList<>();
     static int[] alphArr = new int[128];
-    static int res = 0;
+    static int res = -1000;
 
     static int op(int a, int b, char x) {
         if (x == '-') {
