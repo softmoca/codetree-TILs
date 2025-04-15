@@ -1,148 +1,70 @@
-import java.io.*;
 import java.util.*;
 
-public class Main {
-    static int n;
-    static int m;
-    static int c;
+public class Mains {
+    static int n, m, c;
     static int[][] board;
-    static List<Integer> answer = new ArrayList<>();
-    static List<Integer> answerM = new ArrayList<>();
-    static int MaxRes = 0;
-    static int tempScoreMax = Integer.MIN_VALUE;
+    static int maxTotal = 0;
 
-    static void chooseM(int currIdx, int startIdx, int cnt, int row, int startCol) {
-
-        if (currIdx == cnt) {
-            int sum = 0;
-            int totoalScore = 0;
-
-            for (int i = 0; i < answerM.size(); i++) {
-                if (startCol + answerM.get(i) >= n) return;
-                totoalScore = totoalScore + board[row][answerM.get(i) + startCol] * board[row][answerM.get(i) + startCol];
-                sum += board[row][answerM.get(i) + startCol];
-            }
-            if (sum > c) return;
-
-            tempScoreMax = Math.max(tempScoreMax, totoalScore);
-
-
-            return;
-
-        }
-
-        for (int i = startIdx; i < m; i++) {
-            answerM.add(i);
-            chooseM(currIdx + 1, i + 1, cnt, row, startCol);
-            answerM.remove(answerM.size() - 1);
-        }
-
-
-    }
-
-    static int cal(int row) {
-        tempScoreMax = Integer.MIN_VALUE;
-        for (int startCol = 0; startCol <= n - m; startCol++) {
-            for (int i = 1; i <= m; i++) {
-                answerM = new ArrayList<>();
-                chooseM(0, 0, i, row, startCol);
-
-            }
-
-        }
-
-        return tempScoreMax;
-
-    }
-
-    static void choose1(int currIdx, int startIdx) {
-
-        if (currIdx == 2) {
-            tempScoreMax = Integer.MIN_VALUE;
-            int maxScore1 = cal(answer.get(0));
-            int maxScore2 = cal(answer.get(1));
-
-            MaxRes = Math.max(MaxRes, maxScore1 + maxScore2);
-            return;
-        }
-
-        for (int i = startIdx; i < n; i++) {
-            answer.add(i);
-            choose1(currIdx + 1, i + 1);
-            answer.remove(answer.size() - 1);
-
-        }
-
-
-    }
-
-    static boolean[] visited;
-
-    static boolean isOk(int col1, int col2) {
-
-        for (int i = col1; i < col1 + m; i++) {
-            if (i >= n) return false;
-            visited[i] = true;
-        }
-
-        for (int i = col2; i < col2 + m; i++) {
-            if (i >= n) return false;
-            if (visited[i]) return false;
-        }
-
-        return true;
-    }
-
-    static int cal2(int row, int startCol) {
-        tempScoreMax = Integer.MIN_VALUE;
-        for (int i = 1; i <= m; i++) {
-            answerM = new ArrayList<>();
-            chooseM(0, 0, i, row, startCol);
-            answerM = new ArrayList<>();
-        }
-
-
-        return tempScoreMax;
-    }
-
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         n = sc.nextInt();
         m = sc.nextInt();
         c = sc.nextInt();
+
         board = new int[n][n];
-
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
+        for (int i = 0; i < n; i++)
+            for (int j = 0; j < n; j++)
                 board[i][j] = sc.nextInt();
-            }
-        }
 
+        for (int i1 = 0; i1 < n; i1++) {
+            for (int j1 = 0; j1 <= n - m; j1++) {
+                int max1 = getMaxHoney(i1, j1);
 
-        //1. 서로 다른 두곳
-        choose1(0, 0);
-     //   System.out.println(MaxRes);
+                for (int i2 = i1; i2 < n; i2++) {
+                    int startJ = (i1 == i2) ? j1 + m : 0;
 
-        //2. 같은 행 선택
-        for (int row = 0; row < n; row++) {
-
-            for (int i = 0; i < n; i++) {
-                for (int j = i + 1; j < n; j++) {
-                    visited = new boolean[n];
-                    if (isOk(i, j)) {
-                        int tempMax1 = cal2(row, i);
-                        int tempMax2 = cal2(row, j);
-                       // System.out.println(row + " " + tempMax1 + " " + tempMax2);
-                     //   System.out.println(i + " " + j);
-                        MaxRes = Math.max(MaxRes, tempMax1 + tempMax2);
-                   //     System.out.println();
+                    for (int j2 = startJ; j2 <= n - m; j2++) {
+                        int max2 = getMaxHoney(i2, j2);
+                        maxTotal = Math.max(maxTotal, max1 + max2);
                     }
                 }
             }
-
-
         }
 
-        System.out.println(MaxRes);
+        System.out.println(maxTotal);
+    }
+
+    // 해당 위치 (row, col)부터 m개의 칸 중 조건을 만족하는 최대 제곱합 구하기
+    static int getMaxHoney(int row, int col) {
+        int[] segment = new int[m];
+        for (int i = 0; i < m; i++) {
+            segment[i] = board[row][col + i];
+        }
+
+        return getBestSubsetScore(segment);
+    }
+
+    // c 이하로 꿀을 채취하는 모든 부분집합의 제곱합 중 최대값
+    static int getBestSubsetScore(int[] segment) {
+        int maxScore = 0;
+        int len = segment.length;
+
+        for (int bit = 1; bit < (1 << len); bit++) {
+            int sum = 0;
+            int score = 0;
+
+            for (int i = 0; i < len; i++) {
+                if ((bit & (1 << i)) > 0) {
+                    sum += segment[i];
+                    score += segment[i] * segment[i];
+                }
+            }
+
+            if (sum <= c) {
+                maxScore = Math.max(maxScore, score);
+            }
+        }
+
+        return maxScore;
     }
 }
