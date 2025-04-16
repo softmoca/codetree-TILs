@@ -17,6 +17,9 @@ public class Main {
         }
 
         for (int i = startIdx; i <= n; i++) {
+
+            if(  n-i   <m-currIdx  ) continue;
+
             answer.add(i);
             choose(currIdx + 1, i + 1);
             answer.remove(answer.size() - 1);
