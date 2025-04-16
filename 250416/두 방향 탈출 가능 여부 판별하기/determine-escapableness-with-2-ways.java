@@ -38,6 +38,11 @@ public class Main {
         m = sc.nextInt();
         board = new int[n][m];
         visted = new boolean[n][m];
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
+                board[i][j] = sc.nextInt();
+            }
+        }
 
         dfs(0, 0);
         System.out.println(0);
