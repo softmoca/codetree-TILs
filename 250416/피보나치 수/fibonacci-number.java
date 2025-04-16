@@ -9,11 +9,12 @@ public class Main {
         if (x == 1 || x == 2) {
             return 1;
         }
-        
-        
 
-
-        return fibo(x - 1) + fibo(x - 2);
+        if (dp[x] == 0) {
+            return dp[x] = fibo(x - 1) + fibo(x - 2);
+        } else {
+            return dp[x];
+        }
 
 
     }
