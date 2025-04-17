@@ -8,7 +8,7 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
 
-        int[] dp = new int[1001];
+        long[] dp = new int[1001];
         dp[1] = 2;
         dp[2] = 7;
         dp[3] = 22;
