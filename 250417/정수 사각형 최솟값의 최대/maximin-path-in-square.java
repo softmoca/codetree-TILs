@@ -25,11 +25,15 @@ public class Main {
 
         for (int i = 1; i < n; i++) {
             for (int j = 1; j < n; j++) {
+                int a, b;
+                a = 0;
+                b = 0;
                 if (arr[i - 1][j] > arr[i][j - 1]) {
-                    dp[i][j] = Math.min(dp[i - 1][j], arr[i][j]);
+                    a = Math.min(dp[i - 1][j], arr[i][j]);
                 } else {
-                    dp[i][j] = Math.min(dp[i][j - 1], arr[i][j]);
+                    b = Math.min(dp[i][j - 1], arr[i][j]);
                 }
+                dp[i][j] = Math.max(a, b);
             }
         }
         System.out.println(dp[n - 1][n - 1]);
