@@ -23,17 +23,11 @@ public class Main {
             dp[i][0] = Math.min(dp[i - 1][0], arr[i][0]);
         }
 
-        for (int i = 1; i < n; i++) {
+   for (int i = 1; i < n; i++) {
             for (int j = 1; j < n; j++) {
-                int a, b;
-                a = 0;
-                b = 0;
-                if (arr[i - 1][j] > arr[i][j - 1]) {
-                    a = Math.min(dp[i - 1][j], arr[i][j]);
-                } else {
-                    b = Math.min(dp[i][j - 1], arr[i][j]);
-                }
-                dp[i][j] = Math.max(a, b);
+                int fromTop = Math.min(dp[i - 1][j], arr[i][j]);
+                int fromLeft = Math.min(dp[i][j - 1], arr[i][j]);
+                dp[i][j] = Math.max(fromTop, fromLeft);
             }
         }
         System.out.println(dp[n - 1][n - 1]);
