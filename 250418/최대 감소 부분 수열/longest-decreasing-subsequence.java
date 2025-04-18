@@ -15,21 +15,20 @@ public class Main {
         }
 
         dp[0] = 1;
-        for (int i = 0; i < n; i++) {
-            dp[i] = Integer.MIN_VALUE;
-        }
 
 
         for (int i = 1; i < n; i++) {
+            int tempMax = 0;
             for (int j = i - 1; j >= 0; j--) {
-                if (arr[i] < arr[j]) {
-                    dp[i] = Math.max(dp[i], dp[j] + 1);
 
+                if (arr[j] > arr[i]) {
+                    if (dp[j] > tempMax) {
+                        tempMax = dp[j];
+                    }
                 }
-
             }
+            dp[i] = tempMax + 1;
         }
-
         int res = 0;
         for (int i = 0; i < n; i++) {
             res = Math.max(res, dp[i]);
@@ -39,3 +38,4 @@ public class Main {
 
     }
 }
+
