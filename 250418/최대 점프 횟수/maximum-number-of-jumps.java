@@ -19,8 +19,6 @@ public class Main {
 
         for (int i = 0; i < n; i++) {
 
-           
-
 
             int cnt = arr[i];
             if (dp[i] == 0 && arr[i] == 0) break;
@@ -31,10 +29,10 @@ public class Main {
                 dp[j] = Math.max(dp[j], dp[i] + 1);
             }
 
-            for (int j = 0; j < n; j++) {
-                System.out.print(dp[j] + " ");
-            }
-            System.out.println();
+//            for (int j = 0; j < n; j++) {
+//                System.out.print(dp[j] + " ");
+//            }
+//            System.out.println();
 
 
         }
