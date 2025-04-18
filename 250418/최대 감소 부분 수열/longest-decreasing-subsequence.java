@@ -16,7 +16,7 @@ public class Main {
 
         dp[0] = 1;
         for (int i = 0; i < n; i++) {
-            dp[i] = Integer.MAX_VALUE;
+            dp[i] = Integer.MIN_VALUE;
         }
 
 
