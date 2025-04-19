@@ -37,7 +37,7 @@ public class Main {
                 int startI = pais[i].start;
                 int endJ = pais[j].end;
                 if (startI > endJ) {
-                    dp[i] = Math.max(dp[i], dp[i] + dp[j]);
+                    dp[i] = Math.max(dp[i], pais[i].point + dp[j]);
                 }
 
             }
