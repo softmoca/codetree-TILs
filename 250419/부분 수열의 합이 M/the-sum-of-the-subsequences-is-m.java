@@ -16,7 +16,7 @@ public class Main {
             arr[i] = sc.nextInt();
         }
         for (int i = 0; i < m + 1; i++) {
-            dp[i] = Integer.MAX_VALUE;
+            dp[i] = Integer.MAX_VALUE-100;
         }
         dp[0] = 0;
 
@@ -25,7 +25,7 @@ public class Main {
 
                 if (j - arr[i] < 0) continue;
 
-               // if (dp[j - arr[i]] == Integer.MAX_VALUE) continue;
+                // if (dp[j - arr[i]] == Integer.MAX_VALUE) continue;
                 dp[j] = Math.min(dp[j], dp[j - arr[i]] + 1);
             }
 
