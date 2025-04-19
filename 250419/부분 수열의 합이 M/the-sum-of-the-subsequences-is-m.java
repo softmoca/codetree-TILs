@@ -25,7 +25,7 @@ public class Main {
 
                 if (j - arr[i] < 0) continue;
 
-                if (dp[j - arr[i]] == Integer.MAX_VALUE) continue;
+               // if (dp[j - arr[i]] == Integer.MAX_VALUE) continue;
                 dp[j] = Math.min(dp[j], dp[j - arr[i]] + 1);
             }
 
