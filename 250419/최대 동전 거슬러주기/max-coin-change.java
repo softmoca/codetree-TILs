@@ -22,7 +22,7 @@ public class Main {
 
         for (int i = 1; i < m + 1; i++) {
             for (int j = 0; j < n; j++) {
-                if (i >= arr[j]) {
+                if (i >= arr[j] && dp[i-arr[j]]!=Integer.MIN_VALUE ) {
                     dp[i] = Math.max(dp[i], dp[i - arr[j]] + 1);
                 }
             }
