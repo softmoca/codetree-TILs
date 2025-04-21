@@ -26,20 +26,17 @@ public class Main {
         }
 
         for (int i = 0; i < sum + 1; i++) {
-            if (dp[i])
-                if(  i*2==sum   ){
+            if (dp[i]) {
+                if (i * 2 == sum) {
                     System.out.println("Yes");
                     System.exit(0);
                 }
-
-
-
             }
-        System.out.println("No");
+
+
+       
         }
-
-
-
+        System.out.println("No");
 
     }
 }
