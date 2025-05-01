@@ -59,7 +59,7 @@ public class Main {
 
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
-                if (arr[i][j] == res) return new Pair(i, j);
+                if (arr[i][j] == res &&visited[i][j]) return new Pair(i, j);
             }
         }
 
