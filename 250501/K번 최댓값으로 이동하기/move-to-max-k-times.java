@@ -14,22 +14,23 @@ public class Main {
 
     }
 
-    static boolean canGo(int x, int y) {
+    static boolean canGo(int x, int y, int target) {
 
 
         if (x < 0 || y < 0 || x >= n || y >= n) return false;
         if (visited[x][y]) return false;
-        if (arr[x][y] == 1) return false;
+        if (arr[x][y] >= target) return false;
         return true;
     }
 
-    static void bfs(int startX, int startY) {
+    static Pair bfs(int startX, int startY) {
 
         int[] dx = {-1, 0, 1, 0};
         int[] dy = {0, 1, 0, -1};
 
         qu.add(new Pair(startX, startY));
         visited[startX][startY] = true;
+        int res = -1;
 
         while (!qu.isEmpty()) {
 
@@ -42,7 +43,8 @@ public class Main {
                 int nx = x + dx[w];
                 int ny = y + dy[w];
 
-                if (canGo(nx, ny)) {
+                if (canGo(nx, ny, arr[startX][startY])) {
+                    res = Math.max(res, arr[nx][ny]);
 
                     visited[nx][ny] = true;
                     qu.addLast(new Pair(nx, ny));
@@ -55,30 +57,13 @@ public class Main {
 
         }
 
-
-    }
-
-    static Pair find(int x, int y) {
-        int target = arr[x][y];
-
-        int res = -1;
-
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                if (arr[i][j] < target) {
-                    res = Math.max(res, arr[i][j]);
-                }
-            }
-        }
-
-
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 if (arr[i][j] == res) return new Pair(i, j);
             }
         }
 
-        return new Pair(x, y);
+        return new Pair(startX, startY);
     }
 
 
@@ -113,8 +98,9 @@ public class Main {
         Pair next;
         k--;
         do {
-            //System.out.println(x + " " + y);
-            next = find(x, y);
+            //    System.out.println(x + " " + y);
+            next = bfs(x, y);
+            visited = new boolean[n][n];
             x = next.x;
             y = next.y;
 
@@ -122,7 +108,7 @@ public class Main {
         } while (k-- > 0);
 
 
-        System.out.println(next.x + " " + next.y);
+        System.out.println((next.x + 1) + " " + (next.y + 1));
 
 
     }
