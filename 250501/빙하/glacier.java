@@ -4,8 +4,8 @@ import java.util.*;
 public class Main {
 
     static boolean isEnd() {
-        for (int i = 1; i < n; i++) {
-            for (int j = 1; j < m; j++) {
+        for (int i = 1; i < n + 1; i++) {
+            for (int j = 1; j < m + 1; j++) {
                 if (arr[i][j] != 0) return true;
             }
         }
@@ -20,7 +20,7 @@ public class Main {
     static int[] dy = {0, 1, 0, -1};
 
     static boolean canGo(int x, int y) {
-        if (x > 0 && y > 0 && x < n + 1 && y < m + 1) {
+        if (x > 0 && y > 0 && x < n - 1 && y < m - 1) {
             if (arr[x + 1][y] == 1 && arr[x][y + 1] == 1 && arr[x - 1][y] == 1 && arr[x][y - 1] == 1) {
                 return false;
             }
@@ -34,40 +34,33 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         n = sc.nextInt();
         m = sc.nextInt();
-        arr = new int[n + 2][m + 2];
+        arr = new int[n][m];
 
-        for (int i = 1; i <= n; i++) {
-            for (int j = 1; j <= m; j++) {
+        for (int i = 0; i < n; i++) {
+            for (int j = 0; j < m; j++) {
                 arr[i][j] = sc.nextInt();
             }
         }
 
+
         int time = 0;
         int res = 0;
-        while (isEnd()) {
+        while (true) {
 
-            for (int i = 0; i < n + 2; i++) {
-                for (int j = 0; j < m + 2; j++) {
-                    System.out.print(arr[i][j] + " ");
-                }
-                System.out.println();
-            }
-            System.out.println();
+            int temp = 0;
+            visited = new boolean[n][m];
 
-            res = 0;
-            visited = new boolean[n + 2][m + 2];
-            //    System.out.println("dd");
-            for (int i = 0; i < n + 2; i++) {
-                for (int j = 0; j < m + 2; j++) {
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < m; j++) {
 
                     if (arr[i][j] == 0 && canGo(i, j)) {
 
                         for (int k = 0; k < 4; k++) {
                             int nx = i + dx[k];
                             int ny = j + dy[k];
-                            if (nx >= 0 && ny >= 0 && nx < n + 2 && ny < m + 2) {
+                            if (nx >= 0 && ny >= 0 && nx < n && ny < m) {
                                 if (arr[nx][ny] == 1) {
-                                   // System.out.println("sww");
+                                    // System.out.println("sww");
                                     visited[nx][ny] = true;
                                 }
                             }
@@ -81,16 +74,30 @@ public class Main {
             }
 
 
-            for (int i = 0; i < n + 2; i++) {
-                for (int j = 0; j < m + 2; j++) {
+//            for (int i = 0; i < n; i++) {
+//                for (int j = 0; j < m; j++) {
+//                    //     System.out.println(i + " " + j);
+//                    System.out.print(visited[i][j] + " ");
+//                }
+//                System.out.println();
+//            }
+//            System.out.println();
+
+
+            boolean falg = false;
+            for (int i = 0; i < n; i++) {
+                for (int j = 0; j < m; j++) {
                     if (visited[i][j]) {
                         arr[i][j] = 0;
-                        res++;
+                        falg = true;
+                        temp++;
                     }
                 }
             }
+            if (!falg) break;
 
 
+            res = temp;
             time++;
         }
 
