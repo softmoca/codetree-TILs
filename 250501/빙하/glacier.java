@@ -20,11 +20,13 @@ public class Main {
     static int[] dy = {0, 1, 0, -1};
 
     static boolean canGo(int x, int y) {
-        if (x > 0 && y > 0 && x < n - 1 && y < m - 1) {
+        if (x > 0 && y > 0 && x < n + 1 && y < m + 1) {
             if (arr[x + 1][y] == 1 && arr[x][y + 1] == 1 && arr[x - 1][y] == 1 && arr[x][y - 1] == 1) {
                 return false;
             }
         }
+
+//        System.out.println("D");
         return true;
     }
 
@@ -42,8 +44,17 @@ public class Main {
 
         int time = 0;
         int res = 0;
-        while (true) {
-            int temp = 0;
+        while (isEnd()) {
+
+            for (int i = 0; i < n + 2; i++) {
+                for (int j = 0; j < m + 2; j++) {
+                    System.out.print(arr[i][j] + " ");
+                }
+                System.out.println();
+            }
+            System.out.println();
+
+            res = 0;
             visited = new boolean[n + 2][m + 2];
             //    System.out.println("dd");
             for (int i = 0; i < n + 2; i++) {
@@ -54,8 +65,9 @@ public class Main {
                         for (int k = 0; k < 4; k++) {
                             int nx = i + dx[k];
                             int ny = j + dy[k];
-                            if (nx >= 0 && ny >= 0 && nx < n + 2 && ny < n + 2) {
+                            if (nx >= 0 && ny >= 0 && nx < n + 2 && ny < m + 2) {
                                 if (arr[nx][ny] == 1) {
+                                   // System.out.println("sww");
                                     visited[nx][ny] = true;
                                 }
                             }
@@ -68,21 +80,18 @@ public class Main {
                 }
             }
 
-            boolean flag = false;
+
             for (int i = 0; i < n + 2; i++) {
                 for (int j = 0; j < m + 2; j++) {
                     if (visited[i][j]) {
                         arr[i][j] = 0;
-                        flag = true;
-                        temp++;
+                        res++;
                     }
                 }
             }
-      
-            if (flag == false) break;
-            res=temp;
+
+
             time++;
-        
         }
 
         System.out.println(time + " " + res);
@@ -90,3 +99,4 @@ public class Main {
 
     }
 }
+
