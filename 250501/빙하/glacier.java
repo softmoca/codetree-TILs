@@ -78,9 +78,10 @@ public class Main {
                     }
                 }
             }
+                  time++;
             if(flag==false) break;
 
-            time++;
+      
         }
 
         System.out.println(time + " " + res);
