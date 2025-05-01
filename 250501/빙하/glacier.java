@@ -43,7 +43,7 @@ public class Main {
         int time = 0;
         int res = 0;
         while (true) {
-            res = 0;
+            int temp = 0;
             visited = new boolean[n + 2][m + 2];
             //    System.out.println("dd");
             for (int i = 0; i < n + 2; i++) {
@@ -68,20 +68,21 @@ public class Main {
                 }
             }
 
-            boolean flag=false;
+            boolean flag = false;
             for (int i = 0; i < n + 2; i++) {
                 for (int j = 0; j < m + 2; j++) {
                     if (visited[i][j]) {
                         arr[i][j] = 0;
-                        flag=true;
-                        res++;
+                        flag = true;
+                        temp++;
                     }
                 }
             }
-                  time++;
-            if(flag==false) break;
-
       
+            if (flag == false) break;
+            res=temp;
+            time++;
+        
         }
 
         System.out.println(time + " " + res);
