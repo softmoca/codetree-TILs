@@ -78,12 +78,11 @@ public class Main {
 
         bfs();
 
-        if (dist[r2][c2] == 0) {
-            System.out.println(-1);
-        }else if(r1==r2&&c1==c2){
+        if (r1 == r2 && c1 == c2) {
             System.out.println(0);
-        }
-        else {
+        } else if (dist[r2][c2] == 0) {
+            System.out.println(-1);
+        } else {
             System.out.println(dist[r2][c2]);
         }
 
