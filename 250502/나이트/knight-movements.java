@@ -77,14 +77,15 @@ public class Main {
 
 
         bfs();
-
-        if (r1 == r2 && c1 == c2) {
-            System.out.println(0);
-        } else if (dist[r2][c2] == 0) {
-            System.out.println(-1);
-        } else {
+        
+        if(visited[r2][c2]){
             System.out.println(dist[r2][c2]);
+            
+        }else{
+            System.out.println(-1);
         }
+
+                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            
 
 
     }
