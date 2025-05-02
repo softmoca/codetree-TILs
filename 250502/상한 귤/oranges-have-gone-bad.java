@@ -79,11 +79,18 @@ public class Main {
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 if (arr[i][j] == 2) {
-                    System.out.print(0 + " ");
+                    System.out.print("0 ");
                 } else if (arr[i][j] == 0) {
-                    System.out.print(-1 + " ");
+                    System.out.print("-1 ");
                 } else {
-                    System.out.print(dist[i][j] + " ");
+                    if(visited[i][j]) {
+                        System.out.print(dist[i][j] + " ");
+                        
+                    }else{
+                        System.out.print("-2 ");
+                        
+                    }
+                    
                 }
 
 
