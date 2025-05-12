@@ -11,28 +11,30 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         n = sc.nextInt();
         k = sc.nextInt();
-
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < n; i++)
             arr[i] = sc.nextInt();
-        }
 
         HashMap<Integer, Integer> pairSumCount = new HashMap<>();
-        int ans = 0;
 
-        // 1단계: 앞에서부터 i, j 조합의 합을 기록 (i < j)
+        // 1단계: 가능한 모든 (i, j) 쌍의 합을 미리 카운팅 (i < j)
         for (int i = 0; i < n; i++) {
-            // 2단계: 현재 arr[i]를 세 번째 수로 놓고 (j < i < l), (k - arr[i])인 쌍의 개수를 정답에 더함
-            int needed = k - arr[i];
-            if (pairSumCount.containsKey(needed))
-                ans += pairSumCount.get(needed);
-
-            // 1단계: 현재까지의 arr[j]들로 새로운 쌍을 만들어 map에 기록
-            for (int j = 0; j < i; j++) {
+            for (int j = i + 1; j < n; j++) {
                 int sum = arr[i] + arr[j];
                 pairSumCount.put(sum, pairSumCount.getOrDefault(sum, 0) + 1);
             }
         }
 
-        System.out.print(ans);
+        int ans = 0;
+
+        // 2단계: 각 수 arr[l]에 대해, k - arr[l] 값을 만족하는 (i, j) 쌍이 존재하는지 확인
+        for (int l = 0; l < n; l++) {
+            int target = k - arr[l];
+            if (pairSumCount.containsKey(target)) {
+                ans += pairSumCount.get(target);
+            }
+        }
+
+        // 같은 인덱스를 중복으로 세었을 수 있으므로, 결과를 3으로 나눠서 정답 출력
+        System.out.print(ans / 3);
     }
 }
