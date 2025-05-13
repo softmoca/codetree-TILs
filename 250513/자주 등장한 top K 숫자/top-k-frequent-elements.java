@@ -38,8 +38,8 @@ public class Main {
         }
 
         Arrays.sort(pairs,
-                Comparator.comparing((Pair p) -> -p.cnt).
-                        thenComparing((Pair p) -> -p.num)
+                Comparator.comparing((Pair p) -> p.cnt, Comparator.reverseOrder()).
+                        thenComparing((Pair p) -> p.num,Comparator.reverseOrder())
         );
 
         for (int i = 0; i < k; i++) {
