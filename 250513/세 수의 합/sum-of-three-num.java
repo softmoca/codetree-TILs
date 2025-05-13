@@ -3,7 +3,7 @@ import java.util.HashMap;
 
 public class Main {
     public static final int MAX_N = 1000;
-    
+
     // 변수 선언
     public static int n, k;
     public static int[] arr = new int[MAX_N];
@@ -11,20 +11,15 @@ public class Main {
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        // 입력:
         n = sc.nextInt();
         k = sc.nextInt();
 
         int ans = 0;
 
-        // 각 숫자가 몇 번씩 나왔는지를
-        // hashmap에 기록해줍니다.
+        // 각 숫자가 몇 번씩 나왔는지를 hashmap에 기록.
         for(int i = 0; i < n; i++) {
             arr[i] = sc.nextInt();
-            if(!freq.containsKey(arr[i]))
-                freq.put(arr[i], 1);
-            else
-                freq.put(arr[i], freq.get(arr[i]) + 1);
+            freq.put(arr[i],freq.getOrDefault(arr[i],0) + 1);
         }
 
         // 배열을 앞에서부터 순회하며 쌍을 만들어줍니다.
