@@ -21,7 +21,7 @@ public class Main {
 
         }
 
-        int res = 0;
+        long res = 0;
         for (int x : map.keySet()) {
             res += map.get(x);
         }
