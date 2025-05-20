@@ -1,59 +1,70 @@
-import java.util.Arrays;
 import java.util.Scanner;
+import java.util.TreeSet;
+import java.util.HashMap;
+
+class Pair {
+    int a, b;
+
+    public Pair(int a, int b) {
+        this.a = a;
+        this.b = b;
+    }
+}
 
 public class Main {
+    public static final int MAX_NUM = 100000;
+
+    // 변수 선언
+    public static int n, q;
+    public static int[] arr = new int[MAX_NUM];
+    public static Pair[] queries = new Pair[MAX_NUM];
+
+    public static TreeSet<Integer> nums = new TreeSet<>();
+    public static HashMap<Integer, Integer> mapper = new HashMap<>();
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int N = sc.nextInt();
-        int Q = sc.nextInt();
-        int[] points = new int[N];
-        for (int i = 0; i < N; i++) {
-            points[i] = sc.nextInt();
+        // 입력:
+        n = sc.nextInt();
+        q = sc.nextInt();
+
+        for (int i = 0; i < n; i++)
+            arr[i] = sc.nextInt();
+
+        for (int i = 0; i < q; i++) {
+            int a = sc.nextInt();
+            int b = sc.nextInt();
+            queries[i] = new Pair(a, b);
         }
-        int[][] queries = new int[Q][2];
-        for (int i = 0; i < Q; i++) {
-            queries[i][0] = sc.nextInt();
-            queries[i][1] = sc.nextInt();
+
+        // 주어진 x좌표값들을 전부 treeset에 넣어줍니다.
+        for (int i = 0; i < n; i++)
+            nums.add(arr[i]);
+
+        // 예외를 처리하기 위해 최댓값보다 큰 값을 treeset에 넣어줍니다.
+    //    nums.add((int) (1e9 + 1));
+
+        // treeset에서 정점을 작은 번호부터 뽑으면서
+        // 각 정점별로 1번부터 순서대로 매칭하여
+        // 그 결과를 hashmap에 넣어줍니다.
+        int cnt = 1;
+        for (Integer num : nums) {
+            mapper.put(num, cnt);
+            cnt++;
         }
 
-        // 1. 점 위치 정렬
-        Arrays.sort(points);
+        // 질의에 대해
+        // 각 [a, b]에 해당하는 번호를
+        // mapper를 통해 구해
+        // 두 번호 사이의 점의 수를 출력합니다.
+        for (int i = 0; i < q; i++) {
+            int a = queries[i].a;
+            int b = queries[i].b;
 
-        // 2. 각 질의에 대해 구간 내 점 개수 계산
-        for (int i = 0; i < Q; i++) {
-            int a = queries[i][0];
-            int b = queries[i][1];
+            int newA = mapper.get(nums.ceiling(a));
+            int newB = mapper.get(nums.higher(b));
 
-            int left = lowerBound(points, a);
-            int right = upperBound(points, b);
-
-            System.out.println(right - left);
+            System.out.println(newB - newA);
         }
-    }
-
-    // points에서 x 이상인 첫 번째 인덱스
-    private static int lowerBound(int[] arr, int x) {
-        int left = 0, right = arr.length;
-        while (left < right) {
-            int mid = (left + right) / 2;
-            if (arr[mid] < x)
-                left = mid + 1;
-            else
-                right = mid;
-        }
-        return left;
-    }
-
-    // points에서 x 이하인 마지막 인덱스 + 1
-    private static int upperBound(int[] arr, int x) {
-        int left = 0, right = arr.length;
-        while (left < right) {
-            int mid = (left + right) / 2;
-            if (arr[mid] <= x)
-                left = mid + 1;
-            else
-                right = mid;
-        }
-        return left;
     }
 }
