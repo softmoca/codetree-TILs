@@ -26,7 +26,7 @@ public class Main {
             r[i] = r[i + 1] + Math.abs(x[i] - x[i + 1]) + Math.abs(y[i] - y[i + 1]);
         }
 
-        System.out.println();
+        //System.out.println();
 
         int res = Integer.MAX_VALUE;
 
