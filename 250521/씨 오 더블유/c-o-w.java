@@ -33,7 +33,7 @@ public class Main {
         }
 
 
-        int res = 0;
+        long res = 0;
 
         for (int i = 2; i < n; i++) {
             if (c[i] == 'O') {
