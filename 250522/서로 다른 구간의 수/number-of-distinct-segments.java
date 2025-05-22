@@ -45,11 +45,11 @@ public class Main {
 
             if (v == 1) {
                 if (visited.size() == 0) {
-                    visited.add(idx);
+                
                     res++;
 
                 }
-
+                visited.add(idx);
             } else {
                 visited.remove(idx);
             }
