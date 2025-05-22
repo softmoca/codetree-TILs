@@ -17,7 +17,7 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
         List<Pair> pairs = new ArrayList<>();
-        for (int i = 0; i < n; i++) {
+        for (int i = 1; i <= n; i++) {
             int x = sc.nextInt();
             int y = sc.nextInt();
             pairs.add(new Pair(x, 1, i));
@@ -28,9 +28,12 @@ public class Main {
         pairs.sort(Comparator.comparing((Pair p) -> p.x));
 
 
-        boolean[] visited = new boolean[n + 1];
         int[] arr = new int[n + 1];
 
+        Queue<Integer> q = new PriorityQueue<>();
+        for (int i = 1; i <= n; i++) {
+            q.add(i);
+        }
 
         for (Pair p : pairs) {
             int x = p.x;
@@ -38,33 +41,18 @@ public class Main {
             int index = p.index;
 
             if (v == 1) {
-
-                for (int i = 1; i <= n; i++) {
-                    if (!visited[i]) {
-                        visited[i] = true;
-                        arr[index] = i;
-                        p.num = i;
-                        break;
-                    }
-                }
+                arr[index] = q.poll();
 
 
             } else {
-                visited[arr[index]] = false;
-
+                q.add(arr[index]);
 
             }
 
 
         }
-
-
-        pairs.sort(Comparator.comparing((Pair p) -> p.index));
-        for (Pair p : pairs) {
-            if (p.v == 1) {
-                System.out.print(p.num + " ");
-
-            }
+        for (int i = 1; i <= n; i++) {
+            System.out.print(arr[i] + " ");
         }
 
 
