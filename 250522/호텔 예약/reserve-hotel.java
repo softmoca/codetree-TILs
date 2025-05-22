@@ -23,7 +23,7 @@ public class Main {
             pairs.add(new Pair(x, 1, i));
             pairs.add(new Pair(y, -1, i));
         }
-        pairs.sort(Comparator.comparing((Pair p) -> p.x));
+        pairs.sort(Comparator.comparing((Pair p) -> p.x).thenComparing((Pair p) -> p.v));
 
         Set<Integer> set = new HashSet<>();
         int ans = 0;
