@@ -25,6 +25,14 @@ public class Main {
         }
         pairs.sort(Comparator.comparing((Pair p) -> p.x).thenComparing((Pair p) -> -p.v));
 
+
+        int[] arr = new int[n];
+        Queue<Integer> q = new PriorityQueue<>();
+        for (int i = 0; i < n; i++) {
+            q.add(i);
+        }
+
+
         Set<Integer> set = new HashSet<>();
         int ans = 0;
         for (Pair p : pairs) {
@@ -33,17 +41,19 @@ public class Main {
             int index = p.index;
 
             if (v == 1) {
-                if (set.size() == 0) {
-                    ans++;
-                }
-                set.add(index);
+                arr[index] = q.poll();
+
             } else {
-                set.remove(index);
+                q.add(arr[index]);
             }
 
-
         }
-        System.out.println(ans);
+
+        int res = 0;
+        for (int i = 0; i < n; i++) {
+            res = Math.max(res, arr[i]);
+        }
+        System.out.println(res+1);
 
 
     }
