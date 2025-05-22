@@ -39,22 +39,17 @@ public class Main {
 
 
         for (Pair p : pairs) {
-            int x = p.x;
             int v = p.v;
             int idx = p.index;
 
             if (v == 1) {
                 if (visited.size() == 0) {
-                
-                    res++;
-
+                    res++;      visited.add(idx);
                 }
-                visited.add(idx);
+          
             } else {
                 visited.remove(idx);
             }
-
-
         }
         System.out.println(res);
 
