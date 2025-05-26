@@ -1,41 +1,76 @@
-import java.io.*;
-import java.util.*;
+import java.util.Scanner;
+import java.util.Arrays;
+
+class Candy implements Comparable<Candy> {
+    int x, cnt;
+
+    public Candy(int x, int cnt) {
+        this.x = x;
+        this.cnt = cnt;
+    }
+
+    @Override
+    public int compareTo(Candy c) {
+        return this.x - c.x;        // x 기준 오름차순 정렬
+    }
+}
 
 public class Main {
+    public static final int MAX_N = 100000;
+    
+    // 변수 선언
+    public static Candy[] candies = new Candy[MAX_N + 1];
+    public static int n, k;
+    
+    // 해당 내용물의 위치를 반환합니다.
+    public static int getPosOfCandy(int candyIdx) {
+        return candies[candyIdx].x;
+    }
+    
+    // 해당 내용물에 들어 있는 사탕 수를 반환합니다.
+    public static int getNumOfCandy(int candyIdx) {
+        return candies[candyIdx].cnt;
+    }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int k = sc.nextInt();
-
-        final int MAX_POS = 1000000;
-        int[] arr = new int[MAX_POS + 2 * k + 5];  // 충분한 크기 확보
-
-        while (n-- > 0) {
-            int x = sc.nextInt(); // 사탕 개수
-            int y = sc.nextInt(); // 위치
-            arr[y] += x;
+        // 입력:
+        n = sc.nextInt();
+        k = sc.nextInt();
+        for(int i = 1; i <= n; i++) {
+            int cnt = sc.nextInt();
+            int x = sc.nextInt();
+            candies[i] = new Candy(x, cnt);
         }
 
-        int windowSize = 2 * k + 1;
-        long sum = 0;
+        // x순으로 오름차순 정렬해줍니다.
+        Arrays.sort(candies, 1, n + 1);
 
-        // ✅ 초기 구간: 0 ~ 2k
-        for (int i = 0; i <= 2 * k; i++) {
-            sum += arr[i];
+        // 가능한 구간 중 최대 사탕의 수를 구합니다.
+        int ans = 0;
+        
+        // 구간을 잡아봅니다.
+        // 구간 내에 있는 사탕의 수를 계속 계산하여 관리해줍니다.
+        int totalNums = 0;
+        int j = 0;
+        for(int i = 1; i <= n; i++) {
+            // 구간의 크기가 2K보다 같거나 작은 경우에 한하여 최대로 진행합니다.
+            while(j + 1 <= n && getPosOfCandy(j + 1) - getPosOfCandy(i) <= 2 * k) {
+                totalNums += getNumOfCandy(j + 1);
+                j++;
+            }
+            
+            // 현재 구간 [i, j]는 
+            // i를 시작점으로 하는
+            // 가장 긴 구간이므로
+            // 구간 내 최대 사탕의 수를 갱신해줍니다.
+            ans = Math.max(ans, totalNums);
+
+            // 다음 구간으로 넘어가기 전에
+            // i번째에 해당하는 사탕을 구간에서 제외시킵니다.
+            totalNums -= getNumOfCandy(i);
         }
 
-        int p1 = 0;
-        int p2 = 2 * k;
-        long res = sum;
-
-        while (p2 + 1 < arr.length) {
-            p1++;
-            p2++;
-            sum = sum + arr[p2] - arr[p1 - 1];
-            res = Math.max(res, sum);
-        }
-
-        System.out.println(res);
+        System.out.print(ans);
     }
 }
