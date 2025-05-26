@@ -24,11 +24,12 @@ public class Main {
                 j++;
                 sum += arr[j];
             }
+            if (j + 1 == n && sum < s) break;
 
             if (sum >= s) {
                 res = Math.min(res, j - i + 1);
             }
-          //  System.out.println(j + " " + i + " " + sum);
+            System.out.println(j + " " + i + " " + sum);
 
 
             sum -= arr[i];
