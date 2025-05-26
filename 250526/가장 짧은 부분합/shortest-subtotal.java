@@ -1,38 +1,44 @@
-import java.io.*;
-import java.util.*;
+import java.util.Scanner;
 
 public class Main {
-    public static void main(String[] args) throws IOException {
-        Scanner sc = new Scanner(System.in);
-        int n = sc.nextInt();
-        int s = sc.nextInt();
-        int[] arr = new int[n + 1];
-        for (int i = 1; i <= n; i++) {
-            arr[i] = sc.nextInt();
-        }
+    public static final int INT_MAX = Integer.MAX_VALUE;
+    public static final int MAX_N = 100000;
 
-        int p1 = 1, p2 = 0;
+    // 변수 선언
+    public static int[] arr = new int[MAX_N + 1];
+    public static int n, s;
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        // 입력:
+        n = sc.nextInt();
+        s = sc.nextInt();
+        for (int i = 1; i <= n; i++)
+            arr[i] = sc.nextInt();
+
+        int ans = INT_MAX;
         int sum = 0;
-        int res = Integer.MAX_VALUE;
+        int p1 = 1, p2 = 0;
 
         while (p1 <= n) {
-            // 오른쪽 포인터를 옮기며 합이 s 이하인 최대 구간을 찾음
-            while (p2 + 1 <= n && sum + arr[p2 + 1] <= s) {
+            // sum이 s보다 작고 오른쪽 포인터를 더 늘릴 수 있을 때까지 이동
+            while (p2 + 1 <= n && sum < s) {
                 p2++;
                 sum += arr[p2];
             }
 
-            if (p2 + 1 == n && sum < s) break;
+            // 현재 합이 조건을 만족하면 길이 최소값 갱신
+            if (sum >= s)
+                ans = Math.min(ans, p2 - p1 + 1);
 
-            if (sum >= s) {
-                res = Math.min(res, p2 - p1 + 1);
-            }
-
-            // 왼쪽 포인터 이동 (구간 축소)
+            // 다음 구간 탐색 위해 왼쪽 값 제거
             sum -= arr[p1];
             p1++;
         }
 
-        System.out.println(res);
+        if (ans == INT_MAX)
+            ans = -1;
+
+        System.out.print(ans);
     }
 }
