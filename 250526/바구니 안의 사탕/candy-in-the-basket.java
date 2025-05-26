@@ -8,15 +8,15 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
         int k = sc.nextInt();
-        int[] arr = new int[4000001];
+        int[] arr = new int[4000002];
 
         int sum = 0;
 
-       
+
         while (n-- > 0) {
             int x = sc.nextInt();
             int y = sc.nextInt();
-            arr[y] = arr[y]+x;
+            arr[y] = arr[y] + x;
         }
 
         for (int i = 1; i <= 2 * k + 1; i++) {
