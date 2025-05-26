@@ -28,7 +28,7 @@ public class Main {
             if (sum >= s) {
                 res = Math.min(res, j - i + 1);
             }
-            System.out.println(j + " " + i + " " + sum);
+          //  System.out.println(j + " " + i + " " + sum);
 
 
             sum -= arr[i];
