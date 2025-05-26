@@ -21,25 +21,20 @@ public class Main {
 
         int p1 = 1, p2 = 1;
 
-        while (true) {
-            //System.out.println(p1 + " " + p2);
+        while (p1 <= n && p2 <= m) {
             if (arr[p1] == arr2[p2]) {
                 p1++;
                 p2++;
             } else {
                 p1++;
             }
+        }
 
-            if (p2 == m + 1) {
-                System.out.println("Yes");
-                break;
-            } else if (p1 == n + 1) {
-                System.out.println("No");
-
-                break;
-            }
-
-
+// 종료 조건 확인
+        if (p2 == m + 1) {
+            System.out.println("Yes");
+        } else {
+            System.out.println("No");
         }
 
 
