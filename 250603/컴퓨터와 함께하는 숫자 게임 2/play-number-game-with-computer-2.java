@@ -3,15 +3,15 @@ import java.util.*;
 
 public class Main {
 
-    static int m;
+    static long m;
 
-    static int find(int target) {
-        int left = 1;
-        int right = m;
+    static int find(long target) {
+        long left = 1;
+        long right = m;
         int cnt = 0;
         while (left <= right) {
             cnt++;
-            int mid = left + (right - left) / 2;
+            long mid = left + (right - left) / 2;
             if (mid == target) {
                 return cnt;
             } else if (mid > target) {
@@ -28,11 +28,11 @@ public class Main {
         Scanner sc = new Scanner(System.in);
 
         m = sc.nextInt();
-        int a = sc.nextInt();
-        int b = sc.nextInt();
-        int mmax = Integer.MIN_VALUE;
-        int minx = Integer.MAX_VALUE;
-        for (int i = a; i <= b; i++) {
+        long a = sc.nextInt();
+        long b = sc.nextInt();
+        long mmax = Long.MIN_VALUE;
+        int minx = Long.MAX_VALUE;
+        for (long i = a; i <= b; i++) {
 
             int cnt = find(i);
             mmax = Math.max(mmax, cnt);
