@@ -27,9 +27,9 @@ public class Main {
     public static void main(String[] args) throws IOException {
         Scanner sc = new Scanner(System.in);
 
-        m = sc.nextInt();
-        long a = sc.nextInt();
-        long b = sc.nextInt();
+        m = sc.nextLong();
+        long a = sc.nextLong();
+        long b = sc.nextLong();
         long mmax = Long.MIN_VALUE;
         long minx = Long.MAX_VALUE;
         for (long i = a; i <= b; i++) {
