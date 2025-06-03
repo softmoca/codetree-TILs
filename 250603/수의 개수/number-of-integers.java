@@ -62,7 +62,7 @@ public class Main {
             // System.out.println(a);
             //System.out.println(b);
             if (a == Integer.MAX_VALUE && b != Integer.MAX_VALUE) {
-                System.out.println(b);
+                System.out.println(arr.length  - b);
             } else {
                 System.out.println(a - b);
 
