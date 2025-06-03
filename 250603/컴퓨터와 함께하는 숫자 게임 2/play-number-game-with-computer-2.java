@@ -31,7 +31,7 @@ public class Main {
         long a = sc.nextInt();
         long b = sc.nextInt();
         long mmax = Long.MIN_VALUE;
-        int minx = Long.MAX_VALUE;
+        long minx = Long.MAX_VALUE;
         for (long i = a; i <= b; i++) {
 
             int cnt = find(i);
