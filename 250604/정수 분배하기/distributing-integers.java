@@ -38,7 +38,7 @@ public class Main {
         }
 
 
-        int left = 0;
+        int left = 1;
         int right = maxx;
 
         int resMax = Integer.MIN_VALUE;
@@ -53,7 +53,12 @@ public class Main {
             }
 
         }
-        System.out.println(resMax);
+        if(resMax == Integer.MIN_VALUE){
+            System.out.println(0);
+        }else{
+            System.out.println(resMax);
+            
+        }
 
 
     }
