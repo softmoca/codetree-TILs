@@ -16,7 +16,7 @@ public class Main {
 
             long mid = left + (right - left) / 2;
 
-            if (mid * (mid + 1) / 2 <= s) {
+            if ((double) mid * (mid + 1) / 2 <= s) {
                 left = mid + 1;
                 res = Math.max(res, mid);
 
