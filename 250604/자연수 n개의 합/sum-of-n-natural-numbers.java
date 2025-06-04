@@ -7,7 +7,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         Scanner sc = new Scanner(System.in);
 
-        long s = sc.nextInt();
+        long s = sc.nextLong();
 
         long left = 1;
         long right = (long) Math.pow(2, 18);
