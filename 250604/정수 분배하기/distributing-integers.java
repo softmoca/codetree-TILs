@@ -15,7 +15,7 @@ public class Main {
 
         for (int i = 0; i < n; i++) {
 
-            if (arr[i] / target == 0) return false;
+         //   if (arr[i] / target == 0) return false;
 
             cnt += arr[i] / target;
 
