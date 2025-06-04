@@ -38,7 +38,7 @@ public class Main {
         }
 
 
-        int left = 1;
+        int left = 0;
         int right = maxx;
 
         int resMax = Integer.MIN_VALUE;
