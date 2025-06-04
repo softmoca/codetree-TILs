@@ -10,7 +10,7 @@ public class Main {
         long s = sc.nextLong();
 
         long left = 1;
-        long right = (long) Math.pow(2, 18);
+        long right = (long) Math.pow(10, 18);
         long res = Long.MIN_VALUE;
         while (left <= right) {
 
