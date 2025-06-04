@@ -53,11 +53,11 @@ public class Main {
             }
 
         }
-        if(resMax == Integer.MIN_VALUE){
+        if (resMax == Integer.MIN_VALUE) {
             System.out.println(0);
-        }else{
+        } else {
             System.out.println(resMax);
-            
+
         }
 
 
