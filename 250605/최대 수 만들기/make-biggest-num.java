@@ -15,15 +15,10 @@ public class Main {
                 .comparing((Integer a) -> String.valueOf(a),
                         (x, y) -> (y + x).compareTo(x + y)));
 
-        StringBuilder result = new StringBuilder();
-        for (Integer num : nums) {
-            result.append(num);
+        for (int i = 0; i < n; i++) {
+            System.out.print(nums[i]);
         }
 
-        if (result.charAt(0) == '0') {
-            System.out.println(0);
-        } else {
-            System.out.println(result.toString());
-        }
+
     }
 }
