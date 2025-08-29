@@ -1,69 +1,50 @@
-import java.io.*;
 import java.util.*;
-
-/*
-
- */
-
+import java.io.*;
 
 public class Main {
-
-
+    static int n;
+    static int[][] grid;
+    static boolean[][] visited;
+    static int[] dx = {-1, 1, 0, 0}; // 상, 하, 좌, 우
+    static int[] dy = {0, 0, -1, 1};
+    static int maxSum = 0;
+    
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-        int n = Integer.parseInt(br.readLine());
-        int[][] arr = new int[n][n];
-        int[][] dpMin = new int[n][n];
-        int[][] dpMax = new int[n][n];
-
-
+        
+        n = Integer.parseInt(br.readLine());
+        grid = new int[n][n];
+        visited = new boolean[n][n];
+        
+        // 격자 입력 받기
         for (int i = 0; i < n; i++) {
             StringTokenizer st = new StringTokenizer(br.readLine());
             for (int j = 0; j < n; j++) {
-                arr[i][j] = Integer.parseInt(st.nextToken());
+                grid[i][j] = Integer.parseInt(st.nextToken());
             }
         }
-
-        dpMin[0][0] = arr[0][0];
-        dpMax[0][0] = arr[0][0];
-        for (int i = 1; i < n; i++) {
-            dpMin[i][0] = Math.min(dpMin[i - 1][0], arr[i][0]);
-            dpMin[0][i] = Math.min(dpMin[0][i - 1], arr[0][i]);
-
-            dpMax[i][0] = Math.max(dpMax[i - 1][0], arr[i][0]);
-            dpMax[0][i] = Math.max(dpMax[0][i - 1], arr[0][i]);
-        }
-
-
-        for (int i = 1; i < n; i++) {
-            for (int j = 1; j < n; j++) {
-                int tmepUpMin = Math.min(dpMin[i - 1][j], arr[i][j]);
-                int tmepUpMax = Math.max(dpMax[i - 1][j], arr[i][j]);
-
-
-                int tempLeftMin = Math.min(dpMin[i][j - 1], arr[i][j]);
-                int tempLeftMax = Math.max(dpMax[i][j - 1], arr[i][j]);
-
-
-                int tempUp = tmepUpMax - tmepUpMin;
-                int tempLeft = tempLeftMax - tempLeftMin;
-
-                if (tempLeft < tempUp) {
-                    dpMin[i][j] = tempLeftMin;
-                    dpMax[i][j] = tempLeftMax;
-
-                } else {
-                    dpMin[i][j] = tmepUpMin;
-                    dpMax[i][j] = tmepUpMax;
-
-                }
-
-
+        
+        // (0,0)에서 시작 (1,1)을 0-based로 변환
+        visited[0][0] = true;
+        dfs(0, 0, grid[0][0]);
+        
+        System.out.println(maxSum);
+    }
+    
+    static void dfs(int x, int y, int currentSum) {
+        maxSum = Math.max(maxSum, currentSum);
+        
+        // 현재 위치에서 인접한 4방향 확인
+        for (int i = 0; i < 4; i++) {
+            int nx = x + dx[i];
+            int ny = y + dy[i];
+            
+            // 범위 체크 및 방문 여부 확인
+            if (nx >= 0 && nx < n && ny >= 0 && ny < n && !visited[nx][ny]) {
+                visited[nx][ny] = true;
+                dfs(nx, ny, currentSum + grid[nx][ny]);
+                visited[nx][ny] = false; // 백트래킹
             }
         }
-        System.out.println(dpMax[n - 1][n - 1] - dpMin[n - 1][n - 1]);
-
-
     }
 }
