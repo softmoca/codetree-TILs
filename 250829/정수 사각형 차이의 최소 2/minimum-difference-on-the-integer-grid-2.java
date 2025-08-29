@@ -1,69 +1,68 @@
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
 public class Main {
     static int N;
-    static int[][] grid;
-    static int answer = Integer.MAX_VALUE;
-    
-    public static void main(String[] args) throws IOException {
+    static int[][] a;
+    static int minV = 100, maxV = 1;
+    static final int[] dx = {1, 0};
+    static final int[] dy = {0, 1};
+
+    public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        N = Integer.parseInt(br.readLine());
-        grid = new int[N][N];
-        
-        // 격자 입력 받기
+        N = Integer.parseInt(br.readLine().trim());
+        a = new int[N][N];
         for (int i = 0; i < N; i++) {
             StringTokenizer st = new StringTokenizer(br.readLine());
             for (int j = 0; j < N; j++) {
-                grid[i][j] = Integer.parseInt(st.nextToken());
+                a[i][j] = Integer.parseInt(st.nextToken());
+                minV = Math.min(minV, a[i][j]);
+                maxV = Math.max(maxV, a[i][j]);
             }
         }
-        
-        // 모든 가능한 시작점에서 탐색
-        for (int i = 0; i < N; i++) {
-            for (int j = 0; j < N; j++) {
-                boolean[][] visited = new boolean[N][N];
-                dfs(i, j, grid[i][j], grid[i][j], visited);
-            }
+
+        int lo = 0, hi = maxV - minV, ans = hi;
+        while (lo <= hi) {
+            int mid = (lo + hi) / 2;
+            if (existsPathWithDiff(mid)) {
+                ans = mid;
+                hi = mid - 1;
+            } else lo = mid + 1;
         }
-        
-        System.out.println(answer);
+        System.out.println(ans);
     }
-    
-    // DFS로 모든 경로 탐색
-    static void dfs(int x, int y, int maxVal, int minVal, boolean[][] visited) {
-        // 현재 차이가 이미 answer보다 크거나 같으면 가지치기
-        if (maxVal - minVal >= answer) {
-            return;
+
+    // 차이 D가 허용될 때 어떤 [L, L+D] 구간으로도 (1,1)->(N,N) 경로가 존재하는지
+    static boolean existsPathWithDiff(int D) {
+        for (int L = minV; L + D <= maxV; L++) {
+            int R = L + D;
+            if (a[0][0] < L || a[0][0] > R) continue;
+            if (a[N-1][N-1] < L || a[N-1][N-1] > R) continue;
+            if (bfs(L, R)) return true;
         }
-        
-        visited[x][y] = true;
-        
-        // 4방향 탐색 (상, 하, 좌, 우)
-        int[] dx = {-1, 1, 0, 0};
-        int[] dy = {0, 0, -1, 1};
-        
-        boolean canMove = false;
-        
-        for (int dir = 0; dir < 4; dir++) {
-            int nx = x + dx[dir];
-            int ny = y + dy[dir];
-            
-            // 격자 범위 체크
-            if (nx >= 0 && nx < N && ny >= 0 && ny < N && !visited[nx][ny]) {
-                canMove = true;
-                int newMax = Math.max(maxVal, grid[nx][ny]);
-                int newMin = Math.min(minVal, grid[nx][ny]);
-                
-                dfs(nx, ny, newMax, newMin, visited);
+        return false;
+    }
+
+    static boolean bfs(int L, int R) {
+        boolean[][] vis = new boolean[N][N];
+        ArrayDeque<int[]> q = new ArrayDeque<>();
+        q.add(new int[]{0, 0});
+        vis[0][0] = true;
+
+        while (!q.isEmpty()) {
+            int[] cur = q.poll();
+            int x = cur[0], y = cur[1];
+            if (x == N - 1 && y == N - 1) return true;
+            for (int dir = 0; dir < 2; dir++) {
+                int nx = x + dx[dir], ny = y + dy[dir];
+                if (nx < 0 || ny < 0 || nx >= N || ny >= N) continue;
+                if (vis[nx][ny]) continue;
+                int v = a[nx][ny];
+                if (v < L || v > R) continue;
+                vis[nx][ny] = true;
+                q.add(new int[]{nx, ny});
             }
         }
-        
-        // 더 이상 이동할 수 없는 경우 (경로의 끝)
-        if (!canMove) {
-            answer = Math.min(answer, maxVal - minVal);
-        }
-        
-        visited[x][y] = false; // 백트래킹
+        return false;
     }
 }
