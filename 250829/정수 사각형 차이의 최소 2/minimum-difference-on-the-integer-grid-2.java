@@ -2,49 +2,68 @@ import java.util.*;
 import java.io.*;
 
 public class Main {
-    static int n;
+    static int N;
     static int[][] grid;
-    static boolean[][] visited;
-    static int[] dx = {-1, 1, 0, 0}; // 상, 하, 좌, 우
-    static int[] dy = {0, 0, -1, 1};
-    static int maxSum = 0;
+    static int answer = Integer.MAX_VALUE;
     
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-        
-        n = Integer.parseInt(br.readLine());
-        grid = new int[n][n];
-        visited = new boolean[n][n];
+        N = Integer.parseInt(br.readLine());
+        grid = new int[N][N];
         
         // 격자 입력 받기
-        for (int i = 0; i < n; i++) {
+        for (int i = 0; i < N; i++) {
             StringTokenizer st = new StringTokenizer(br.readLine());
-            for (int j = 0; j < n; j++) {
+            for (int j = 0; j < N; j++) {
                 grid[i][j] = Integer.parseInt(st.nextToken());
             }
         }
         
-        // (0,0)에서 시작 (1,1)을 0-based로 변환
-        visited[0][0] = true;
-        dfs(0, 0, grid[0][0]);
-        
-        System.out.println(maxSum);
-    }
-    
-    static void dfs(int x, int y, int currentSum) {
-        maxSum = Math.max(maxSum, currentSum);
-        
-        // 현재 위치에서 인접한 4방향 확인
-        for (int i = 0; i < 4; i++) {
-            int nx = x + dx[i];
-            int ny = y + dy[i];
-            
-            // 범위 체크 및 방문 여부 확인
-            if (nx >= 0 && nx < n && ny >= 0 && ny < n && !visited[nx][ny]) {
-                visited[nx][ny] = true;
-                dfs(nx, ny, currentSum + grid[nx][ny]);
-                visited[nx][ny] = false; // 백트래킹
+        // 모든 가능한 시작점에서 탐색
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                boolean[][] visited = new boolean[N][N];
+                dfs(i, j, grid[i][j], grid[i][j], visited);
             }
         }
+        
+        System.out.println(answer);
+    }
+    
+    // DFS로 모든 경로 탐색
+    static void dfs(int x, int y, int maxVal, int minVal, boolean[][] visited) {
+        // 현재 차이가 이미 answer보다 크거나 같으면 가지치기
+        if (maxVal - minVal >= answer) {
+            return;
+        }
+        
+        visited[x][y] = true;
+        
+        // 4방향 탐색 (상, 하, 좌, 우)
+        int[] dx = {-1, 1, 0, 0};
+        int[] dy = {0, 0, -1, 1};
+        
+        boolean canMove = false;
+        
+        for (int dir = 0; dir < 4; dir++) {
+            int nx = x + dx[dir];
+            int ny = y + dy[dir];
+            
+            // 격자 범위 체크
+            if (nx >= 0 && nx < N && ny >= 0 && ny < N && !visited[nx][ny]) {
+                canMove = true;
+                int newMax = Math.max(maxVal, grid[nx][ny]);
+                int newMin = Math.min(minVal, grid[nx][ny]);
+                
+                dfs(nx, ny, newMax, newMin, visited);
+            }
+        }
+        
+        // 더 이상 이동할 수 없는 경우 (경로의 끝)
+        if (!canMove) {
+            answer = Math.min(answer, maxVal - minVal);
+        }
+        
+        visited[x][y] = false; // 백트래킹
     }
 }
