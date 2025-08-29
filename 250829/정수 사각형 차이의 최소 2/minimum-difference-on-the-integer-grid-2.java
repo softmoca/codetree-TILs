@@ -2,11 +2,8 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-    static int N;
+    static int N, minV = 100, maxV = 1;
     static int[][] a;
-    static int minV = 100, maxV = 1;
-    static final int[] dx = {1, 0};
-    static final int[] dy = {0, 1};
 
     public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -24,45 +21,39 @@ public class Main {
         int lo = 0, hi = maxV - minV, ans = hi;
         while (lo <= hi) {
             int mid = (lo + hi) / 2;
-            if (existsPathWithDiff(mid)) {
-                ans = mid;
-                hi = mid - 1;
-            } else lo = mid + 1;
+            if (feasible(mid)) { ans = mid; hi = mid - 1; }
+            else lo = mid + 1;
         }
         System.out.println(ans);
     }
 
-    // 차이 D가 허용될 때 어떤 [L, L+D] 구간으로도 (1,1)->(N,N) 경로가 존재하는지
-    static boolean existsPathWithDiff(int D) {
+    // 차이 D로 가능한 어떤 [L, L+D]에서도 경로가 있으면 true
+    static boolean feasible(int D) {
         for (int L = minV; L + D <= maxV; L++) {
             int R = L + D;
-            if (a[0][0] < L || a[0][0] > R) continue;
-            if (a[N-1][N-1] < L || a[N-1][N-1] > R) continue;
-            if (bfs(L, R)) return true;
+            if (!in(a[0][0], L, R) || !in(a[N-1][N-1], L, R)) continue;
+            if (reachableWithDP(L, R)) return true;
         }
         return false;
     }
 
-    static boolean bfs(int L, int R) {
-        boolean[][] vis = new boolean[N][N];
-        ArrayDeque<int[]> q = new ArrayDeque<>();
-        q.add(new int[]{0, 0});
-        vis[0][0] = true;
+    // 오른쪽/아래만 이동 DP
+    static boolean reachableWithDP(int L, int R) {
+        boolean[][] dp = new boolean[N][N];
+        if (!in(a[0][0], L, R)) return false;
+        dp[0][0] = true;
 
-        while (!q.isEmpty()) {
-            int[] cur = q.poll();
-            int x = cur[0], y = cur[1];
-            if (x == N - 1 && y == N - 1) return true;
-            for (int dir = 0; dir < 2; dir++) {
-                int nx = x + dx[dir], ny = y + dy[dir];
-                if (nx < 0 || ny < 0 || nx >= N || ny >= N) continue;
-                if (vis[nx][ny]) continue;
-                int v = a[nx][ny];
-                if (v < L || v > R) continue;
-                vis[nx][ny] = true;
-                q.add(new int[]{nx, ny});
+        for (int i = 0; i < N; i++) {
+            for (int j = 0; j < N; j++) {
+                if (!in(a[i][j], L, R)) { dp[i][j] = false; continue; }
+                if (i == 0 && j == 0) continue;
+                boolean fromUp = (i > 0) && dp[i-1][j];
+                boolean fromLeft = (j > 0) && dp[i][j-1];
+                dp[i][j] = fromUp || fromLeft;
             }
         }
-        return false;
+        return dp[N-1][N-1];
     }
+
+    static boolean in(int v, int L, int R) { return L <= v && v <= R; }
 }
