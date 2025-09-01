@@ -9,41 +9,45 @@ import java.util.*;
 
 
 public class Main {
-    
-    
+
+
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
         int n = Integer.parseInt(st.nextToken());
         int m = Integer.parseInt(st.nextToken());
-        int[] w=new int[n+1];
-        int[] v=new int[n+1];
-        for(int i=1;i<=n;i++){
+        int[] w = new int[n + 1];
+        int[] v = new int[n + 1];
+        for (int i = 1; i <= n; i++) {
             st = new StringTokenizer(br.readLine());
-            
-            w[i]=Integer.parseInt(st.nextToken());
-            v[i]=Integer.parseInt(st.nextToken());
+
+            w[i] = Integer.parseInt(st.nextToken());
+            v[i] = Integer.parseInt(st.nextToken());
         }
-        int[] dp=new int[m+1];
-        Arrays.fill(dp,-1);
-        dp[0]=0;
-        
-        
-        for(int i=1;i<=n;i++){
-            for(int j=m;j>=0;j--){
-                if(j-w[i]<0) continue;
-                if(dp[j-w[i]]==-1) continue;
-                dp[j]=Math.max(dp[j],dp[j-w[i]]+v[i]);
-            }
-        }
-        
-        int res=0;
-        for(int i=1;i<=m;i++){
-            res=Math.max(res,dp[i]);
+        int[][] dp = new int[n + 1][m + 1];
+        for (int i = 0; i <= n; i++) {
+            Arrays.fill(dp[i], -1);
         }
 
+        dp[0][0] = 0;
+
+        for (int i = 1; i <= n; i++) {
+            for (int j = m; j >= 0; j--) {
+                if (j - w[i] < 0) continue;
+                if (dp[i - 1][j - w[i]] == -1) continue;
+                dp[i][j] = dp[i - 1][j - w[i]] + v[i];
+            }
+
+
+        }
+        int res = 0;
+        for (int i = 0; i <= n; i++) {
+            for (int j = 0; j <= m; j++) {
+                res = Math.max(res, dp[i][j]);
+            }
+        }
         System.out.println(res);
-        
+
 
     }
 }
