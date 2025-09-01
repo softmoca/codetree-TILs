@@ -35,9 +35,11 @@ public class Main {
             dp[i][0] = 0;
             for (int j = m; j >= 0; j--) {
                 dp[i][j] = dp[i-1][j];
-                if (j - w[i] < 0) continue;
-                if (dp[i - 1][j - w[i]] == -1) continue;
-                dp[i][j] = dp[i - 1][j - w[i]] + v[i];
+
+                // 선택 가능하면 선택 케이스 고려
+                if (j - w[i] >= 0 && dp[i-1][j - w[i]] != -1) {
+                    dp[i][j] = Math.max(dp[i][j], dp[i-1][j - w[i]] + v[i]);
+                }
             }
 
 
