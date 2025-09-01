@@ -32,6 +32,7 @@ public class Main {
         dp[0][0] = 0;
 
         for (int i = 1; i <= n; i++) {
+            dp[i][0] = 0;
             for (int j = m; j >= 0; j--) {
                 if (j - w[i] < 0) continue;
                 if (dp[i - 1][j - w[i]] == -1) continue;
