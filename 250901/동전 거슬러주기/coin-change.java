@@ -21,6 +21,7 @@ public class Main {
 
         for (int i = 0; i < n; i++) {
             arr[i] = Integer.parseInt(st.nextToken());
+            if(arr[i]>m) continue;
             dp[arr[i]] = 1;
         }
 
