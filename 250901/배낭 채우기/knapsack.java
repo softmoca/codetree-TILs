@@ -37,7 +37,7 @@ public class Main {
             }
         }
         
-        int res=-1;
+        int res=0;
         for(int i=1;i<=m;i++){
             res=Math.max(res,dp[i]);
         }
