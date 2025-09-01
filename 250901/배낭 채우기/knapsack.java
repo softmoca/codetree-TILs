@@ -36,7 +36,7 @@ public class Main {
             for (int j = m; j >= 0; j--) {
                 if (j - w[i] < 0) continue;
                 if (dp[i - 1][j - w[i]] == -1) continue;
-                dp[i][j] = dp[i - 1][j - w[i]] + v[i];
+                dp[i][j] = Math.max(dp[i][j],dp[i - 1][j - w[i]] + v[i]);
             }
 
 
