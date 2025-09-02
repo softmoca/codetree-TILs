@@ -28,12 +28,12 @@ public class Main {
 
 
         int[] dp = new int[len + 1];
-        Arrays.fill(dp, Integer.MAX_VALUE);
+        Arrays.fill(dp, -1);
         dp[0] = 0;
         for (int i = 0; i < n; i++) {
             for (int j = len; j >= 0; j--) {
-                if (j - t[i] >= 0 && dp[j - t[i]] != Integer.MAX_VALUE) {
-                    dp[j] = Math.min(dp[j], dp[j - t[i]] + e[i]);
+                if (j - t[i] >= 0 && dp[j - t[i]] != -1) {
+                    dp[j] = Math.max(dp[j], dp[j - t[i]] + e[i]);
                 }
             }
         }
@@ -41,7 +41,7 @@ public class Main {
 
         int res = -1;
         for (int i = 0; i <= len; i++) {
-            if (dp[i] != Integer.MAX_VALUE && dp[i] >= m) {
+            if (dp[i] != -1 && dp[i] >= m) {
                 res = i;
                 break;
             }
