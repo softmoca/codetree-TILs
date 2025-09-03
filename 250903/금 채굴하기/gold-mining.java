@@ -1,90 +1,52 @@
-import java.io.*;
-import java.util.*;
-
-/*
-
- */
-
+import java.util.Scanner;
 
 public class Main {
-    static int res = 0;
-
-    static void countBfs(int x, int y, int[][] arr, int money) {
-
-        boolean[][] visited = new boolean[arr.length][arr[0].length];
-        visited[x][y] = true;
-        int maxK = arr.length + 1;
-
-        int[] dx = {-1, 0, 1, 0};
-        int[] dy = {0, 1, 0, -1};
-
-        Queue<int[]> q = new LinkedList<>();
-        q.offer(new int[]{x, y});
-        int sizeK = 0;
-        int cnt = 0;
-        while (!q.isEmpty()) {
-
-            int size = q.size();
-            for (int i = 0; i < size; i++) {
-                int[] curr = q.poll();
-                if (arr[curr[0]][curr[1]] == 1) cnt++;
-
-                for (int k = 0; k < 4; k++) {
-                    int newX = curr[0] + dx[k];
-                    int newY = curr[1] + dy[k];
-
-                    if (newX < 0 || newX >= arr.length || newY < 0 || newY >= arr.length) continue;
-                    if (visited[newX][newY]) continue;
-                    q.offer(new int[]{newX, newY});
-                    visited[newX][newY] = true;
-
-                }
-
-
-            }
-
-            int temp = sizeK * sizeK + (sizeK + 1) * (sizeK + 1);
-            int temp2 = cnt * money;
-            if (temp <= temp2) {
-                res = Math.max(res, cnt);
-            }
-
-
-            sizeK++;
-
-            if (sizeK == maxK) return;
-
-        }
-
-
+    public static final int MAX_NUM = 20;
+    
+    public static int n, m;
+    public static int[][] grid = new int[MAX_NUM][MAX_NUM];
+    
+    // 주어진 k에 대하여 마름모의 넓이를 반환합니다.
+    public static int getArea(int k) {
+        return k * k + (k+1) * (k+1); 
+    }
+    
+    // 주어진 k에 대하여 채굴 가능한 금의 개수를 반환합니다.
+    public static int getNumOfGold(int row, int col, int k) {
+        int numOfGold = 0;
+    
+        for(int i = 0; i < n; i++)
+            for(int j = 0; j < n; j++)
+                if(Math.abs(row - i) + Math.abs(col - j) <= k)
+                    numOfGold += grid[i][j];
+    
+        return numOfGold;
     }
 
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        int maxGold = 0;
 
-    public static void main(String[] args) throws IOException {
+        // 입력:
+        n = sc.nextInt();
+        m = sc.nextInt();
+        for(int row = 0; row < n; row++)
+            for(int col = 0; col < n; col++)
+                grid[row][col] = sc.nextInt();
 
+        // 격자의 각 위치가 마름모의 중앙일 때 채굴 가능한 금의 개수를 구합니다.
+        for(int row = 0; row < n; row++) {
+            for(int col = 0; col < n; col++) {
+                for(int k = 0; k <= 2 * (n-1); k++) {
+                    int numOfGold = getNumOfGold(row, col, k);
 
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        int n = Integer.parseInt(st.nextToken());
-        int money = Integer.parseInt(st.nextToken());
-
-        int[][] arr = new int[n][n];
-        for (int i = 0; i < n; i++) {
-            st = new StringTokenizer(br.readLine());
-            for (int j = 0; j < n; j++) {
-                arr[i][j] = Integer.parseInt(st.nextToken());
+                    // 손해를 보지 않으면서 채굴할 수 있는 최대 금의 개수를 저장합니다.
+                    if(numOfGold * m >= getArea(k))
+                        maxGold = Math.max(maxGold, numOfGold);
+                }
             }
         }
 
-
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < n; j++) {
-                countBfs(i, j, arr, money);
-            }
-        }
-        System.out.println(res);
-
-
+        System.out.print(maxGold);
     }
 }
