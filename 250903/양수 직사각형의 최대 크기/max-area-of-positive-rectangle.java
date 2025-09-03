@@ -58,7 +58,7 @@ public class Main {
         for (int i = x1; i <= x2; i++) {
             for (int j = y1; j <= y2; j++) {
                 if (grid[i][j] <= 0) {
-                    return 0;
+                    return -1;
                 }
             }
         }
