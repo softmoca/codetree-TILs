@@ -2,7 +2,7 @@ import java.util.Scanner;
 
 public class Main {
     public static final int INT_MIN = Integer.MIN_VALUE;
-    public static final int MAX_NUM = 5;
+    public static final int MAX_NUM = 21;
 
     public static int n, m;
     public static int[][] grid = new int[MAX_NUM][MAX_NUM];
