@@ -49,13 +49,13 @@ public class Main {
             //q.addLast(arr[r2][i]);
         }
 
-        for (int i = r2 - 1; i < r1; i--) {
+        for (int i = r2 - 1; i > r1; i--) {
             arr[i][c1] = q.removeFirst();
             //q.addLast(arr[i][c1]);
         }
 
 
-        // System.out.println();
+        System.out.println();
 
 
     }
