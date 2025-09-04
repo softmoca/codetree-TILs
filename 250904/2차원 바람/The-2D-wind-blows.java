@@ -41,7 +41,7 @@ public class Main {
         }
 
         for (int i = r1 + 1; i < r2; i++) {
-            arr[i][c1] = q.removeFirst();
+            arr[i][c2] = q.removeFirst();
             //q.addLast(arr[i][c2]);
         }
         for (int i = c2; i >= c1; i--) {
@@ -55,7 +55,7 @@ public class Main {
         }
 
 
-       // System.out.println();
+        System.out.println();
 
 
     }
