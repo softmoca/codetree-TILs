@@ -55,7 +55,7 @@ public class Main {
         }
 
 
-     //   System.out.println();
+        //   System.out.println();
 
 
     }
@@ -86,12 +86,17 @@ public class Main {
             }
         }
 
-        for (int i = 0; i < n; i++) {
-            for (int j = 0; j < m; j++) {
-                if (temp[i][j] == 0) continue;
+        for (int i = r1; i <= r2; i++) {
+            for (int j = c1; j <= c2; j++) {
                 arr[i][j] = temp[i][j];
             }
         }
+//        for (int i = 0; i < n; i++) {
+//            for (int j = 0; j < m; j++) {
+//                if (temp[i][j] == 0) continue;
+//                arr[i][j] = temp[i][j];
+//            }
+//        }
 
 
     }
