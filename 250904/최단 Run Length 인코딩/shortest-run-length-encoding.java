@@ -38,7 +38,7 @@ public class Main {
         String input = br.readLine();
 
 
-        for (int i = 1; i < input.length(); i++) {
+        for (int i = 0; i < input.length(); i++) {
             input = input.substring(1, input.length()) + input.charAt(0);
 
 
