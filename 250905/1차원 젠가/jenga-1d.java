@@ -27,14 +27,15 @@ public class Main {
         List<Integer> list = new ArrayList<>();
         List<Integer> list2 = new ArrayList<>();
         for (int i = 0; i < n; i++) {
-            if (start1 >= i && end1 >= i) continue;
+            if (start1 <= i && end1 >= i) continue;
             list.add(arr[i]);
         }
         for (int i = 0; i < list.size(); i++) {
-            if (start2 >= i && end2 >= i) continue;
-            list2.add(arr[i]);
+            if (start2 <= i && end2 >= i) continue;
+            list2.add(list.get(i));
 
         }
+        System.out.println(list2.size());
         for (int x : list2) {
             System.out.println(x);
         }
