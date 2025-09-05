@@ -76,12 +76,13 @@ public class Main {
                 for (int i = 0; i < len; i++) {
                     arr[i] = q.pollFirst();
                 }
+                
+                if(len == 0) break;
 
 
             } else {
                 break;
             }
-          
 
 
         }
