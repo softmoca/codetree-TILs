@@ -1,95 +1,68 @@
-import java.io.*;
-import java.util.*;
-
-/*
-
- */
-
+import java.util.Scanner;
 
 public class Main {
-    static int n, m;
-    static int[] arr;
-    static int[] checkTemp;
-    static int len;
-
-    static boolean check() {
-        Arrays.fill(checkTemp, -1);
-
-        boolean flag = false;
-        int cnt = 1;
-        for (int i = 1; i < len; i++) {
-            if (arr[i - 1] == arr[i]) {
-                cnt++;
-            } else {
-                if (cnt >= m) {
-                    flag = true;
-                    for (int j = 0; j < cnt; j++) {
-                        checkTemp[i - 1 - j] = 0;
-                    }
-
-                }
-                cnt = 1;
-
-
-            }
-
-
-        }
-
-        if (cnt >= m) {
-            flag = true;
-            for (int j = 0; j < cnt; j++) {
-                checkTemp[len - 1 - j] = 0;
-            }
-        }
-
-
-        return flag;
-    }
-
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        n = Integer.parseInt(st.nextToken());
-        m = Integer.parseInt(st.nextToken());
-        arr = new int[n];
-        checkTemp = new int[n];
-
-        for (int i = 0; i < n; i++) {
-            arr[i] = Integer.parseInt(br.readLine());
-        }
-        len = n;
-
-        while (true) {
-
-            if (check()) {
-                Deque<Integer> q = new ArrayDeque<>();
-                for (int i = 0; i < len; i++) {
-                    if (checkTemp[i] != 0) {
-                        q.addLast(arr[i]);
-                    }
-
-                }
-
-                len = q.size();
-                for (int i = 0; i < len; i++) {
-                    arr[i] = q.pollFirst();
-                }
-                
-                if(len == 0) break;
-
-
-            } else {
+    public static final int MAX_NUM = 100;
+    
+    public static int n, m, endOfArray;
+    public static int[] numbers = new int[MAX_NUM];
+    
+    public static int getEndIdxOfExplosion(int startIdx, int currNum) {
+        int endIdx = startIdx + 1;
+        while(endIdx < endOfArray) {
+            if(numbers[endIdx] == currNum)
+                endIdx++;
+            else{
                 break;
             }
-
-
         }
-        System.out.println(len);
-        for (int i = 0; i < len; i++) {
-            System.out.println(arr[i]);
+    
+        return endIdx - 1;
+    }
+    
+    public static void cutArray(int startIdx, int endIdx) {
+        int cutLen = endIdx - startIdx + 1;
+        for(int i = endIdx + 1; i < endOfArray; i++) {
+            numbers[i - cutLen] = numbers[i];
         }
+        
+        endOfArray -= cutLen;
+    }
 
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+        n = sc.nextInt();
+        m = sc.nextInt();
+        for(int i = 0; i < n; i++)
+            numbers[i] = sc.nextInt();
+        endOfArray = n;
+
+        boolean didExplode;
+        int currIdx;
+        do {
+            didExplode = false;
+            currIdx = 0;
+
+            while(currIdx < endOfArray) {
+                int endIdx = getEndIdxOfExplosion(currIdx, numbers[currIdx]);
+
+                if(endIdx - currIdx + 1 >=  m) {
+                    // 연속한 숫자의 개수가 m개 이상이면
+                    // 폭탄이 터질 수 있는 경우 해당 부분 수열을 잘라내고
+                    // 폭탄이 터졌음을 기록해줍니다.
+                    cutArray(currIdx, endIdx);
+                    didExplode = true;
+                }
+                else {
+                    // 폭탄이 터질 수 없는 경우 
+                    // 순회할 필요가 없는 원소에 대한 탐색을 생략해줍니다.
+                    currIdx = endIdx + 1;
+                }
+            }
+        }
+        while(didExplode); 
+
+        System.out.println(endOfArray);
+        for(int i = 0; i < endOfArray; i++)
+            System.out.println(numbers[i]);
     }
 }
