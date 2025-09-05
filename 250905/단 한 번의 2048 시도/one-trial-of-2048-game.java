@@ -38,7 +38,10 @@ public class Main {
                 dq.addLast(arr[i][col]);
             }
         }
-        for (int i = 0; i < 4 - dq.size(); i++) {
+
+        int s = dq.size();
+
+        for (int i = 0; i < 4 - s; i++) {
             dq.addLast(0);
         }
         for (int i = 3; i >= 0; i--) {
