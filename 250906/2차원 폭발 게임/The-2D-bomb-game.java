@@ -42,9 +42,10 @@ public class Main {
 
     }
 
-    static void gravity(int col) {
-        Deque<Integer> dq = new ArrayDeque<>();
+    static Deque<Integer> dq = new ArrayDeque<>();
 
+    static void gravity(int col) {
+        dq.clear();
         for (int i = n - 1; i >= 0; i--) {
             if (arr[i][col] != 0) {
                 dq.addLast(arr[i][col]);
