@@ -40,30 +40,22 @@ public class Main {
         return changed;
     }
 
-    static boolean stabilize() {
-        boolean any = false;
+    static void stabilize() {
+
         while (true) {
-       
             boolean roundBoom = false;
 
             for (int c = 0; c < n; c++) {
-                if(boom(c)) {
+                if (boom(c)) {
                     roundBoom = true;
                 }
-                
+
             }
 
             if (!roundBoom) break;
-            any = true;
             for (int c = 0; c < n; c++) gravity(c);  // 터진 뒤 중력
-            
-            
         }
         
-        
-        
-        
-        return any; // 이번 안정화 단계에서 뭔가 터졌는지
     }
 
 
