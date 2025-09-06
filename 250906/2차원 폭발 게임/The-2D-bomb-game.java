@@ -102,7 +102,7 @@ public class Main {
         while (k-- > 0) {
 
 
-            for (int i = 0; i < 100; i++) {
+            for (int i = 0; i < 10; i++) {
 
                 // 열 기준 m개 이상 연속 체크 후 제거
                 for (int col = 0; col < n; col++) {
@@ -129,7 +129,7 @@ public class Main {
 
         }
 
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 10; i++) {
 
             // 열 기준 m개 이상 연속 체크 후 제거
             for (int col = 0; col < n; col++) {
