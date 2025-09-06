@@ -15,17 +15,16 @@ public class Main {
     static int n, m, k;
     static int[][] arr;
 
-    static void boom(int col) {
-
+    static boolean boom(int col) {
+        boolean changed = false;
         int cnt = 1;
         for (int i = 1; i < n; i++) {
             if (arr[i - 1][col] == arr[i][col]) {
                 cnt++;
             } else {
-                if (cnt >= m) {
-                    for (int j = 0; j < cnt; j++) {
-                        arr[i - 1 - j][col] = 0;
-                    }
+                if (cnt >= m && arr[i - 1][col] != 0) {
+                    changed = true;
+                    for (int j = 0; j < cnt; j++) arr[i - 1 - j][col] = 0;
                 }
                 cnt = 1;
             }
@@ -33,19 +32,44 @@ public class Main {
 
         }
 
-        if (cnt >= m) {
-            for (int j = 0; j < cnt; j++) {
-                arr[n - 1 - j][col] = 0;
-            }
+        if (cnt >= m && arr[n - 1][col] != 0) {
+            changed = true;
+            for (int j = 0; j < cnt; j++) arr[n - 1 - j][col] = 0;
         }
 
-
+        return changed;
     }
 
-    static Deque<Integer> dq = new ArrayDeque<>();
+    static boolean stabilize() {
+        boolean any = false;
+        while (true) {
+       
+            boolean roundBoom = false;
+
+            for (int c = 0; c < n; c++) {
+                if(boom(c)) {
+                    roundBoom = true;
+                }
+                
+            }
+
+            if (!roundBoom) break;
+            any = true;
+            for (int c = 0; c < n; c++) gravity(c);  // 터진 뒤 중력
+            
+            
+        }
+        
+        
+        
+        
+        return any; // 이번 안정화 단계에서 뭔가 터졌는지
+    }
+
 
     static void gravity(int col) {
-        dq.clear();
+        Deque<Integer> dq = new ArrayDeque<>();
+
         for (int i = n - 1; i >= 0; i--) {
             if (arr[i][col] != 0) {
                 dq.addLast(arr[i][col]);
@@ -102,19 +126,7 @@ public class Main {
         while (k-- > 0) {
 
 
-            for (int i = 0; i < 10; i++) {
-
-                // 열 기준 m개 이상 연속 체크 후 제거
-                for (int col = 0; col < n; col++) {
-                    boom(col);
-                }
-
-                // 중력
-                for (int col = 0; col < n; col++) {
-                    gravity(col);
-                }
-
-            }
+            stabilize();
 
 
             //90도 회전
@@ -129,19 +141,7 @@ public class Main {
 
         }
 
-        for (int i = 0; i < 10; i++) {
-
-            // 열 기준 m개 이상 연속 체크 후 제거
-            for (int col = 0; col < n; col++) {
-                boom(col);
-            }
-
-            // 중력
-            for (int col = 0; col < n; col++) {
-                gravity(col);
-            }
-
-        }
+        stabilize();
 
 
         int cnt = 0;
