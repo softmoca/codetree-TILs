@@ -16,30 +16,30 @@ public class Main {
     static int[][] arr;
 
     static void boom(int col) {
-
         int cnt = 1;
+        int currentValue = arr[0][col];
+
         for (int i = 1; i < n; i++) {
-            if (arr[i - 1][col] == arr[i][col]) {
+            if (arr[i][col] != 0 && arr[i - 1][col] == arr[i][col]) {
                 cnt++;
             } else {
-                if (cnt >= m) {
+                // 이전 연속 구간 처리
+                if (cnt >= m && currentValue != 0) {
                     for (int j = 0; j < cnt; j++) {
                         arr[i - 1 - j][col] = 0;
                     }
                 }
                 cnt = 1;
+                currentValue = arr[i][col];
             }
-
-
         }
 
-        if (cnt >= m) {
+        // 마지막 연속 구간 처리
+        if (cnt >= m && currentValue != 0) {
             for (int j = 0; j < cnt; j++) {
                 arr[n - 1 - j][col] = 0;
             }
         }
-
-
     }
 
     static void gravity(int col) {
