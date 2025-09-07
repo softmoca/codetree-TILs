@@ -86,7 +86,7 @@ public class Main {
                 time++;
                 break;
             }
-            
+
             if (visited[startX][startY][dir]) {
                 time = -1;
                 break;
@@ -95,7 +95,6 @@ public class Main {
                 visited[startX][startY][dir] = true;
             }
 
-         
 
             int newDir = (dir + 1) % 4;
             int tempX = startX + dx[newDir];
@@ -105,15 +104,17 @@ public class Main {
                 startY = tempY;
                 time++;
                 dir = newDir;
+                if (visited[startX][startY][dir]) {
+                    time = -1;
+                    break;
+
+                } else {
+                    visited[startX][startY][dir] = true;
+                }
+                
             }
 
-            if (visited[startX][startY][dir]) {
-                time = -1;
-                break;
-
-            } else {
-                visited[startX][startY][dir] = true;
-            }
+         
 
 
             time++;
