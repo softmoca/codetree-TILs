@@ -45,22 +45,27 @@ public class Main {
             return true;
         }
 
-        if (vistied[nx][ny] == 1) {
-            return true;
-        }
 
         if (arr[nx][ny] == 0) {// 사과없다.
-            dq.addFirst(new int[]{nx, ny});
-            vistied[nx][ny] = 1;
-            
             int[] temp = dq.removeLast();
             vistied[temp[0]][temp[1]] = 0;
+
+
+            dq.addFirst(new int[]{nx, ny});
+            if (vistied[nx][ny] == 1) {
+                return true;
+            }
+
+            vistied[nx][ny] = 1;
+
 
         } else {// 사과 있따
             dq.addFirst(new int[]{nx, ny});
             vistied[nx][ny] = 1;
             arr[nx][ny] = 0;
         }
+
+
         currX = nx;
         currY = ny;
 
