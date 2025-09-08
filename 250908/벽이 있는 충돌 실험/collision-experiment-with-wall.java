@@ -47,7 +47,6 @@ public class Main {
             if (nx < 0 || ny < 0 || nx >= n || ny >= n) {// 방향 반대
                 curr.d = (currD + 2) % 4;
                 tempCnt[currX][currY]++;
-
                 tempDir[currX][currY] = curr.d;
 
             } else {
@@ -60,19 +59,22 @@ public class Main {
 
 
         }
+        
+        pairs.clear();
 
-
-        List<Pair> temp = new ArrayList<>();
+//        List<Pair> temp = new ArrayList<>();
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
                 if (tempCnt[i][j] == 1) {
                     arr[i][j] = tempDir[i][j];
-                    temp.add(new Pair(i, j, arr[i][j]));
+                    pairs.add(new Pair(i, j, arr[i][j]));
                 }
             }
         }
+        
+        
 
-        pairs = temp;
+  //      pairs = temp;
 
 
     }
