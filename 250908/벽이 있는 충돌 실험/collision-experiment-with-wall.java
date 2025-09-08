@@ -59,7 +59,7 @@ public class Main {
 
 
         }
-        
+
         pairs.clear();
 
 //        List<Pair> temp = new ArrayList<>();
@@ -71,10 +71,9 @@ public class Main {
                 }
             }
         }
-        
-        
 
-  //      pairs = temp;
+
+        //      pairs = temp;
 
 
     }
@@ -90,7 +89,7 @@ public class Main {
             arr = new int[n][n];
             tempCnt = new int[n][n];
             tempDir = new int[n][n];
-
+            pairs.clear();
             while (m-- > 0) {
                 st = new StringTokenizer(br.readLine());
                 int x = Integer.parseInt(st.nextToken()) - 1;
