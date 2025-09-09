@@ -74,7 +74,7 @@ public class Main {
             for (Pair p : pairs) {
                 int x = p.x, y = p.y, dir = p.dir, w = p.w, num = p.num;
                 if (temp[x][y] == null) {
-                    temp[x][y] = new Pair(x, y, dir, w, num);
+                    temp[x][y] = p;
                 } else {
                     Pair tempP = temp[x][y];
                     int nextNum = -1;
@@ -114,3 +114,4 @@ public class Main {
 
     }
 }
+
