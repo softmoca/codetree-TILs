@@ -58,7 +58,7 @@ public class Main {
                 int x = p.x, y = p.y, dir = p.dir, w = p.w, num = p.num;
 
                 int nx = x + dx[dir], ny = y + dy[dir];
-                if (nx < 0 || ny < 0 || nx >= n || ny >= m) {
+                if (nx < 0 || ny < 0 || nx >= n || ny >= n) {
                     p.dir = (dir + 2) % 4;
                 } else {
                     p.x = nx;
@@ -74,7 +74,7 @@ public class Main {
             for (Pair p : pairs) {
                 int x = p.x, y = p.y, dir = p.dir, w = p.w, num = p.num;
                 if (temp[x][y] == null) {
-                    temp[x][y] = p;
+                    temp[x][y] = new Pair(x, y, dir, w, num);
                 } else {
                     Pair tempP = temp[x][y];
                     int nextNum = -1;
@@ -104,7 +104,7 @@ public class Main {
 
 
         }
-        System.out.print(pairs.size()+" ");
+        System.out.print(pairs.size() + " ");
         int res = 0;
         for (Pair p : pairs) {
             res = Math.max(res, p.w);
