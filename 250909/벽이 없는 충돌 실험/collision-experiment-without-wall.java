@@ -109,7 +109,7 @@ public class Main {
             pushNextMarble(nextMarble);
         }
 
-        marbles =  nextMarbles;
+        marbles = (ArrayList<Marble>) nextMarbles.clone();
 
         // 그 다음 Simulation 때 다시 사용해야하므로
         // 구슬의 목록을 미리 초기화해줍니다.
