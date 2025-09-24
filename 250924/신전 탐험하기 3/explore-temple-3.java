@@ -2,8 +2,8 @@ import java.util.Scanner;
 
 public class Main {
     public static int n;
-    public static int[][] a = new int[1005][5];
-    public static int[][] dp = new int[1005][5];
+    public static int[][] a = new int[1005][1002];
+    public static int[][] dp = new int[1005][1002];
 
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
