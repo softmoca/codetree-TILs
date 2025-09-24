@@ -30,7 +30,7 @@ public class Main {
 
         // 최종적으로 가능한 최대 점수를 계산합니다.
         int ans1 = 0;
-        for (int j = 1; j <= 3; j++) {
+        for (int j = 2; j <= 3; j++) {
             ans1 = Math.max(ans1, dp[n][j]);
         }
 
@@ -49,6 +49,7 @@ public class Main {
         }
         int ans2 = 0;
         for (int j = 1; j <= 3; j++) {
+            if(j==2) continue;
             ans2 = Math.max(ans2, dp[n][j]);
         }
 
@@ -68,7 +69,7 @@ public class Main {
             }
         }
         int ans3 = 0;
-        for (int j = 1; j <= 3; j++) {
+        for (int j = 1; j <= 2; j++) {
             ans3 = Math.max(ans3, dp[n][j]);
         }
 
