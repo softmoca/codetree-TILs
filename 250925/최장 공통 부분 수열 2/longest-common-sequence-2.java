@@ -28,7 +28,7 @@ public class Main {
             if (str1.charAt(i) == str2.charAt(j)) { // 사용된 문자
                 sb.append(str1.charAt(i));
                 i--; j--;
-            } else if (dp[i - 1][j] >= dp[i][j - 1]) { // 위로 이동
+            } else if (dp[i - 1][j] > dp[i][j - 1]) { // 위로 이동
                 i--;
             } else { // 왼쪽으로 이동
                 j--;
