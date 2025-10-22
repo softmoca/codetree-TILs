@@ -24,8 +24,11 @@ public class Main {
 
         for (int i = 0; i < q; i++) {
             int a = sc.nextInt();
+            if(a==0) a=1;
+
+
             int b = sc.nextInt();
-            System.out.println(sum[b]-sum[a-1]);
+            System.out.println(sum[b]-sum[a]);
 
         }
 
