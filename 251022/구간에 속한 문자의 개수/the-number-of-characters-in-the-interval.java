@@ -44,6 +44,7 @@ public class Main {
                 sumC[i][j]=sumC[i-1][j]+sumC[i][j-1]-sumC[i-1][j-1]+arrC[i][j];
             }
         }
+        StringBuilder sb= new StringBuilder();
 
         for(int i=0; i<k;i++){
             int x1 = sc.nextInt();
@@ -54,11 +55,11 @@ public class Main {
             int a=sumA[x2][y2]-sumA[x1-1][y2]-sumA[x2][y1-1]+sumA[x1-1][y1-1];
             int b=sumB[x2][y2]-sumB[x1-1][y2]-sumB[x2][y1-1]+sumB[x1-1][y1-1];
             int c=sumC[x2][y2]-sumC[x1-1][y2]-sumC[x2][y1-1]+sumC[x1-1][y1-1];
-            System.out.println(a+" "+b+" "+c);
-
+            sb.append(a+" "+b+" "+c);
+            sb.append(  "\n");
 
         }
-
+System.out.print(sb);
 
 
 
