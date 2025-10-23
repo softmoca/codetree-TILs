@@ -31,7 +31,7 @@ public class Main {
         }
 
 
-        int res=0;
+        long res=0;
 
         for(int i=1;i<n-1;i++){
             if(str.charAt(i)=='O'){
