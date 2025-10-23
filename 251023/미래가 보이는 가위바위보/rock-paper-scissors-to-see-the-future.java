@@ -79,27 +79,27 @@ public class Main {
 
 
         int res = 0;
-        for (int i = 1; i < n; i++) { // 주 -> 가
+        for (int i = 0; i < n; i++) { // 주 -> 가
             res = Math.max(hl[i] + sr[i + 1], res);
         }
 
-        for (int i = 1; i < n; i++) { // 주 -> 보
+        for (int i = 0; i < n; i++) { // 주 -> 보
             res = Math.max(hl[i] + pr[i + 1], res);
         }
 
-        for (int i = 1; i < n; i++) {// 가 -> 주
+        for (int i = 0; i < n; i++) {// 가 -> 주
             res = Math.max(sl[i] + hr[i + 1], res);
         }
 
-        for (int i = 1; i < n; i++) { // 가 -> 보
+        for (int i = 0; i < n; i++) { // 가 -> 보
             res = Math.max(sl[i] + pr[i + 1], res);
         }
 
-        for (int i = 1; i < n; i++) { // 보 -> 바
+        for (int i = 0; i < n; i++) { // 보 -> 바
             res = Math.max(pl[i] + hr[i + 1], res);
         }
 
-        for (int i = 1; i < n; i++) { // 보 -> 가
+        for (int i = 0; i < n; i++) { // 보 -> 가
             res = Math.max(pl[i] + sr[i + 1], res);
         }
         System.out.println(res);
