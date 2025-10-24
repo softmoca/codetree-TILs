@@ -20,26 +20,36 @@ public class Main {
         for (int i = 0; i < n; i++) {
             int x1 = sc.nextInt();
             int x2 = sc.nextInt();
-            pairs[i*2]=new Pair(i,x1,1);
-            pairs[i*2+1]=new Pair(i,x2,-1);
+            pairs[i*2]=new Pair(i+1,x1,1);
+            pairs[i*2+1]=new Pair(i+1,x2,-1);
         }
 
         Set<Integer> set= new HashSet<>();
+
         int[] res=new int[n+1];
 
-        int comIdx=1;
 
-        for(Pair p: pairs){
-            if(!set.contain(p.idx)){
-                set.add(p.idx);
-                res[idx]=comIdx++;
-            }else{
-                set.remove(p.idx);
-                idx--;
-            }
+        Arrays.sort(pairs,
+            Comparator.comparing(
+                (Pair p)-> p.x
+            )
+        );
+        Queue<Integer> pq= new PriorityQueue<>();
+        for(int i=1;i<=n;i++){
+        pq.add(i);
         }
 
-        for(int i=1;i<n;i++){
+
+        for(Pair p: pairs){
+            if(p.v>0){
+                res[p.idx]=pq.poll();
+            }else{
+pq.offer(res[p.idx]);
+            }
+
+        }
+
+        for(int i=1;i<=n;i++){
             System.out.print(res[i]+" ");
         }
 
