@@ -1,0 +1,44 @@
+import java.io.*;
+import java.util.*;
+
+/*
+
+ */
+
+
+public class Main {
+
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int n = Integer.parseInt(br.readLine());
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int[] arr = new int[n - 1];
+
+        for (int i = 0; i < n - 1; i++) {
+            arr[i] = Integer.parseInt(st.nextToken());
+        }
+
+
+        int[] arr2 = new int[n];
+
+        st = new StringTokenizer(br.readLine());
+        for (int i = 0; i < n; i++) {
+            arr2[i] = Integer.parseInt(st.nextToken());
+        }
+
+        int[] arr3 = new int[n];
+
+        arr3[0] = arr2[0];
+        for (int i = 1; i < n - 1; i++) {
+            arr3[i] = Math.min(arr2[i], arr3[i - 1]);
+        }
+        int res = 0;
+        for (int i = 0; i < n - 1; i++) {
+            res = res + arr[i] * arr3[i];
+        }
+        System.out.println(res);
+
+
+    }
+}
