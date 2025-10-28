@@ -18,10 +18,10 @@ public class Main {
             arr[i] = Integer.parseInt(br.readLine());
         }
 
-        int[] preSum = new int[n];
-        preSum[0] = arr[0];
-        for (int i = 1; i < n; i++) {
-            preSum[i] = preSum[i - 1] + arr[i];
+        int[] preSum = new int[n + 1];
+        preSum[1] = arr[0];
+        for (int i = 2; i <= n; i++) {
+            preSum[i] = preSum[i - 1] + arr[i - 1];
         }
         int res = 0;
 
