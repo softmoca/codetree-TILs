@@ -33,7 +33,7 @@ public class Main {
         for (int i = 1; i < n - 1; i++) {
             arr3[i] = Math.min(arr2[i], arr3[i - 1]);
         }
-        int res = 0;
+        long res = 0;
         for (int i = 0; i < n - 1; i++) {
             res = res + arr[i] * arr3[i];
         }
