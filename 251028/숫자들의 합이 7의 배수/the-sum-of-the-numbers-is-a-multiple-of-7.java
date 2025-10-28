@@ -25,7 +25,7 @@ public class Main {
         }
         int res = 0;
 
-        for (int i = n; i >= 0; i--) {
+        for (int i = n; i >= 1; i--) {
             for (int j = 0; j < i; j++) {
                 if ((preSum[i] - preSum[j]) % 7 == 0) {
                     res = Math.max(res, i - j);
