@@ -33,7 +33,9 @@ public class Main {
             }
 
 
-            res = Math.min(res, right + 1 - left);
+            if (windowSum >= s) {
+                res = Math.min(res, right - left + 1);
+            }
 
 
             windowSum -= arr[left];
