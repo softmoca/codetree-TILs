@@ -22,7 +22,7 @@ public class Main {
         for (int left = 1; left <= n; left++) {
 
             while (true) {
-                if (right >= n || windowSum >= s) {
+                if (right >= n+1 || windowSum >= s) {
                     break;
                 }
                 right++;
