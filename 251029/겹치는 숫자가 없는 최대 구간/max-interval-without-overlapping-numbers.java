@@ -23,7 +23,7 @@ public class Main {
 
         int right = 0;
         int res = Integer.MIN_VALUE;
-        for (int left = 0; left <= n; left++) {
+        for (int left = 1; left <= n; left++) {
             while (right + 1 < n && check[arr[right + 1]] == 0) {
                 right++;
                 check[arr[right]]++;
