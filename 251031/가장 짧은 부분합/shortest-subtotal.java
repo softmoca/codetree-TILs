@@ -31,7 +31,7 @@ public class Main {
                 break;
 
             // 현재 구간 [left,right]는  i를 시작점으로 하는 가장 짧은 구간이므로
-            ans = Math.min(ans, right - left + 1);
+            ans = Math.min(ans, right - left);
 
             // 다음 구간으로 넘어가기 전에 arr[left]에 해당하는 값은 구간에서 제외시킵니다.
             sumVal -= arr[left];
