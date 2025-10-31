@@ -10,7 +10,7 @@ public class Main {
             arr[i] = sc.nextInt();
         }
 
-        int p1 = 0;
+        int p1 = 1;
         int p2 = 1;
         int sum = arr[1];
         int cnt = 0;
