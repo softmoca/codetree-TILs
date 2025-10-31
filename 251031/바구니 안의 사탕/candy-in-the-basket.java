@@ -25,17 +25,17 @@ public class Main {
         }
 
         int res = sum;
-
+        
         while (true) {
 
 
             p2++;
-            if (p2 == 1000001) break;
+            if (p2 == 4000001) break;
             sum = sum + check[p2] - check[p1];
 
             res = Math.max(res, sum);
             p1++;
-            if (p1 == 1000001) break;
+
         }
 
         System.out.println(res);
