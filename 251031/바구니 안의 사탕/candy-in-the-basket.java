@@ -35,6 +35,7 @@ public class Main {
 
             res = Math.max(res, sum);
             p1++;
+            if (p1 == 1000001) break;
         }
 
         System.out.println(res);
