@@ -6,7 +6,7 @@ public class Main {
         int n = sc.nextInt();
         int k = sc.nextInt();
 
-        int[] check = new int[4000001];
+        int[] check = new int[4000002];
 
 
         for (int i = 0; i < n; i++) {
