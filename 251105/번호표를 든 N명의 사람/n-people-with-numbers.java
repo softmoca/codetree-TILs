@@ -15,7 +15,7 @@ public class Main {
     int i = 0;
 
     // 초기 K명(또는 N명 이하) 올려서 각자의 '끝나는 시각'을 넣는다.
-    while (i < n && i < k) heap.add((long) arr[i++]);
+    while (i < k) heap.add((long) arr[i++]);
 
     // 대기열이 남아 있는 동안:
     // 가장 빨리 끝나는 사람의 종료시각 f를 꺼내고,
