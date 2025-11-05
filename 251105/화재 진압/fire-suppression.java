@@ -5,68 +5,38 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
-
-        int N = Integer.parseInt(st.nextToken()); // 불 위치 개수
-        int M = Integer.parseInt(st.nextToken()); // 소방서 개수
+        int N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
 
         long[] fire = new long[N];
         long[] station = new long[M];
 
-        // 불 위치 입력
         st = new StringTokenizer(br.readLine());
-        for (int i = 0; i < N; i++) {
-            fire[i] = Long.parseLong(st.nextToken());
-        }
+        for (int i = 0; i < N; i++) fire[i] = Long.parseLong(st.nextToken());
 
-        // 소방서 위치 입력
         st = new StringTokenizer(br.readLine());
-        for (int i = 0; i < M; i++) {
-            station[i] = Long.parseLong(st.nextToken());
-        }
+        for (int i = 0; i < M; i++) station[i] = Long.parseLong(st.nextToken());
 
-        // 1️⃣ 소방서 위치 정렬
+        Arrays.sort(fire);
         Arrays.sort(station);
 
-        long maxTime = 0;
+        long answer = 0;
+        int j = 0; // 소방서 포인터(단조 증가)
 
-        // 2️⃣ 각 불 위치마다 가장 가까운 소방서 찾기
-        for (long firePos : fire) {
-            // 소방서 중 firePos 이상인 첫 위치 찾기 (이진 탐색)
-            int idx = lowerBound(station, firePos);
-
-            long nearestDist = Long.MAX_VALUE;
-
-            // 오른쪽에 있는 소방서까지 거리
-            if (idx < M) {
-                nearestDist = Math.min(nearestDist, Math.abs(firePos - station[idx]));
+        for (long x : fire) {
+            // x에 더 가까운 소방서가 오른쪽에 있으면 j를 옮긴다
+            while (j + 1 < M &&
+                   Math.abs(station[j + 1] - x) <= Math.abs(station[j] - x)) {
+                j++;
             }
 
-            // 왼쪽에 있는 소방서까지 거리
-            if (idx > 0) {
-                nearestDist = Math.min(nearestDist, Math.abs(firePos - station[idx - 1]));
+            long best = Math.abs(station[j] - x);   // 현재 소방서까지 거리
+            if (j + 1 < M) {                        // 오른쪽 소방서도 비교(경계 처리)
+                best = Math.min(best, Math.abs(station[j + 1] - x));
             }
-
-            // 3️⃣ 가장 먼 불의 진압 시간 갱신
-            maxTime = Math.max(maxTime, nearestDist);
+            answer = Math.max(answer, best);        // 최댓값 갱신
         }
 
-        System.out.println(maxTime);
-    }
-
-    // 🔍 lowerBound: 배열에서 key 이상인 첫 번째 인덱스 반환
-    private static int lowerBound(long[] arr, long key) {
-        int left = 0;
-        int right = arr.length;
-
-        while (left < right) {
-            int mid = (left + right) / 2;
-            if (arr[mid] >= key) {
-                right = mid;
-            } else {
-                left = mid + 1;
-            }
-        }
-
-        return left;
+        System.out.println(answer);
     }
 }
