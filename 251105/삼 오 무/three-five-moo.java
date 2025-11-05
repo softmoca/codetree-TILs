@@ -15,8 +15,8 @@ public class Main {
         int n = Integer.parseInt(br.readLine());
 
         int l = 1;
-        int r = 2_000_000_000;
-        while (l < r) {
+        int r = Integer.MAX_VALUE;
+        while (l <= r) {
             int mid = l + (r - l) / 2;
             int target = mid - mid / 3 - mid / 5 + mid / 15;
 
