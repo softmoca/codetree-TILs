@@ -1,18 +1,38 @@
 import java.io.*;
 import java.util.*;
 
+/*
+
+ */
+
+
 public class Main {
-    static long count(long k) { // 1..k 중 3·5의 배수가 아닌 수의 개수
-        return k - k/3 - k/5 + k/15;
-    }
-    public static void main(String[] args) throws Exception {
-        long N = new Scanner(System.in).nextLong();
-        long lo = 1, hi = 2*N;              // 밀도≈8/15 → 2N이면 충분
-        while (lo < hi) {
-            long mid = (lo + hi)/2;
-            if (count(mid) >= N) hi = mid;  // N개 이상이면 왼쪽으로
-            else lo = mid + 1;              // 부족하면 오른쪽으로
+
+
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
+        int n = Integer.parseInt(br.readLine());
+
+        int l = 1;
+        int r = 1_000_000_000;
+        while (l < r) {
+            int mid = l + (r - l) / 2;
+            int target = mid - mid / 3 - mid / 5 + mid / 15;
+
+            if (target < n) {
+                l = mid + 1;
+            } else if (target > n) {
+                r = mid - 1;
+            } else {
+                System.out.println(mid);
+                break;
+            }
+
+
         }
-        System.out.println(lo);             // lo가 N번째에 적히는 수
+
+
     }
 }
+
