@@ -14,11 +14,11 @@ public class Main {
 
         int n = Integer.parseInt(br.readLine());
 
-        int l = 1;
-        int r = Integer.MAX_VALUE;
+        long l = 1;
+        long r = Long.MAX_VALUE;
         while (l <= r) {
-            int mid = l + (r - l) / 2;
-            int target = mid - mid / 3 - mid / 5 + mid / 15;
+            long mid = l + (r - l) / 2;
+            long target = mid - mid / 3 - mid / 5 + mid / 15;
 
             if (target < n) {
                 l = mid + 1;
