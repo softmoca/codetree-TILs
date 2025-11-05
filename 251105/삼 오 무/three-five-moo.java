@@ -25,7 +25,7 @@ public class Main {
             } else if (target > n) {
                 r = mid - 1;
             } else {
-                System.out.println(mid);
+                System.out.println(target);
                 break;
             }
 
