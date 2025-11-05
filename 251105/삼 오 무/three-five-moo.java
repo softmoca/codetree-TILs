@@ -9,7 +9,7 @@ public class Main {
         long N = new Scanner(System.in).nextLong();
         long lo = 1, hi = 2*N;              // 밀도≈8/15 → 2N이면 충분
         while (lo < hi) {
-            long mid = (lo + hi) >>> 1;
+            long mid = (lo + hi)/2;
             if (count(mid) >= N) hi = mid;  // N개 이상이면 왼쪽으로
             else lo = mid + 1;              // 부족하면 오른쪽으로
         }
