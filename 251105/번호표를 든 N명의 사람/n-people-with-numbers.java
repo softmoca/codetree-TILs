@@ -10,54 +10,26 @@ public class Main {
     static int n, t;
     static int[] arr;
 
-    static boolean find(int target) {
+   static boolean find(int k) {
+    PriorityQueue<Long> heap = new PriorityQueue<>();
+    int i = 0;
 
-        Queue<Integer> pq = new PriorityQueue<>();
+    // 초기 K명(또는 N명 이하) 올려서 각자의 '끝나는 시각'을 넣는다.
+    while (i < n && i < k) heap.add((long) arr[i++]);
 
-        int time = 0;
-
-        for (int i = 0; i < target; i++) {
-            pq.offer(arr[i]);
-        }
-
-        for (int i = target; i < n; i++) {
-
-            int tempMin = pq.poll();
-            int size = pq.size();
-            Queue<Integer> qu = new ArrayDeque<>();
-
-            for (int j = 0; j < size; j++) {
-                int temp = pq.poll() - tempMin;
-                if (temp > 0) {
-                    qu.offer(temp);
-                    //pq.offer(temp);
-                }
-            }
-
-            for (int x : qu) {
-                pq.offer(x);
-            }
-
-            time = time + tempMin;
-            pq.offer(arr[i]);
-        }
-
-        int size = pq.size();
-        int tempMax = 0;
-        for (int i = 0; i < size; i++) {
-            tempMax = Math.max(tempMax, pq.poll());
-        }
-
-        time = time + tempMax;
-
-
-        if (time <= t) {
-            return true;
-        }
-
-
-        return false;
+    // 대기열이 남아 있는 동안:
+    // 가장 빨리 끝나는 사람의 종료시각 f를 꺼내고,
+    // 그 자리로 다음 사람을 올려 f + d_i 시각에 끝나도록 넣는다.
+    while (i < n) {
+        long f = heap.poll();
+        heap.add(f + arr[i++]);
     }
+
+    // 남은 사람들 중 가장 늦게 끝나는 시간이 총 소요시간
+    long makespan = 0;
+    while (!heap.isEmpty()) makespan = heap.poll(); // 마지막이 최대
+    return makespan <= t;
+}
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
