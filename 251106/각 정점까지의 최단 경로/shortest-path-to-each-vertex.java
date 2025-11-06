@@ -29,6 +29,7 @@ public class Main {
             int end = Integer.parseInt(st.nextToken());
             int v = Integer.parseInt(st.nextToken());
             graph[start].add(new int[]{end, v});
+            graph[end].add(new int[]{start, v});
         }
 
         int[] dist = new int[n + 1];
@@ -56,8 +57,8 @@ public class Main {
 
 
             for (int[] next : graph[curNode]) {
-                int  val= next[0];
-                int node = next[1];
+                int node = next[0];
+                int val = next[1];
 
                 if (curDist + val < dist[node]) {
                     dist[node] = curDist + val;
