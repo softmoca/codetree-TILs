@@ -79,12 +79,12 @@ public class Main {
             cur = path[cur];
             route.add(cur);
         }
-        Collections.reverse(route);
 
-        // 공백 구분 출력
-        StringJoiner sj = new StringJoiner(" ");
-        for (int v : route) sj.add(String.valueOf(v));
-        System.out.println(sj.toString());
+
+        for (int i = route.size() - 1; i >= 0; i--) {
+            System.out.print(route.get(i) + " ");
+
+        }
 
 
     }
