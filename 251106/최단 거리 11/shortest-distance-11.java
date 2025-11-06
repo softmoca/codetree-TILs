@@ -2,90 +2,103 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
-    static class Edge {
-        int to, w;
-        Edge(int to, int w) { this.to = to; this.w = w; }
+    static int n, m;
+    static List<Pair>[] graph;
+
+    static class Pair {
+        int node, cost;
+        Pair(int node, int cost) { this.node = node; this.cost = cost; }
     }
 
-    static int n, m;
-    static List<Edge>[] g; // 인접리스트(무방향: 양쪽 추가)
+    static int A, B;
+    static int[] dist;
+    static boolean[] visited;
+    static List<Integer> path = new ArrayList<>();
+    static boolean found = false; // 🚩 DFS 종료 제어용 전역 플래그
 
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         StringTokenizer st = new StringTokenizer(br.readLine());
         n = Integer.parseInt(st.nextToken());
         m = Integer.parseInt(st.nextToken());
 
-        g = new ArrayList[n + 1];
-        for (int i = 1; i <= n; i++) g[i] = new ArrayList<>();
+        graph = new ArrayList[n + 1];
+        for (int i = 0; i <= n; i++) graph[i] = new ArrayList<>();
 
         for (int i = 0; i < m; i++) {
             st = new StringTokenizer(br.readLine());
             int u = Integer.parseInt(st.nextToken());
             int v = Integer.parseInt(st.nextToken());
             int w = Integer.parseInt(st.nextToken());
-            // 무방향이면 양쪽 추가
-            g[u].add(new Edge(v, w));
-            g[v].add(new Edge(u, w));
-        }
-
-        // 사전순 복원을 위해 이웃을 정점 번호 오름차순으로 정렬
-        for (int i = 1; i <= n; i++) {
-            g[i].sort(Comparator.comparingInt(e -> e.to));
+            graph[u].add(new Pair(v, w));
+            graph[v].add(new Pair(u, w)); // 양방향
         }
 
         st = new StringTokenizer(br.readLine());
-        int A = Integer.parseInt(st.nextToken()); // 도착
-        int B = Integer.parseInt(st.nextToken()); // 시작
+        A = Integer.parseInt(st.nextToken());
+        B = Integer.parseInt(st.nextToken());
 
-        // 1) 다익스트라: dist[B] = 0
-        int INF = 1_000_000_000;
-        int[] dist = new int[n + 1];
-        Arrays.fill(dist, INF);
-        dist[B] = 0;
+        // 1️⃣ 다익스트라
+        dist = new int[n + 1];
+        Arrays.fill(dist, Integer.MAX_VALUE);
+        dist[A] = 0;
 
-        PriorityQueue<int[]> pq = new PriorityQueue<>(Comparator.comparingInt(a -> a[0]));
-        pq.offer(new int[]{0, B});
+        PriorityQueue<Pair> pq = new PriorityQueue<>((a, b) -> {
+            if (a.cost == b.cost) return a.node - b.node;
+            return a.cost - b.cost;
+        });
+        pq.offer(new Pair(A, 0));
 
         while (!pq.isEmpty()) {
-            int[] cur = pq.poll();
-            int d = cur[0], u = cur[1];
+            Pair cur = pq.poll();
+            int u = cur.node, d = cur.cost;
             if (d > dist[u]) continue;
-            for (Edge e : g[u]) {
-                int v = e.to, nd = d + e.w;
+            for (Pair nx : graph[u]) {
+                int v = nx.node, w = nx.cost;
+                int nd = d + w;
                 if (nd < dist[v]) {
                     dist[v] = nd;
-                    pq.offer(new int[]{nd, v});
+                    pq.offer(new Pair(v, nd));
                 }
             }
         }
 
-        // 2) 사전순 최단 경로 복원: A에서 B로 거꾸로,
-        //    가장 작은 i를 선택: dist[i] + w(i,A) == dist[A]
-        System.out.println(dist[A]); // 최단거리
+        // 2️⃣ 인접리스트 정렬 (사전순 탐색용)
+        for (int i = 1; i <= n; i++)
+            graph[i].sort(Comparator.comparingInt(p -> p.node));
 
-        List<Integer> path = new ArrayList<>();
-        int x = A;
-        path.add(x);
-        while (x != B) {
-            int next = -1;
-            // 무방향이면 g[x]에 인접한 i들이 모두 "들어올 수 있는 후보"
-            for (Edge e : g[x]) {
-                int i = e.to, w = e.w;
-                if (dist[i] + w == dist[x]) { next = i; break; } // 정렬돼 있으니 첫 i가 사전순 최소
-            }
-            if (next == -1) break; // 경로 없음(이상 케이스)
-            x = next;
-            path.add(x);
-        }
+        // 3️⃣ DFS로 사전순 첫 경로 찾기
+        visited = new boolean[n + 1];
+        path.add(A);
+        visited[A] = true;
+        dfs(A);
 
-        // 뒤집어서 B -> ... -> A로 출력하거나, 아래처럼 역순으로 출력
-        Collections.reverse(path);
-        StringBuilder sb = new StringBuilder();
+        // 4️⃣ 출력
+        System.out.println(dist[B]);
         for (int i = 0; i < path.size(); i++) {
-            if (i > 0) sb.append(' ');
-            sb.append(path.get(i));
+            if (i > 0) System.out.print(" ");
+            System.out.print(path.get(i));
         }
-        System.out.println(sb.toString());
+    }
+
+    // 🚩 void DFS: found=true가 되면 더 이상 탐색 안 함
+    static void dfs(int cur) {
+        if (found) return; // 이미 경로 찾았으면 멈춤
+        if (cur == B) {    // 도착 시 탐색 종료
+            found = true;
+            return;
+        }
+
+        for (Pair nx : graph[cur]) {
+            int v = nx.node, w = nx.cost;
+            if (dist[cur] != Integer.MAX_VALUE && dist[cur] + w == dist[v] && !visited[v]) {
+                visited[v] = true;
+                path.add(v);
+                dfs(v);
+                if (found) return; // 재귀 전체 종료
+                path.remove(path.size() - 1);
+                visited[v] = false;
+            }
+        }
     }
 }
