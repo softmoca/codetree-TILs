@@ -70,21 +70,21 @@ public class Main {
         }
 
         System.out.println(dist[B]);
-        int now = B;
-        StringBuilder sb = new StringBuilder();
-        sb.append(now);
-        sb.append(" ");
-        while (true) {
-            int next = path[now];
-            sb.append(next);
 
-            now = next;
-
-            if (now == A) break;
-            sb.append(" ");
-
+        // 경로 복원: B -> ... -> A 수집 후 정점 단위로 뒤집기
+        List<Integer> route = new ArrayList<>();
+        int cur = B;
+        route.add(cur);
+        while (cur != A) {
+            cur = path[cur];
+            route.add(cur);
         }
-        System.out.println(sb.reverse());
+        Collections.reverse(route);
+
+        // 공백 구분 출력
+        StringJoiner sj = new StringJoiner(" ");
+        for (int v : route) sj.add(String.valueOf(v));
+        System.out.println(sj.toString());
 
 
     }
