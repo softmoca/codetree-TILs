@@ -56,8 +56,8 @@ public class Main {
 
 
             for (int[] next : graph[curNode]) {
-                int node = next[0];
-                int val = next[1];
+                int  val= next[0];
+                int node = next[1];
 
                 if (curDist + val < dist[node]) {
                     dist[node] = curDist + val;
