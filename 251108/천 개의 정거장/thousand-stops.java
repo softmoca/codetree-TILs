@@ -3,16 +3,16 @@ import java.io.*;
 
 class Pair {
     long cost, time;
-    Pair(long cost, long time) { this.cost = cost; this.time = time; }
 
-    // this > p ?
-    boolean isGreaterThan(Pair p) {
-        return this.cost > p.cost || (this.cost == p.cost && this.time > p.time);
+    Pair(long cost, long time) {
+        this.cost = cost;
+        this.time = time;
     }
+
 }
 
 public class Main {
-    static final long INF = (long)1e17 + 1;
+    static final long INF = (long) 1e17 + 1;
     static final int MAX_M = 1000; // 정점(정류장) 번호 범위 1..1000
 
     static int a, b, n, m = MAX_M;
@@ -58,18 +58,29 @@ public class Main {
         for (int i = 1; i <= m; i++) dist[i] = new Pair(INF, 0);
         dist[a] = new Pair(0, 0);
 
-        // (요금,시간,정점) 사전식 우선순위 큐
-        PriorityQueue<long[]> pq = new PriorityQueue<>((x, y) -> {
-            if (x[0] != y[0]) return Long.compare(x[0], y[0]);   // cost
-            if (x[1] != y[1]) return Long.compare(x[1], y[1]);   // time
-            return Long.compare(x[2], y[2]);                      // node (tie-break)
-        });
+//        // (요금,시간,정점) 사전식 우선순위 큐
+//        PriorityQueue<long[]> pq = new PriorityQueue<>((x, y) -> {
+//            if (x[0] != y[0]) return Long.compare(x[0], y[0]);   // cost
+//            if (x[1] != y[1]) return Long.compare(x[1], y[1]);   // time
+//            return Long.compare(x[2], y[2]);                      // node (tie-break)
+//        });
+
+
+        PriorityQueue<long[]> pq = new PriorityQueue<>(
+                Comparator.comparing(
+                        (long[] x) -> x[0]
+                ).thenComparing(
+                        (long[] x) -> x[1]
+                )
+        );
+
+
         pq.offer(new long[]{0L, 0L, a});
 
         while (!pq.isEmpty()) {
             long[] cur = pq.poll();
             long cc = cur[0], ct = cur[1];
-            int u = (int)cur[2];
+            int u = (int) cur[2];
 
             // 현재 기록보다 나쁘면 스킵
             if (dist[u].cost < cc || (dist[u].cost == cc && dist[u].time < ct)) continue;
@@ -78,11 +89,16 @@ public class Main {
                 int v = e[0];
                 long nc = cc + e[1];
                 long nt = ct + e[2];
-                Pair cand = new Pair(nc, nt);
-                if (dist[v].isGreaterThan(cand)) {
-                    dist[v] = cand;
+
+
+                boolean shouldUpdate = (dist[v].cost > nc) || (dist[v].cost == nc && dist[v].time > nt);
+
+                if (shouldUpdate) {
+                    dist[v] = new Pair(nc, nt);
                     pq.offer(new long[]{nc, nt, v});
                 }
+
+
             }
         }
 
