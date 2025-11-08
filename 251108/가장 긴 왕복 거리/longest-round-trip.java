@@ -95,7 +95,7 @@ public class Main {
             int currNode = curr.node;
             int currCost = curr.cost;
 
-            if (dist[currNode] < currCost) continue;
+            if (dist2[currNode] < currCost) continue;
 
 
             for (Pair next : graph2[currNode]) {
