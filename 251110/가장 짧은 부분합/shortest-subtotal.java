@@ -29,6 +29,6 @@ public class Main {
             }
         }
 
-        System.out.println(ans == Integer.MAX_VALUE ? 0 : ans);
+        System.out.println(ans == Integer.MAX_VALUE ? -1 : ans);
     }
 }
