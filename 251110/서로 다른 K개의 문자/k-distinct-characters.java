@@ -14,9 +14,10 @@ public class Main {
         int[] cnt = new int[26];   // 알파벳 빈도
         int distinct = 0;          // 현재 윈도우 내 서로 다른 문자 수
         int maxLen = 0;
+        int left = 0;
 
         // [left, right] 윈도우 유지
-        for (int left = 0, right = 0; right < n; right++) {
+        for (int right = 0; right < n; right++) {
             int r = s.charAt(right) - 'a';
             if (cnt[r] == 0) distinct++;
             cnt[r]++;
