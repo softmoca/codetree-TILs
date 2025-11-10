@@ -8,26 +8,27 @@ public class Main {
 
         st = new StringTokenizer(br.readLine());
         int N = Integer.parseInt(st.nextToken());
-        int M = Integer.parseInt(st.nextToken());
+        int S = Integer.parseInt(st.nextToken());
 
         int[] A = new int[N];
         st = new StringTokenizer(br.readLine());
         for (int i = 0; i < N; i++) A[i] = Integer.parseInt(st.nextToken());
 
-        long count = 0;
-        int left = 0, sum = 0;
 
-        // 오른쪽 포인터를 for문으로 이동
+        int left = 0;
+        int sum = 0;
+        int ans = Integer.MAX_VALUE;
+
         for (int right = 0; right < N; right++) {
-            sum += A[right];  // 오른쪽 값을 더함
+            sum += A[right];
 
-            // sum이 M 이상이면, 왼쪽을 줄여가며 검사
-            while (sum >= M) {
-                if (sum == M) count++;  // 정확히 M일 때 경우의 수 추가
-                sum -= A[left++];       // 왼쪽 포인터 이동
+            // 조건을 만족하는 동안 최대한 왼쪽을 줄여서 가장 짧게
+            while (sum >= S) {
+                ans = Math.min(ans, right - left + 1);
+                sum -= A[left++];
             }
         }
 
-        System.out.println(count);
+        System.out.println(ans == Integer.MAX_VALUE ? 0 : ans);
     }
 }
