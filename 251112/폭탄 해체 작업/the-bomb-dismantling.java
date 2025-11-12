@@ -1,60 +1,39 @@
 import java.io.*;
 import java.util.*;
 
-/*
-
- */
-
-
 public class Main {
-
-    static class Pair {
-        int point, time;
-
-        Pair(int point, int time) {
-            this.point = point;
-            this.time = time;
-
-
-        }
-
+    static class Job {
+        int score, deadline;
+        Job(int s, int d) { score = s; deadline = d; }
     }
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int N = Integer.parseInt(br.readLine().trim());
 
-        int n = Integer.parseInt(br.readLine());
-
-        Pair[] paris = new Pair[n];
-
-        for (int i = 0; i < n; i++) {
+        Job[] a = new Job[N];
+        for (int i = 0; i < N; i++) {
             StringTokenizer st = new StringTokenizer(br.readLine());
-            int point = Integer.parseInt(st.nextToken());
-            int time = Integer.parseInt(st.nextToken());
-            paris[i] = new Pair(point, time);
+            int score = Integer.parseInt(st.nextToken());
+            int deadline = Integer.parseInt(st.nextToken());
+            a[i] = new Job(score, deadline);
         }
 
-        Arrays.sort(paris,
-                Comparator.comparing(
-                        (Pair p) -> p.time
-                ).thenComparing(p -> -p.point)
+        // 1) 마감시간 오름차순
+        Arrays.sort(a, (x, y) -> x.deadline - y.deadline);
 
-        );
+        // 2) 선택한 작업 점수를 담는 최소힙
+        PriorityQueue<Integer> pq = new PriorityQueue<>();
 
-        int res = 0;
-        int time = 0;
-        for (int i = 0; i < n; i++) {
-            int currPoint = paris[i].point;
-            int currTime = paris[i].time;
-
-            if (time < currTime) {
-                res = res + currPoint;
+        for (Job j : a) {
+            pq.offer(j.score);                 // 일단 선택
+            if (pq.size() > j.deadline) {      // 마감시간까지 할 수 있는 개수 초과면
+                pq.poll();                     // 가장 점수 낮은 것 버리기
             }
-            time++;
         }
 
-        System.out.println(res);
-
-
+        long ans = 0;
+        while (!pq.isEmpty()) ans += pq.poll();
+        System.out.println(ans);
     }
 }
