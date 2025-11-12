@@ -35,7 +35,7 @@ public class Main {
 
         Arrays.sort(pairs,
                 Comparator.comparing(
-                        (Pair p) -> -(p.value / (double) p.wight)
+                        (Pair p) -> -(p.value /  p.wight)
                 )
         );
 
