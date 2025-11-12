@@ -39,7 +39,6 @@ public class Main {
                 )
         );
 
-        System.out.println();
         double res = 0;
         for (Pair p : pairs) {
             int curW = p.wight;
