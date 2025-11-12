@@ -1,40 +1,25 @@
-import java.util.Scanner;
+import java.io.*;
+import java.util.*;
 
 public class Main {
-    public static int INT_MIN = Integer.MIN_VALUE;
-    public static final int MAX_N = 100000;
+    public static void main(String[] args) throws Exception {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+        int N = Integer.parseInt(br.readLine().trim());
 
-    // 변수 선언
-    public static int n;
-    public static int[] a = new int[MAX_N + 1];
+        int[] a = new int[N];
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        for (int i = 0; i < N; i++) a[i] = Integer.parseInt(st.nextToken());
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
-        // 입력:
-        n = sc.nextInt();
-        for (int i = 1; i <= n; i++)
-            a[i] = sc.nextInt();
+        long prefix = 0;              // 누적합 S[i]
+        long minPrefix = 0;           // 지금까지 본 누적합 중 최소값 min S[0..i]
+        long best = Long.MIN_VALUE;   // 최대 부분합
 
-        int ans = INT_MIN;
-
-        int sum = 0;
-
-        for (int i = 1; i <= n; i++) {
-            // 만약 현재 연속 부분 수열 내 원소의 합이
-            // 0보다 작아진다면, 지금부터 새로운
-            // 연속 부분 수열을 만드는 것이 더 유리합니다.
-            if (sum < 0)
-                sum = a[i];
-
-                // 그렇지 않다면 기존 연속 부분 수열에
-                // 현재 원소를 추가하는 것이 더 좋습니다.
-            else
-                sum += a[i];
-
-            // 가능한 연속 부분 수열 중 최댓값을 찾아 갱신합니다.
-            ans = Math.max(ans, sum);
+        for (int x : a) {
+            prefix += x;                          // 현재까지 누적합
+            best = Math.max(best, prefix - minPrefix); // 끝이 여기인 최대 부분합
+            minPrefix = Math.min(minPrefix, prefix);   // 최소 누적합 갱신
         }
 
-        System.out.print(ans);
+        System.out.println(best);
     }
 }
