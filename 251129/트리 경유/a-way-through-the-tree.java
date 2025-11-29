@@ -13,9 +13,9 @@ public class Main {
 
         while (dest > 0) {
             // 해당 위치의 노드가 색칠되었다면 반환할 값을 갱신합니다.
-            if (colored[dest]){
-                ret=dest;
-                break;
+            if (colored[dest]) {
+                ret = dest;
+                //break;
             }
 
             // dest에서 2를 나눠줄 때마다 자신의 부모 노드로 가게 됩니다.
