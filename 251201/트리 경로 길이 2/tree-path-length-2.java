@@ -2,7 +2,7 @@ import java.util.Scanner;
 import java.util.ArrayList;
 
 public class Main {
-    public static final int MAX_N = 100000;
+    public static final int MAX_N = 10000;
 
     // 변수 선언:
     public static int n, q;
@@ -10,7 +10,7 @@ public class Main {
     public static boolean[] visited = new boolean[MAX_N + 1];
     public static int[] parent = new int[MAX_N + 1];
     public static int[] depth = new int[MAX_N + 1];
-    static int[][] cost = new int[1000][1000];
+    static int[][] cost = new int[MAX_N+1][MAX_N+1];
 
     // 트리 순회를 진행합니다.
     // 동시에 depth를 기록해줍니다.
