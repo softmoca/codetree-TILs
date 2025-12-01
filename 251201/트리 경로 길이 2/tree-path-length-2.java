@@ -2,7 +2,7 @@ import java.util.Scanner;
 import java.util.ArrayList;
 
 public class Main {
-    public static final int MAX_N = 1000;
+    public static final int MAX_N = 21991;
 
     // 변수 선언:
     public static int n, q;
