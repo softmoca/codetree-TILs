@@ -10,7 +10,7 @@ public class Main {
     public static boolean[] visited = new boolean[MAX_N + 1];
     public static int[] parent = new int[MAX_N + 1];
     public static int[] depth = new int[MAX_N + 1];
-    static int[][] cost = new int[10000][10000];
+    static int[][] cost = new int[1000][1000];
 
     // 트리 순회를 진행합니다.
     // 동시에 depth를 기록해줍니다.
