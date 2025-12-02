@@ -1,5 +1,7 @@
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.*;
+import java.util.spi.AbstractResourceBundleProvider;
 
 /*
 
@@ -40,12 +42,13 @@ public class Main {
         for (int i = 0; i < k; i++) {
             arr[i] = Integer.parseInt(st.nextToken());
         }
+        check = new boolean[n + 1];
 
 
         for (int i = 0; i < k - 1; i++) {
             int start = arr[i];
             int end = arr[i + 1];
-            Arrays.fill(check, false);
+            Arrays.fill(check,false);
             check[start] = true;
             dfs(start);
             if (!check[end]) {
