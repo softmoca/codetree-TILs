@@ -35,7 +35,7 @@ public class Main {
         }
 
         int[] parentCnt = new int[n + 1];
-        Arrays.fill(parentCnt,1);
+     //   Arrays.fill(parentCnt,1);
 
 
         for (int i = 0; i < m; i++) {
@@ -52,7 +52,7 @@ public class Main {
             } else {
                 int a = Integer.parseInt(st.nextToken());
                 int parentNode = find(a);
-                System.out.println(parentCnt[parentNode]);
+                System.out.println(parentCnt[parentNode]+1);
 
             }
 
