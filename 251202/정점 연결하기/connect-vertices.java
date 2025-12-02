@@ -47,7 +47,7 @@ public class Main {
 
         int res1 = 1;
         for (int i = 2; i <= n; i++) {
-            if (parent[res1] != parent[i]) {
+            if (find(res1) != find(i)) {
                 System.out.println(res1 + " " + i);
                 break;
             }
