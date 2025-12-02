@@ -45,7 +45,7 @@ public class Main {
         for (int i = 0; i < k - 1; i++) {
             int start = arr[i];
             int end = arr[i + 1];
-            check = new boolean[n + 1];
+            Arrays.fill(check, false);
             check[start] = true;
             dfs(start);
             if (!check[end]) {
