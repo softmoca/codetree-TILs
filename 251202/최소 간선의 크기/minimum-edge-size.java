@@ -2,78 +2,60 @@ import java.io.*;
 import java.util.*;
 
 public class Main {
+    static int[] parent;
 
-    static List<int[]>[] graph;
-    static boolean[] check;
-    static int n;
+    static int find(int x) {
+        if (x == parent[x]) return x;
+        return parent[x] = find(parent[x]);
+    }
+
+    static void union(int a, int b) {
+        parent[find(a)] = find(b);
+    }
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
         StringTokenizer st = new StringTokenizer(br.readLine());
-        n = Integer.parseInt(st.nextToken());
+
+        int n = Integer.parseInt(st.nextToken());
         int m = Integer.parseInt(st.nextToken());
 
         st = new StringTokenizer(br.readLine());
         int start = Integer.parseInt(st.nextToken());
         int end = Integer.parseInt(st.nextToken());
 
-        graph = new List[n + 1];
-        for (int i = 1; i <= n; i++) {
-            graph[i] = new ArrayList<>();
-        }
+        // 간선 리스트 (LinkedList 사용)
+        List<int[]> edges = new LinkedList<>();
 
-        int maxCost = 0;
         for (int i = 0; i < m; i++) {
             st = new StringTokenizer(br.readLine());
             int a = Integer.parseInt(st.nextToken());
             int b = Integer.parseInt(st.nextToken());
             int cost = Integer.parseInt(st.nextToken());
-            graph[a].add(new int[]{b, cost});
-            graph[b].add(new int[]{a, cost});
-            maxCost = Math.max(maxCost, cost);
+            edges.add(new int[]{a, b, cost});
         }
 
-        // 이분 탐색
-        long lo = 1, hi = maxCost, answer = 0;
+        // 비용 내림차순 정렬
+        edges.sort((a, b) -> b[2] - a[2]);
 
-        while (lo <= hi) {
-            long mid = (lo + hi) / 2;
+        // 초기화
+        parent = new int[n + 1];
+        for (int i = 1; i <= n; i++) {
+            parent[i] = i;
+        }
 
-            check = new boolean[n + 1];
-            check[start] = true;
+        // 큰 간선부터 연결
+        for (int[] edge : edges) {
+            int a = edge[0];
+            int b = edge[1];
+            int cost = edge[2];
 
-            if (dfs(start, end, mid)) {
-                answer = Math.max(answer,mid);   // 가능 → 더 높은 값 시도
-                lo = mid + 1;
-            } else {
-                hi = mid - 1;   // 불가능 → 낮춰야 함
+            union(a, b);
+
+            if (find(start) == find(end)) {
+                System.out.println(cost);
+                return;
             }
         }
-
-        System.out.println(answer);
-    }
-
-    // minCost 이상인 간선만 사용해서 도달 가능한지 DFS
-    static boolean dfs(int cur, int end, long minCost) {
-        if (cur == end) {
-            return true;
-        }
-
-        for (int[] edge : graph[cur]) {
-            int next = edge[0];
-            int cost = edge[1];
-
-            // 방문 안 했고, 비용이 기준 이상인 간선만 사용
-            if (!check[next] && cost >= minCost) {
-                check[next] = true;
-                if (dfs(next, end, minCost)) {
-                    return true;  // 도착 성공하면 바로 종료
-                }
-            }
-        }
-
-        return false;
     }
 }
-
