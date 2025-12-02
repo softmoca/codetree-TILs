@@ -1,78 +1,98 @@
-import java.io.*;
-import java.util.*;
+import java.util.Scanner;
+import java.util.ArrayList;
+import java.util.Collections;
 
-public class Main {
+class Tuple implements Comparable<Tuple> {
+    int x, y, d;
 
-    static List<int[]>[] graph;
-    static boolean[] check;
-    static int n;
-
-    public static void main(String[] args) throws IOException {
-        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-
-        StringTokenizer st = new StringTokenizer(br.readLine());
-        n = Integer.parseInt(st.nextToken());
-        int m = Integer.parseInt(st.nextToken());
-
-        st = new StringTokenizer(br.readLine());
-        int start = Integer.parseInt(st.nextToken());
-        int end = Integer.parseInt(st.nextToken());
-
-        graph = new List[n + 1];
-        for (int i = 1; i <= n; i++) {
-            graph[i] = new ArrayList<>();
-        }
-
-        int maxCost = 0;
-        for (int i = 0; i < m; i++) {
-            st = new StringTokenizer(br.readLine());
-            int a = Integer.parseInt(st.nextToken());
-            int b = Integer.parseInt(st.nextToken());
-            int cost = Integer.parseInt(st.nextToken());
-            graph[a].add(new int[]{b, cost});
-            graph[b].add(new int[]{a, cost});
-            maxCost = Math.max(maxCost, cost);
-        }
-
-        // 이분 탐색
-        long lo = 1, hi = maxCost, answer = 0;
-
-        while (lo <= hi) {
-            long mid = (lo + hi) / 2;
-
-            check = new boolean[n + 1];
-            check[start] = true;
-
-            if (dfs(start, end, mid)) {
-                answer = mid;   // 가능 → 더 높은 값 시도
-                lo = mid + 1;
-            } else {
-                hi = mid - 1;   // 불가능 → 낮춰야 함
-            }
-        }
-
-        System.out.println(answer);
+    public Tuple(int x, int y, int d) {
+        this.x = x;
+        this.y = y;
+        this.d = d;
     }
 
-    // minCost 이상인 간선만 사용해서 도달 가능한지 DFS
-    static boolean dfs(int cur, int end, long minCost) {
-        if (cur == end) {
-            return true;
+    public int compareTo(Tuple t) {
+        // 만족도가 내림차순이 되도록 정렬합니다.
+        return t.d - this.d; 
+    }
+}
+
+public class Main {
+    public static final int MAX_N = 100000;
+    
+    // 변수 선언
+    public static int n, m;
+    public static int a, b;
+    
+    // 번호별 그룹을 관리합니다.
+    public static int[] uf = new int[MAX_N + 1];
+    
+    public static ArrayList<Tuple> edges = new ArrayList<>();
+    
+    // x의 대표 번호를 찾아줍니다.
+    public static int find(int x) {
+        // x가 루트 노드라면 x값을 반환합니다.
+        if(uf[x] == x)
+            return x;
+        // x가 루트 노드가 아니라면
+        // x의 부모인 uf[x]에서 탐색을 더 진행한 뒤
+        // 찾아낸 루트 노드를 uf[x]에 넣어줌과 동시에
+        // 해당 노드값을 반환합니다.
+        return uf[x] = find(uf[x]);
+    }
+    
+    // x, y가 같은 집합이 되도록 합니다.
+    public static void union(int x, int y) {
+        // x, y의 대표 번호를 찾은 뒤
+        // 연결해줍니다.
+        int X = find(x);
+        int Y = find(y);
+        
+        uf[X] = Y;
+    }
+
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        // 입력:
+        n = sc.nextInt();
+        m = sc.nextInt();
+        a = sc.nextInt();
+        b = sc.nextInt();
+
+        // 초기 uf 값을 설정합니다.
+        for(int i = 1; i <= n; i++)
+            uf[i] = i;
+
+        // m개의 간선 정보를 입력받습니다.
+        for(int i = 1; i <= m; i++) {
+            int x = sc.nextInt();
+            int y = sc.nextInt();
+            int d = sc.nextInt();
+
+            edges.add(new Tuple(x, y, d));
         }
 
-        for (int[] edge : graph[cur]) {
-            int next = edge[0];
-            int cost = edge[1];
+        // 간선을 만족도가 큰 순으로 정렬한뒤, union find를 진행합니다.
+        Collections.sort(edges);
 
-            // 방문 안 했고, 비용이 기준 이상인 간선만 사용
-            if (!check[next] && cost >= minCost) {
-                check[next] = true;
-                if (dfs(next, end, minCost)) {
-                    return true;  // 도착 성공하면 바로 종료
-                }
+        // 도중 a와 b가 연결되면 그 순간의 간선의 만족도를 출력합니다.
+        for(int i = 0; i < m; i++) {
+            int x = edges.get(i).x;
+            int y = edges.get(i).y;
+            int d = edges.get(i).d;
+
+            union(x, y);
+            int A = find(a);
+            int B = find(b);
+
+            // a와 b가 연결되었다는 것은 
+            // 현재 만족도 이상의 간선만으로 연결관계를 만들 수 있었다는 의미이므로
+            // 현재 값이 답이 됩니다.
+            if(A == B) {
+                System.out.print(d);
+                break;
             }
         }
-
-        return false;
     }
 }
