@@ -1,4 +1,5 @@
 import java.io.*;
+import java.lang.reflect.Array;
 import java.util.*;
 
 /*
@@ -33,6 +34,10 @@ public class Main {
             parent[i] = i;
         }
 
+        int[] parentCnt = new int[n + 1];
+        Arrays.fill(parentCnt,1);
+
+
         for (int i = 0; i < m; i++) {
             st = new StringTokenizer(br.readLine());
             char type = st.nextToken().charAt(0);
@@ -41,16 +46,13 @@ public class Main {
                 int b = Integer.parseInt(st.nextToken());
                 union(a, b);
 
+                parentCnt[find(a)]++;
+
+
             } else {
                 int a = Integer.parseInt(st.nextToken());
                 int parentNode = find(a);
-                int res = 0;
-                for (int j = 1; j <= n; j++) {
-                    if (find(j) == parentNode) {
-                        res++;
-                    }
-                }
-                System.out.println(res);
+                System.out.println(parentCnt[parentNode]);
 
             }
 
