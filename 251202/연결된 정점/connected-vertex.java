@@ -9,6 +9,7 @@ import java.util.*;
 
 public class Main {
     static int[] parent;
+    static int[] parentCnt;
 
     static int find(int x) {
         if (x == parent[x]) {
@@ -18,7 +19,12 @@ public class Main {
     }
 
     static void union(int a, int b) {
-        parent[find(a)] = find(b);
+        int x = find(a);
+        int y = find(b);
+        if (x != y) {
+            parent[y] = x;
+            parentCnt[x] += parentCnt[y];
+        }
     }
 
     public static void main(String[] args) throws IOException {
@@ -34,8 +40,8 @@ public class Main {
             parent[i] = i;
         }
 
-        int[] parentCnt = new int[n + 1];
-     //   Arrays.fill(parentCnt,1);
+        parentCnt = new int[n + 1];
+        Arrays.fill(parentCnt, 1);
 
 
         for (int i = 0; i < m; i++) {
@@ -45,14 +51,12 @@ public class Main {
                 int a = Integer.parseInt(st.nextToken());
                 int b = Integer.parseInt(st.nextToken());
                 union(a, b);
-
-                parentCnt[find(a)]++;
-
+                
 
             } else {
                 int a = Integer.parseInt(st.nextToken());
                 int parentNode = find(a);
-                System.out.println(parentCnt[parentNode]+1);
+                System.out.println(parentCnt[parentNode]);
 
             }
 
