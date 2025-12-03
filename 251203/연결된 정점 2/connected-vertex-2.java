@@ -19,7 +19,7 @@ public class Main {
         parent = new int[100001];
         size = new int[100001];
 
-        for (int i = 0; i < n + 1; i++) {
+        for (int i = 0; i < 100001; i++) {
             parent[i] = i;
             size[i] = 1;
         }
