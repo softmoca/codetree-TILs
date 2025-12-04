@@ -58,12 +58,12 @@ public class Main {
         List<Point> points = new ArrayList<>();
         for (int i = 1; i < n; i++) {
             for (int j = i + 1; j <= n; j++) {
-                int x1 = pairs[i].x;
-                int y1 = pairs[i].y;
-                int x2 = pairs[j].x;
-                int y2 = pairs[j].y;
+                long x1 = pairs[i].x;
+                long y1 = pairs[i].y;
+                long x2 = pairs[j].x;
+                long y2 = pairs[j].y;
 
-                double dist = Math.sqrt((x1 - x2) * (x1 - x2) + (y2 - y1) * (y2 - y1));
+                double dist = Math.sqrt((x1 - x2) * (x1 - x2) + (y1 - y2) * (y1 - y2));
 
                 points.add(new Point(i, j, dist));
             }
