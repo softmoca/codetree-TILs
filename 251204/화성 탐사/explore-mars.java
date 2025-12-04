@@ -39,10 +39,7 @@ public class Main {
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
         n = Integer.parseInt(br.readLine());
-        parent = new int[n + 1];
-        for (int i = 0; i < n + 1; i++) {
-            parent[i]=i;
-        }
+     
         board=new int[n][n];
 
 points = new ArrayList<>();
@@ -71,7 +68,10 @@ points = new ArrayList<>();
                 }
             }
         }
-
+        parent = new int[size + 1];
+        for (int i = 0; i < size + 1; i++) {
+            parent[i]=i;
+        }
 
         pairs.sort(
                 Comparator.comparing(
