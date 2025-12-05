@@ -1,4 +1,9 @@
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.Arrays;
 import java.util.Scanner;
+import java.util.StringTokenizer;
 
 public class Main {
     public static final int INT_MAX = Integer.MAX_VALUE;
@@ -6,24 +11,32 @@ public class Main {
 
     // 변수 선언
     public static int n, m;
-    public static int[][] graph = new int[MAX_N + 1][MAX_N + 1];
     public static boolean[] visited = new boolean[MAX_N + 1];
 
     public static int[] dist = new int[MAX_N + 1];
 
-    public static void main(String[] args) {
-        Scanner sc = new Scanner(System.in);
+    public static void main(String[] args) throws IOException {
+        BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+
         // 입력
-        n = sc.nextInt();
-        m = sc.nextInt();
+        StringTokenizer st = new StringTokenizer(br.readLine());
+        int n = Integer.parseInt(st.nextToken());
+        int m = Integer.parseInt(st.nextToken());
+
+        int[][] graph = new int[n + 1][n + 1];
+        for (int i = 0; i <= n; i++) {
+            Arrays.fill(graph[i], Integer.MAX_VALUE);
+        }
+
 
         // 그래프를 인접행렬로 표현
         while(m-- > 0) {
-            int x = sc.nextInt();
-            int y = sc.nextInt();
-            int z = sc.nextInt();
-            graph[x][y] = (graph[x][y] == 0) ? z : Math.min(graph[x][y], z);
-            graph[y][x] = (graph[y][x] == 0) ? z : Math.min(graph[y][x], z);
+ st = new StringTokenizer(br.readLine());
+            int a = Integer.parseInt(st.nextToken());
+            int b = Integer.parseInt(st.nextToken());
+            int cost = Integer.parseInt(st.nextToken());
+            graph[a][b] = Math.min(graph[a][b], cost);  // 중복 간선 처리
+            graph[b][a] = Math.min(graph[b][a], cost);
         }
 
         // 그래프에 있는 모든 노드들에 대해
