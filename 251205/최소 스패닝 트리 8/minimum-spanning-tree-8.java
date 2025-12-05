@@ -53,32 +53,30 @@ public class Main {
         // O(|V|^2) 프림 코드
         int ans = 0;
         for(int i = 1; i <= n; i++) {
-            // V개의 정점 중
-            // 아직 방문하지 않은 정점 중
-            // dist값이 가장 작은 정점을 찾아줍니다.
-            int minIndex = -1;
-            for(int j = 1; j <= n; j++) {
-                if(visited[j])
-                    continue;
-
-                if(minIndex == -1 || dist[minIndex] > dist[j])
-                    minIndex = j;
+            // 1. 방문 안 한 노드 중 최소 거리 노드 찾기 (O(V))
+            int minDist = Integer.MAX_VALUE;
+            int u = -1;
+            for (int j = 1; j <= n; j++) {
+                if (!visited[j] && dist[j] < minDist) {
+                    minDist = dist[j];
+                    u = j;
+                }
             }
 
-            // 최솟값에 해당하는 정점에 방문 표시를 진행합니다.
-            visited[minIndex] = true;
+            if (u == -1) break;  // 더 이상 갈 곳 없음
+            visited[u] = true;
 
             // mst 값을 갱신해줍니다.
-            ans += dist[minIndex];
+            ans += dist[u];
 
             // 최솟값에 해당하는 정점에 연결된 간선들을 보며
             // 시작점으로부터의 최솟값을 갱신해줍니다.
             for(int j = 1; j <= n; j++) {
                 // 간선이 존재하지 않는 경우에는 넘어갑니다.
-                if(graph[minIndex][j] == 0)
+                if(graph[u][j] == 0)
                     continue;
 
-                dist[j] = Math.min(dist[j], graph[minIndex][j]);
+                dist[j] = Math.min(dist[j], graph[u][j]);
             }
         }
 
