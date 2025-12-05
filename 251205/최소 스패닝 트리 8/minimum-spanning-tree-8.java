@@ -69,14 +69,13 @@ public class Main {
             // mst 값을 갱신해줍니다.
             ans += dist[u];
 
-            // 최솟값에 해당하는 정점에 연결된 간선들을 보며
-            // 시작점으로부터의 최솟값을 갱신해줍니다.
-            for(int j = 1; j <= n; j++) {
-                // 간선이 존재하지 않는 경우에는 넘어갑니다.
-                if(graph[u][j] == 0)
-                    continue;
-
-                dist[j] = Math.min(dist[j], graph[u][j]);
+            // 2. 인접 노드 거리 갱신 (O(V))
+            for (int v = 1; v <= n; v++) {
+                if (graph[u][v] != Integer.MAX_VALUE && !visited[v]) {
+                    if (dist[u] + graph[u][v] < dist[v]) {
+                        dist[v] = dist[u] + graph[u][v];
+                    }
+                }
             }
         }
 
