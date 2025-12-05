@@ -4,20 +4,6 @@ import java.io.InputStreamReader;
 import java.util.*;
 
 public class Main {
-    static int[] parent;
-
-    static int find(int x) {
-        if (x == parent[x]) return x;
-        return parent[x] = find(parent[x]);
-    }
-
-    static boolean union(int a, int b) {
-        int rootA = find(a);
-        int rootB = find(b);
-        if (rootA == rootB) return false;  // 이미 같은 집합 (사이클!)
-        parent[rootA] = rootB;
-        return true;
-    }
 
     public static void main(String[] args) throws IOException {
         BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
@@ -26,38 +12,51 @@ public class Main {
         int n = Integer.parseInt(st.nextToken());
         int m = Integer.parseInt(st.nextToken());
 
-        // 간선 리스트
-        List<int[]> edges = new ArrayList<>();
+        // 인접 리스트
+        List<int[]>[] graph = new List[n + 1];
+        for (int i = 0; i <= n; i++) {
+            graph[i] = new ArrayList<>();
+        }
+
         for (int i = 0; i < m; i++) {
             st = new StringTokenizer(br.readLine());
             int a = Integer.parseInt(st.nextToken());
             int b = Integer.parseInt(st.nextToken());
             int cost = Integer.parseInt(st.nextToken());
-            edges.add(new int[]{a, b, cost});
+            graph[a].add(new int[]{b, cost});
+            graph[b].add(new int[]{a, cost});
         }
 
-        // 비용 오름차순 정렬 (O(E log E))
-        edges.sort((a, b) -> a[2] - b[2]);
-
-        // Union-Find 초기화
-        parent = new int[n + 1];
-        for (int i = 1; i <= n; i++) {
-            parent[i] = i;
-        }
-
-        // 크루스칼
-        int ans = 0;
-        int edgeCount = 0;
+        // 프림 (우선순위 큐)
+        PriorityQueue<int[]> pq = new PriorityQueue<>(
+            Comparator.comparingInt(x -> x[1])
+        );
+        boolean[] visited = new boolean[n + 1];
         
-        for (int[] edge : edges) {
-            int a = edge[0];
-            int b = edge[1];
-            int cost = edge[2];
+        // 시작점 1에서 출발
+        pq.offer(new int[]{1, 0});
+        
+        int ans = 0;
+        int count = 0;
 
-            if (union(a, b)) {          // 사이클 아니면 추가
-                ans += cost;
-                edgeCount++;
-                if (edgeCount == n - 1) break;  // MST 완성
+        while (!pq.isEmpty() && count < n) {
+            int[] curr = pq.poll();
+            int u = curr[0];
+            int cost = curr[1];
+
+            if (visited[u]) continue;  // 이미 MST에 포함됨
+            
+            visited[u] = true;
+            ans += cost;
+            count++;
+
+            // 인접 노드들을 큐에 추가
+            for (int[] edge : graph[u]) {
+                int v = edge[0];
+                int w = edge[1];
+                if (!visited[v]) {
+                    pq.offer(new int[]{v, w});
+                }
             }
         }
 
