@@ -55,7 +55,7 @@ public class Main {
             int currNode = curr[0];
             int currCost = curr[1];
 
-            if (dist[currNode] < currCost) continue;
+    //        if (dist[currNode] < currCost) continue;
 
 
             for (int[] next : graph[currNode]) {
@@ -64,7 +64,6 @@ public class Main {
 
                 if (dist[nextNode] > currCost + nextCost) {
                     dist[nextNode] = currCost + nextCost;
-                    //pq.offer(new Pair(nextNode, currCost + nextCost));
                     pq.offer( new int[] {nextNode,currCost+nextCost}    );
                 }
             }
