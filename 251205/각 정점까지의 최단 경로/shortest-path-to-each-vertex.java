@@ -72,7 +72,11 @@ public class Main {
 
         }
         for (int i = 1; i <=n; i++) {
-            System.out.println(dist[i]);
+            if(dist[i]==Integer.MAX_VALUE){
+                System.out.println(-1);
+            }else {
+                System.out.println(dist[i]);
+            }
         }
 
 
