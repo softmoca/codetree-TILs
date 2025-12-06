@@ -18,13 +18,14 @@ public class Main {
             nameToIdx.put(names[i], i);
         }
 
+        int m = Integer.parseInt(br.readLine());
+
         // 각 노드의 조상 집합
         Set<Integer>[] ancestors = new Set[n];
         for (int i = 0; i < n; i++) {
             ancestors[i] = new HashSet<>();
         }
 
-        int m = Integer.parseInt(br.readLine());
         for (int i = 0; i < m; i++) {
             st = new StringTokenizer(br.readLine());
             String x = st.nextToken();  // 자손
@@ -38,23 +39,22 @@ public class Main {
         int[] parent = new int[n];
         Arrays.fill(parent, -1);
 
-        for (int i = 0; i < n; i++) {
-            Set<Integer> myAncestors = ancestors[i];
-            
-            for (int a : myAncestors) {
-                boolean isDirectParent = true;
+        for (int x = 0; x < n; x++) {
+            // x의 조상들 중 직접 부모 찾기
+            for (int y : ancestors[x]) {
+                boolean isDirect = true;
                 
-                // a가 다른 조상의 조상인지 확인
-                for (int other : myAncestors) {
-                    if (a != other && ancestors[other].contains(a)) {
-                        // a는 other의 조상 → a는 직접 부모가 아님
-                        isDirectParent = false;
+                // y가 다른 조상의 조상인지 확인
+                for (int z : ancestors[x]) {
+                    if (y != z && ancestors[z].contains(y)) {
+                        // z의 조상에 y가 있음 → y는 직접 부모가 아님
+                        isDirect = false;
                         break;
                     }
                 }
                 
-                if (isDirectParent) {
-                    parent[i] = a;
+                if (isDirect) {
+                    parent[x] = y;
                     break;
                 }
             }
@@ -70,7 +70,7 @@ public class Main {
         
         for (int i = 0; i < n; i++) {
             if (parent[i] == -1) {
-                roots.add(names[i]);  // 루트 노드
+                roots.add(names[i]);  // 부모 없음 = 루트
             } else {
                 children[parent[i]].add(names[i]);
             }
@@ -85,7 +85,7 @@ public class Main {
         // 출력
         StringBuilder sb = new StringBuilder();
         
-        // 트리 개수
+        // 트리 수
         sb.append(roots.size()).append("\n");
         
         // 루트 노드들
