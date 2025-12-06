@@ -48,11 +48,13 @@ public class Main {
 
 
         List<Integer> res = new ArrayList<>();
+        int ans=0;
 
         while (!qu.isEmpty()) {
 
             int curr = qu.poll();
             res.add(curr);
+            ans++;
 
             for (int next : graph[curr]) {
                 inDegree[next]--;
@@ -62,7 +64,7 @@ public class Main {
             }
         }
 
-        if (res.size() == n) {
+        if (ans == n) {
             System.out.println("Consistent");
         }else{
             System.out.println("Inonsistent");
