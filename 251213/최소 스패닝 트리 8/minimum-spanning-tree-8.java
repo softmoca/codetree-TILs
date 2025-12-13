@@ -50,7 +50,7 @@ public class Main {
                 }
             }
             if (curr == -1) break;  // 더 이상 갈 곳 없음
-            if (dist[curr] == Integer.MAX_VALUE) break;    // 연결되지 않은 그래프인 경우 (MST 구성 불가)
+
             visited[curr] = true;
 
             // mst 값을 갱신해줍니다.
