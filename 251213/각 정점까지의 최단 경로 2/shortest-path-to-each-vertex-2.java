@@ -47,7 +47,7 @@ public class Main {
         for(int i = 1; i <= n; i++) {
             for(int j = 1; j <= n; j++) {
                 // 불가능한 경우에는 -1을 출력합니다.
-                if(dist[i][j] == (int)1e9)
+                if(dist[i][j] == Integer.MAX_VALUE)
                     System.out.print(-1 + " ");
                 else
                     System.out.print(dist[i][j] + " ");
